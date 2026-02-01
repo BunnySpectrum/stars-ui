@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <cstdio>
 #include <memory>
+#include <vector>
 
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
@@ -71,7 +72,9 @@ int main(int, char**) {
 
     ApplyLCARSTheme();
 
-    auto panel = std::make_unique<TacticalPanel>();
+    // Panels listed in screen order (top to bottom)
+    std::vector<std::unique_ptr<LCARSPanel>> panels;
+    panels.push_back(std::make_unique<TacticalPanel>());
 
     bool running = true;
     while (running) {
@@ -90,68 +93,61 @@ int main(int, char**) {
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
-        // Get window dimensions for frame drawing
         int winW, winH;
         SDL_GetWindowSize(window, &winW, &winH);
         float W = (float)winW;
         float H = (float)winH;
 
-        // Content area (right of sidebar, below top bar)
-        const float contentX = 170.0f;
-        const float contentY = 130.0f;
-        const float contentW = W - contentX - 20.0f;
-        const float contentH = H - contentY - 50.0f;
-        const float divBarH  = 30.0f;
-        const float panelGap = 10.0f;
-        const float upperH   = contentH / 3.0f - divBarH * 0.5f - panelGap;
-        const float dividerY = contentY + upperH + panelGap;
-        const float lowerY   = dividerY + divBarH + panelGap;
-        const float lowerH   = H - lowerY - 50.0f;
+        // Global chrome
+        DrawGlobalTopBar(W);
+        DrawGlobalBottomBar(W, H);
 
-        DrawLCARSFrame(W, H, dividerY);
+        // Panel layout constants
+        const float topBarH    = 40.0f;
+        const float bottomBarH = 30.0f;
+        const float panelGap   = 10.0f;
 
-        // Draw title text in the top bar
-        {
-            ImDrawList* dl = ImGui::GetBackgroundDrawList();
-            const char* title = panel->GetTitle();
-            const float sidebarW = 120.0f;
-            const float elbowH  = 80.0f;
-            const float topBarH  = 40.0f;
-            ImVec2 textSize = ImGui::CalcTextSize(title);
-            dl->AddText(
-                ImVec2(sidebarW + elbowH + 20, (topBarH - textSize.y) * 0.5f),
-                IM_COL32(0, 0, 0, 255),
-                title
+        float panelTop = topBarH;
+        float panelAreaH = H - topBarH - bottomBarH;
+        int nPanels = (int)panels.size();
+
+        // Divide available vertical space evenly among panels
+        float perPanelH = (panelAreaH - panelGap * (nPanels - 1)) / (float)nPanels;
+
+        for (int i = 0; i < nPanels; i++) {
+            float py = panelTop + (float)i * (perPanelH + panelGap);
+            VOrientation vOrient = (i == 0) ? VOrientation::Bottom : VOrientation::Top;
+
+            ImVec4 contentRect = DrawPanelChrome(*panels[i], 0, py, W, perPanelH, vOrient);
+
+            // Create ImGui window at the content rect
+            float cx = contentRect.x;
+            float cy = contentRect.y;
+            float cw = contentRect.z;
+            float ch = contentRect.w;
+
+            char winName[32];
+            snprintf(winName, sizeof(winName), "##Panel%d", i);
+
+            ImGui::SetNextWindowPos(ImVec2(cx, cy));
+            ImGui::SetNextWindowSize(ImVec2(cw, ch));
+            ImGui::Begin(winName, nullptr,
+                ImGuiWindowFlags_NoTitleBar |
+                ImGuiWindowFlags_NoResize |
+                ImGuiWindowFlags_NoMove |
+                ImGuiWindowFlags_NoCollapse |
+                ImGuiWindowFlags_NoBackground |
+                ImGuiWindowFlags_NoBringToFrontOnFocus
             );
+
+            const auto& views = panels[i]->GetViews();
+            int av = panels[i]->activeView;
+            if (av >= 0 && av < (int)views.size() && views[av].drawContent) {
+                views[av].drawContent();
+            }
+
+            ImGui::End();
         }
-
-        // --- Upper-third panel ---
-        ImGui::SetNextWindowPos(ImVec2(contentX, contentY));
-        ImGui::SetNextWindowSize(ImVec2(contentW, upperH));
-        ImGui::Begin("##UpperPanel", nullptr,
-            ImGuiWindowFlags_NoTitleBar |
-            ImGuiWindowFlags_NoResize |
-            ImGuiWindowFlags_NoMove |
-            ImGuiWindowFlags_NoCollapse |
-            ImGuiWindowFlags_NoBackground |
-            ImGuiWindowFlags_NoBringToFrontOnFocus
-        );
-        panel->DrawUpper();
-        ImGui::End();
-
-        // --- Lower two-thirds panel ---
-        ImGui::SetNextWindowPos(ImVec2(contentX, lowerY));
-        ImGui::SetNextWindowSize(ImVec2(contentW, lowerH));
-        ImGui::Begin("##MainContent", nullptr,
-            ImGuiWindowFlags_NoTitleBar |
-            ImGuiWindowFlags_NoResize |
-            ImGuiWindowFlags_NoMove |
-            ImGuiWindowFlags_NoCollapse |
-            ImGuiWindowFlags_NoBackground |
-            ImGuiWindowFlags_NoBringToFrontOnFocus
-        );
-        panel->DrawLower();
-        ImGui::End();
 
         // Render
         ImGui::Render();
@@ -165,7 +161,7 @@ int main(int, char**) {
     }
 
     // Cleanup
-    panel.reset();
+    panels.clear();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImPlot::DestroyContext();

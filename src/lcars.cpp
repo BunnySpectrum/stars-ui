@@ -7,12 +7,12 @@
 #endif
 
 // LCARS color palette
-const ImU32 kOrange  = IM_COL32(0xFF, 0x99, 0x33, 0xFF);
-const ImU32 kPurple  = IM_COL32(0xCC, 0x99, 0xCC, 0xFF);
-const ImU32 kBlue    = IM_COL32(0x99, 0x99, 0xFF, 0xFF);
-const ImU32 kTan     = IM_COL32(0xFF, 0xCC, 0x99, 0xFF);
-const ImU32 kRed     = IM_COL32(0xCC, 0x66, 0x66, 0xFF);
-const ImU32 kBeige   = IM_COL32(0xFF, 0xDD, 0xBB, 0xFF);
+const ImU32 kOrange = IM_COL32(0xFF, 0x99, 0x33, 0xFF);
+const ImU32 kPurple = IM_COL32(0xCC, 0x99, 0xCC, 0xFF);
+const ImU32 kBlue   = IM_COL32(0x99, 0x99, 0xFF, 0xFF);
+const ImU32 kTan    = IM_COL32(0xFF, 0xCC, 0x99, 0xFF);
+const ImU32 kRed    = IM_COL32(0xCC, 0x66, 0x66, 0xFF);
+const ImU32 kBeige  = IM_COL32(0xFF, 0xDD, 0xBB, 0xFF);
 
 ImVec4 U32ToVec4(ImU32 c) {
     return ImVec4(
@@ -67,7 +67,6 @@ void ApplyLCARSTheme() {
     colors[ImGuiCol_PlotHistogram]         = U32ToVec4(kBlue);
     colors[ImGuiCol_PlotHistogramHovered]  = U32ToVec4(kPurple);
 
-    // ImPlot styling
     ImPlotStyle& pstyle = ImPlot::GetStyle();
     pstyle.PlotDefaultSize  = ImVec2(400, 200);
     pstyle.LineWeight       = 2.0f;
@@ -82,144 +81,162 @@ void ApplyLCARSTheme() {
     pcolors[ImPlotCol_LegendText]= U32ToVec4(kOrange);
 }
 
-void DrawLCARSFrame(float W, float H, float dividerY) {
+// ---------------------------------------------------------------------------
+// Global chrome
+// ---------------------------------------------------------------------------
+
+void DrawGlobalTopBar(float W) {
+    ImDrawList* dl = ImGui::GetBackgroundDrawList();
+    const float h = 40.0f;
+    dl->AddRectFilled(ImVec2(0, 0), ImVec2(W, h), kOrange);
+    dl->AddRectFilled(ImVec2(W - 20, 0), ImVec2(W, h), kOrange, 20.0f, ImDrawFlags_RoundCornersRight);
+}
+
+void DrawGlobalBottomBar(float W, float H) {
+    ImDrawList* dl = ImGui::GetBackgroundDrawList();
+    const float h = 30.0f;
+    const float inset = 6.0f;
+    dl->AddRectFilled(ImVec2(inset, H - h), ImVec2(W, H), kTan);
+    dl->AddRectFilled(ImVec2(inset, H - h), ImVec2(inset + 20, H), kTan, 20.0f, ImDrawFlags_RoundCornersLeft);
+}
+
+// ---------------------------------------------------------------------------
+// Helper: quarter-circle arc cutout (filled black)
+// ---------------------------------------------------------------------------
+
+static void DrawElbowArc(ImDrawList* dl, float cx, float cy, float r, float arcStart) {
+    const int segs = 32;
+    ImVector<ImVec2> pts;
+    for (int i = 0; i <= segs; i++) {
+        float a = arcStart + ((float)M_PI * 0.5f) * ((float)i / (float)segs);
+        pts.push_back(ImVec2(cx + cosf(a) * r, cy + sinf(a) * r));
+    }
+    pts.push_back(ImVec2(cx, cy));
+    dl->AddConvexPolyFilled(pts.Data, pts.Size, IM_COL32(0, 0, 0, 255));
+}
+
+// ---------------------------------------------------------------------------
+// Per-panel chrome
+// ---------------------------------------------------------------------------
+
+ImVec4 DrawPanelChrome(LCARSPanel& panel, float px, float py, float pw, float ph, VOrientation vOrient) {
     ImDrawList* dl = ImGui::GetBackgroundDrawList();
 
-    // Dimensions
-    const float topBarH    = 40.0f;
-    const float sidebarW   = 120.0f;
-    const float elbowH     = 80.0f;
-    const float bottomBarH = 30.0f;
-    const float divBarH    = 30.0f;
-    const float divElbowR  = 40.0f;  // radius of the small divider elbow curve
-    const float gap        = 6.0f;
+    const float titleH = 30.0f;
+    const float viewW  = 120.0f;
+    const float optW   = 120.0f;
+    const float elbowR = 40.0f;
+    const float gap    = 6.0f;
+    const float btnGap = 4.0f;
 
-    // === Top bar (right of elbow) ===
-    dl->AddRectFilled(
-        ImVec2(sidebarW + elbowH, 0),
-        ImVec2(W, topBarH),
-        kOrange, 0.0f, 0
-    );
-    dl->AddRectFilled(
-        ImVec2(W - 20, 0),
-        ImVec2(W, topBarH),
-        kOrange, 20.0f, ImDrawFlags_RoundCornersRight
-    );
+    bool viewLeft  = (panel.GetHOrientation() == HOrientation::Left);
+    bool titleTop  = (vOrient == VOrientation::Top);
 
-    // === Top-left elbow ===
-    dl->AddRectFilled(
-        ImVec2(0, 0),
-        ImVec2(sidebarW + elbowH, topBarH + elbowH),
-        kOrange, 0.0f, 0
-    );
-    // Cut out the inner arc
-    {
-        const ImVec2 arcCenter(sidebarW + elbowH, topBarH + elbowH);
-        const int arcSegments = 32;
-        ImVector<ImVec2> arcPoints;
-        for (int i = 0; i <= arcSegments; i++) {
-            float angle = (float)M_PI + ((float)M_PI * 0.5f) * ((float)i / (float)arcSegments);
-            arcPoints.push_back(ImVec2(
-                arcCenter.x + cosf(angle) * elbowH,
-                arcCenter.y + sinf(angle) * elbowH
-            ));
-        }
-        arcPoints.push_back(arcCenter);
-        dl->AddConvexPolyFilled(arcPoints.Data, arcPoints.Size, IM_COL32(0, 0, 0, 255));
+    float titleY = titleTop ? py : (py + ph - titleH);
+
+    // === Elbow ===
+    float ebX = viewLeft ? px : (px + pw - viewW - elbowR);
+    float ebY = titleTop ? py : (py + ph - titleH - elbowR);
+    dl->AddRectFilled(ImVec2(ebX, ebY), ImVec2(ebX + viewW + elbowR, ebY + titleH + elbowR), kOrange);
+
+    // Arc cutout — center at the inner corner of the elbow block
+    float arcCX, arcCY, arcStart;
+    if (viewLeft && titleTop)       { arcCX = ebX + viewW + elbowR; arcCY = ebY + titleH + elbowR; arcStart = (float)M_PI; }
+    else if (viewLeft && !titleTop) { arcCX = ebX + viewW + elbowR; arcCY = ebY;                   arcStart = (float)M_PI * 0.5f; }
+    else if (!viewLeft && titleTop) { arcCX = ebX;                  arcCY = ebY + titleH + elbowR; arcStart = (float)M_PI * 1.5f; }
+    else                            { arcCX = ebX;                  arcCY = ebY;                   arcStart = 0.0f; }
+    DrawElbowArc(dl, arcCX, arcCY, elbowR, arcStart);
+
+    // === Title bar ===
+    float tbX, tbW;
+    if (viewLeft) { tbX = px + viewW + elbowR; tbW = pw - viewW - elbowR; }
+    else          { tbX = px;                   tbW = pw - viewW - elbowR; }
+    dl->AddRectFilled(ImVec2(tbX, titleY), ImVec2(tbX + tbW, titleY + titleH), kOrange);
+    // Rounded cap on far end
+    if (viewLeft)
+        dl->AddRectFilled(ImVec2(tbX + tbW - 20, titleY), ImVec2(tbX + tbW, titleY + titleH), kOrange, 20.0f, ImDrawFlags_RoundCornersRight);
+    else
+        dl->AddRectFilled(ImVec2(tbX, titleY), ImVec2(tbX + 20, titleY + titleH), kOrange, 20.0f, ImDrawFlags_RoundCornersLeft);
+
+    // Title text (opposite side from elbow)
+    const char* title = panel.GetTitle();
+    ImVec2 ts = ImGui::CalcTextSize(title);
+    float ttX = viewLeft ? (tbX + tbW - ts.x - 20) : (tbX + 20);
+    dl->AddText(ImVec2(ttX, titleY + (titleH - ts.y) * 0.5f), IM_COL32(0, 0, 0, 255), title);
+
+    // Elbow text (active view name)
+    const auto& views = panel.GetViews();
+    int av = panel.activeView;
+    if (av < 0 || av >= (int)views.size()) av = 0;
+    if (!views.empty()) {
+        const char* vn = views[av].name;
+        ImVec2 vs = ImGui::CalcTextSize(vn);
+        float etX = viewLeft ? (px + (viewW - vs.x) * 0.5f) : (px + pw - viewW + (viewW - vs.x) * 0.5f);
+        dl->AddText(ImVec2(etX, titleY + (titleH - vs.y) * 0.5f), IM_COL32(0, 0, 0, 255), vn);
     }
 
-    // Button in the top-left elbow area
-    {
-        const float btnW = sidebarW - 10.0f;
-        const float btnH = 28.0f;
-        const float btnX = 5.0f;
-        const float btnY = topBarH + 6.0f;
-        dl->AddRectFilled(
-            ImVec2(btnX, btnY),
-            ImVec2(btnX + btnW, btnY + btnH),
-            kPurple, 14.0f, ImDrawFlags_RoundCornersAll
-        );
-        const char* btnLabel = "HOME";
-        ImVec2 btnTextSize = ImGui::CalcTextSize(btnLabel);
-        dl->AddText(
-            ImVec2(btnX + (btnW - btnTextSize.x) * 0.5f, btnY + (btnH - btnTextSize.y) * 0.5f),
-            IM_COL32(0, 0, 0, 255),
-            btnLabel
-        );
-    }
+    // === View buttons ===
+    float viewX = viewLeft ? px : (px + pw - viewW);
+    if ((int)views.size() > 1) {
+        float vcTop = titleTop ? (py + titleH + elbowR + gap) : (py + gap);
+        float vcBot = titleTop ? (py + ph - gap)              : (py + ph - titleH - elbowR - gap);
+        int n = (int)views.size();
+        float bh = (vcBot - vcTop - btnGap * (n - 1)) / (float)n;
+        if (bh < 20.0f) bh = 20.0f;
 
-    // === Sidebar blocks above divider (1 block) ===
-    {
-        const float upperSideTop = topBarH + elbowH + gap;
-        const float upperSideBot = dividerY - divElbowR - gap;
-        float blockH = upperSideBot - upperSideTop;
-        if (blockH > 0) {
-            dl->AddRectFilled(
-                ImVec2(0, upperSideTop), ImVec2(sidebarW, upperSideBot),
-                kPurple, 20.0f, ImDrawFlags_RoundCornersLeft
-            );
+        ImGuiIO& io = ImGui::GetIO();
+        for (int i = 0; i < n; i++) {
+            float by = vcTop + (float)i * (bh + btnGap);
+            dl->AddRectFilled(ImVec2(viewX, by), ImVec2(viewX + viewW, by + bh), views[i].buttonColor);
+            ImVec2 ls = ImGui::CalcTextSize(views[i].name);
+            dl->AddText(ImVec2(viewX + (viewW - ls.x) * 0.5f, by + (bh - ls.y) * 0.5f), IM_COL32(0, 0, 0, 255), views[i].name);
+            if (io.MouseClicked[0] && io.MousePos.x >= viewX && io.MousePos.x <= viewX + viewW &&
+                io.MousePos.y >= by && io.MousePos.y <= by + bh)
+                panel.activeView = i;
         }
     }
 
-    // === Divider bar with small elbow ===
-    // Small elbow: filled block connecting sidebar to divider bar
-    dl->AddRectFilled(
-        ImVec2(0, dividerY - divElbowR),
-        ImVec2(sidebarW + divElbowR, dividerY + divBarH),
-        kOrange, 0.0f, 0
-    );
-    // Cut out inner arc of the small elbow (quarter-circle in top-right of the elbow block)
-    {
-        const ImVec2 arcCenter(sidebarW + divElbowR, dividerY - divElbowR);
-        const int arcSegments = 32;
-        ImVector<ImVec2> arcPoints;
-        for (int i = 0; i <= arcSegments; i++) {
-            float angle = 0.0f + ((float)M_PI * 0.5f) * ((float)i / (float)arcSegments);
-            arcPoints.push_back(ImVec2(
-                arcCenter.x + cosf(angle) * divElbowR,
-                arcCenter.y + sinf(angle) * divElbowR
-            ));
-        }
-        arcPoints.push_back(arcCenter);
-        dl->AddConvexPolyFilled(arcPoints.Data, arcPoints.Size, IM_COL32(0, 0, 0, 255));
-    }
-    // Divider bar extending to the right
-    dl->AddRectFilled(
-        ImVec2(sidebarW + divElbowR, dividerY),
-        ImVec2(W, dividerY + divBarH),
-        kOrange, 0.0f, 0
-    );
-    dl->AddRectFilled(
-        ImVec2(W - 20, dividerY),
-        ImVec2(W, dividerY + divBarH),
-        kOrange, 20.0f, ImDrawFlags_RoundCornersRight
-    );
+    // === Option buttons ===
+    float optX = viewLeft ? (px + pw - optW) : px;
+    if (!views.empty() && !views[av].optionGroups.empty()) {
+        const auto& groups = views[av].optionGroups;
+        float ocTop = titleTop ? (py + titleH + gap) : (py + gap);
+        float ocBot = titleTop ? (py + ph - gap)     : (py + ph - titleH - gap);
 
-    // === Sidebar blocks below divider (3 blocks) ===
-    {
-        const float lowerSideTop = dividerY + divBarH + gap;
-        const float lowerSideBot = H - bottomBarH - gap;
-        const float blockH = (lowerSideBot - lowerSideTop - gap * 2) / 3.0f;
-        const ImU32 lowerColors[] = { kBlue, kTan, kOrange };
-        for (int i = 0; i < 3; i++) {
-            float y0 = lowerSideTop + i * (blockH + gap);
-            float y1 = y0 + blockH;
-            dl->AddRectFilled(
-                ImVec2(0, y0), ImVec2(sidebarW, y1),
-                lowerColors[i], 20.0f, ImDrawFlags_RoundCornersLeft
-            );
+        int total = 0;
+        for (const auto& g : groups) total += (int)g.buttons.size();
+        int nSep = (int)groups.size() - 1;
+        float sepH = 2.0f;
+        float bh = (ocBot - ocTop - btnGap * (total - 1) - nSep * (sepH + gap)) / (float)total;
+        if (bh < 20.0f) bh = 20.0f;
+        float br = bh * 0.5f;
+
+        ImGuiIO& io = ImGui::GetIO();
+        float cy = ocTop;
+        for (size_t g = 0; g < groups.size(); g++) {
+            if (g > 0) {
+                cy += gap * 0.5f;
+                dl->AddRectFilled(ImVec2(optX + 10, cy), ImVec2(optX + optW - 10, cy + sepH), IM_COL32(80, 80, 80, 255));
+                cy += sepH + gap * 0.5f;
+            }
+            for (const auto& btn : groups[g].buttons) {
+                dl->AddRectFilled(ImVec2(optX, cy), ImVec2(optX + optW, cy + bh), btn.color, br, ImDrawFlags_RoundCornersAll);
+                ImVec2 ls = ImGui::CalcTextSize(btn.label);
+                dl->AddText(ImVec2(optX + (optW - ls.x) * 0.5f, cy + (bh - ls.y) * 0.5f), IM_COL32(0, 0, 0, 255), btn.label);
+                if (btn.onClick && io.MouseClicked[0] && io.MousePos.x >= optX && io.MousePos.x <= optX + optW &&
+                    io.MousePos.y >= cy && io.MousePos.y <= cy + bh)
+                    btn.onClick();
+                cy += bh + btnGap;
+            }
         }
     }
 
-    // === Bottom bar ===
-    dl->AddRectFilled(
-        ImVec2(sidebarW + gap, H - bottomBarH),
-        ImVec2(W, H),
-        kTan, 0.0f, 0
-    );
-    dl->AddRectFilled(
-        ImVec2(sidebarW + gap, H - bottomBarH),
-        ImVec2(sidebarW + gap + 20, H),
-        kTan, 20.0f, ImDrawFlags_RoundCornersLeft
-    );
+    // === Content rect ===
+    float cx, cw;
+    if (viewLeft) { cx = px + viewW + elbowR + gap; cw = pw - viewW - elbowR - optW - gap * 2; }
+    else          { cx = px + optW + gap;            cw = pw - optW - viewW - elbowR - gap * 2; }
+    float ctop = titleTop ? (py + titleH + gap) : py;
+    float ch   = titleTop ? (ph - titleH - gap) : (ph - titleH - gap);
+
+    return ImVec4(cx, ctop, cw, ch);
 }
