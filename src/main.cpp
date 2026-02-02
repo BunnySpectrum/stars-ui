@@ -16,10 +16,11 @@
 
 #include "lcars.h"
 #include "field_store.h"
+#include "db_reader.h"
 #include "info_panel.h"
 #include "tactical_panel.h"
 
-int main(int, char**) {
+int main(int argc, char** argv) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
         std::fprintf(stderr, "SDL_Init error: %s\n", SDL_GetError());
         return 1;
@@ -74,6 +75,19 @@ int main(int, char**) {
 
     ApplyLCARSTheme();
 
+    // Database setup
+    const char* dbPath = (argc > 1) ? argv[1] : nullptr;
+    if (dbPath) {
+        if (g_dbReader.Open(dbPath)) {
+            g_useDatabase = true;
+            std::printf("Database mode: %s\n", dbPath);
+        } else {
+            std::fprintf(stderr, "Failed to open database, using demo data\n");
+        }
+    } else {
+        std::printf("No database specified, using demo data\n");
+    }
+
     // Panels listed in screen order (top to bottom)
     std::vector<std::unique_ptr<LCARSPanel>> panels;
     panels.push_back(std::make_unique<InfoPanel>());
@@ -97,6 +111,7 @@ int main(int, char**) {
         ImGui::NewFrame();
 
         UpdateFieldStore();
+        if (g_useDatabase) g_dbReader.PollIfNeeded();
 
         int winW, winH;
         SDL_GetWindowSize(window, &winW, &winH);
@@ -166,6 +181,7 @@ int main(int, char**) {
     }
 
     // Cleanup
+    g_dbReader.Close();
     panels.clear();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();

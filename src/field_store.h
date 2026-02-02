@@ -27,5 +27,8 @@ struct GraphBuffer {
 extern FieldStore g_fields;
 extern GraphBuffer g_graphBufs[kNumGraphs];
 
+// When true, UpdateFieldStore() is a no-op — data comes from the database.
+extern bool g_useDatabase;
+
 // Call once per frame before rendering to update all field values and graph buffers.
 void UpdateFieldStore();

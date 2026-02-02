@@ -59,6 +59,15 @@ add_library(implot STATIC
 target_include_directories(implot PUBLIC ${implot_SOURCE_DIR})
 target_link_libraries(implot PUBLIC imgui)
 
+# --- SQLite3 ---
+FetchContent_Declare(
+    sqlite3
+    GIT_REPOSITORY https://github.com/sjinks/sqlite3-cmake.git
+    GIT_TAG        v3.49.1
+    GIT_SHALLOW    TRUE
+)
+FetchContent_MakeAvailable(sqlite3)
+
 # --- OpenGL ---
 find_package(OpenGL REQUIRED)
 
@@ -70,8 +79,9 @@ add_executable(lcars
     src/field_renderer.cpp
     src/tactical_panel.cpp
     src/info_panel.cpp
+    src/db_reader.cpp
 )
-target_link_libraries(lcars PRIVATE imgui implot OpenGL::GL)
+target_link_libraries(lcars PRIVATE imgui implot OpenGL::GL SQLite::SQLite3)
 
 # macOS: suppress OpenGL deprecation warnings
 if(APPLE)

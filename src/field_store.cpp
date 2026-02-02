@@ -6,6 +6,7 @@
 
 FieldStore  g_fields;
 GraphBuffer g_graphBufs[kNumGraphs];
+bool        g_useDatabase = false;
 
 static void FormatTimer(FieldId id, double seconds) {
     if (seconds < 0) seconds = 0;
@@ -25,6 +26,8 @@ static void FormatClock(FieldId id, struct std::tm* tm) {
 }
 
 void UpdateFieldStore() {
+    if (g_useDatabase) return;
+
     double t = ImGui::GetTime();
     std::time_t now = std::time(nullptr);
 
