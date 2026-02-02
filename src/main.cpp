@@ -131,14 +131,18 @@ int main(int argc, char** argv) {
         float panelAreaH = H - topBarH - bottomBarH;
         int nPanels = (int)panels.size();
 
-        // Divide available vertical space evenly among panels
-        float perPanelH = (panelAreaH - panelGap * (nPanels - 1)) / (float)nPanels;
+        // Distribute vertical space by each panel's height weight
+        float totalWeight = 0.0f;
+        for (int i = 0; i < nPanels; i++)
+            totalWeight += panels[i]->GetHeightWeight();
+        float usableH = panelAreaH - panelGap * (nPanels - 1);
 
+        float py = panelTop;
         for (int i = 0; i < nPanels; i++) {
-            float py = panelTop + (float)i * (perPanelH + panelGap);
+            float ph = usableH * (panels[i]->GetHeightWeight() / totalWeight);
             VOrientation vOrient = (i == 0) ? VOrientation::Bottom : VOrientation::Top;
 
-            ImVec4 contentRect = DrawPanelChrome(*panels[i], 0, py, W, perPanelH, vOrient);
+            ImVec4 contentRect = DrawPanelChrome(*panels[i], 0, py, W, ph, vOrient);
 
             // Create ImGui window at the content rect
             float cx = contentRect.x;
@@ -167,6 +171,7 @@ int main(int argc, char** argv) {
             }
 
             ImGui::End();
+            py += ph + panelGap;
         }
 
         // Render

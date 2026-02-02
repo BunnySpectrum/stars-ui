@@ -46,6 +46,7 @@ struct LCARSPanel {
     virtual ~LCARSPanel() = default;
     virtual const char* GetTitle() const = 0;
     virtual HOrientation GetHOrientation() const { return HOrientation::Left; }
+    virtual float GetHeightWeight() const { return 1.0f; }
     virtual const std::vector<PanelView>& GetViews() const = 0;
 
     int activeView = 0;
