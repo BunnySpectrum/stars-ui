@@ -27,12 +27,17 @@ MAINT_BASE = 3.8 * 86400      # 328320 s
 CLOCK_EPOCH = 1700000000.0
 STARDATE = "42048.7"
 
+# Tactical field parameters: (field_id, base, amplitude, frequency, phase, label_prefix, fmt)
+# Values oscillate as: base + amplitude * sin(frequency * t + phase)
+TACTICAL_FIELDS = [
+    (7,  98.7,  1.5,  0.3,  0.0,    "ONLINE  -  OUTPUT",   "{:.1f}%"),
+    (8,  92.0,  10.0, 0.15, 0.0,    "ACTIVE  -  STRENGTH", "{:.0f}%"),
+    (9,  97.3,  3.0,  0.2,  1.0,    "NOMINAL -",           "{:.1f}%"),
+    (10, 98.0,  4.0,  0.1,  2.0,    "NOMINAL -",           "{:.0f}%"),
+]
+
 # Constant scalar fields: (field_id, string_value)
 CONSTANT_FIELDS = [
-    (7,  "ONLINE  -  OUTPUT 98.7%"),
-    (8,  "ACTIVE  -  STRENGTH 100%"),
-    (9,  "NOMINAL -  97.3%"),
-    (10, "NOMINAL -  ALL DECKS"),
     (11, "22.4 C / 72.3 F"),
     (12, "47.2%"),
     (13, "101.3 kPa"),
@@ -129,6 +134,13 @@ for step in range(NUM_STEPS):
 
     # --- Stardate (string_value) ---
     print(f"INSERT INTO scalar_data VALUES({ts},6,NULL,'{STARDATE}');")
+
+    # --- Tactical fields (time-varying) ---
+    for fid, base, amp, freq, phase, prefix, fmt in TACTICAL_FIELDS:
+        val = base + amp * math.sin(freq * t + phase)
+        val = max(0.0, min(100.0, val))  # clamp 0-100
+        str_val = f"{prefix} {fmt.format(val)}"
+        print(f"INSERT INTO scalar_data VALUES({ts},{fid},{val:.4f},'{sq(str_val)}');")
 
     # --- Constant scalar fields ---
     for fid, val in CONSTANT_FIELDS:

@@ -1,7 +1,9 @@
 #include "field_renderer.h"
 #include "field_defs.h"
 #include "field_store.h"
+#include "svg_renderer.h"
 
+#include <cstdio>
 #include <cstring>
 #include <vector>
 
@@ -129,5 +131,112 @@ void DrawGraphsForView(const char* viewName) {
 
             ImPlot::EndPlot();
         }
+    }
+}
+
+// ============================================================================
+// SVG data-binding helpers
+// ============================================================================
+
+static ImU32 EvaluateThresholdColor(double value, const SvgBindingDef& b) {
+    if (b.colorDir == ColorDir::LowIsWorse) {
+        if (value < b.critThresh) return kRed;
+        if (value < b.warnThresh) return kOrange;
+    } else { // HighIsWorse
+        if (value >= b.critThresh) return kRed;
+        if (value >= b.warnThresh) return kOrange;
+    }
+    return b.normalColor;
+}
+
+void ApplySvgBindingColors(SvgRenderer& svg, const char* viewName) {
+    for (int i = 0; i < kNumSvgBindings; i++) {
+        const SvgBindingDef& b = kSvgBindings[i];
+        if (std::strcmp(b.view, viewName) != 0) continue;
+        if (b.normalColor == 0) continue;
+
+        double value = g_fields.Get(b.field);
+        ImU32 color = EvaluateThresholdColor(value, b);
+        svg.SetShapeColor(b.shapeId, color);
+    }
+}
+
+void DrawSvgBindingLabels(const SvgRenderer& svg, const char* viewName,
+                          ImVec2 origin, ImVec2 size) {
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    constexpr float pad = 4.0f;
+
+    for (int i = 0; i < kNumSvgBindings; i++) {
+        const SvgBindingDef& b = kSvgBindings[i];
+        if (std::strcmp(b.view, viewName) != 0) continue;
+
+        ImVec4 r = svg.GetShapeBounds(b.shapeId, origin, size);
+        if (r.z <= 0) continue;
+
+        // Line 1: label
+        const char* labelText = b.label;
+        if (!labelText) {
+            for (int f = 0; f < kNumFields; f++) {
+                if (kFields[f].id == b.field) { labelText = kFields[f].label; break; }
+            }
+        }
+        if (!labelText) labelText = "???";
+
+        // Line 2: value
+        char valueBuf[64];
+        if (b.valueFmt) {
+            std::snprintf(valueBuf, sizeof(valueBuf), b.valueFmt, g_fields.Get(b.field));
+        } else {
+            std::snprintf(valueBuf, sizeof(valueBuf), "%s", g_fields.GetString(b.field));
+        }
+
+        ImVec2 labelSize = ImGui::CalcTextSize(labelText);
+        ImVec2 valueSize = ImGui::CalcTextSize(valueBuf);
+        float lineH = ImGui::GetTextLineHeight();
+        float blockW = (labelSize.x > valueSize.x) ? labelSize.x : valueSize.x;
+        float blockH = lineH * 2.0f + 2.0f; // two lines + small gap
+
+        // Shape center
+        float cx = r.x + r.z * 0.5f;
+        float cy = r.y + r.w * 0.5f;
+
+        // Position the text block based on anchor
+        float bx, by;
+        switch (b.anchor) {
+        case LabelAnchor::Center:
+            bx = cx - blockW * 0.5f;
+            by = cy - blockH * 0.5f;
+            break;
+        case LabelAnchor::Above:
+            bx = cx - blockW * 0.5f;
+            by = r.y - blockH - pad;
+            break;
+        case LabelAnchor::Below:
+            bx = cx - blockW * 0.5f;
+            by = r.y + r.w + pad;
+            break;
+        case LabelAnchor::Left:
+            bx = r.x - blockW - pad;
+            by = cy - blockH * 0.5f;
+            break;
+        case LabelAnchor::Right:
+            bx = r.x + r.z + pad;
+            by = cy - blockH * 0.5f;
+            break;
+        }
+
+        // Dark background rect
+        ImU32 bgColor = IM_COL32(0, 0, 0, 180);
+        dl->AddRectFilled(ImVec2(bx - pad, by - pad),
+                          ImVec2(bx + blockW + pad, by + blockH + pad),
+                          bgColor, 2.0f);
+
+        // Label text (centered within block)
+        float labelX = bx + (blockW - labelSize.x) * 0.5f;
+        dl->AddText(ImVec2(labelX, by), kBeige, labelText);
+
+        // Value text (centered within block)
+        float valueX = bx + (blockW - valueSize.x) * 0.5f;
+        dl->AddText(ImVec2(valueX, by + lineH + 2.0f), kBeige, valueBuf);
     }
 }

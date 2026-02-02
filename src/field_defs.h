@@ -236,3 +236,46 @@ inline const GraphDef kGraphs[] = {
 };
 
 inline constexpr int kNumGraphs = sizeof(kGraphs) / sizeof(kGraphs[0]);
+
+// ============================================================================
+// SVG view definitions — maps view names to SVG file paths
+// ============================================================================
+
+struct SvgViewDef {
+    const char* view;       // view name (matches PanelView::name)
+    const char* svgPath;    // path to SVG file
+};
+
+inline const SvgViewDef kSvgViews[] = {
+    { "SHIP",  "assets/ship_wireframe.svg" },
+};
+inline constexpr int kNumSvgViews = sizeof(kSvgViews) / sizeof(kSvgViews[0]);
+
+// ============================================================================
+// SVG data-binding definitions — connect fields to SVG shapes
+// ============================================================================
+
+enum class LabelAnchor { Center, Above, Below, Left, Right };
+enum class ColorDir { HighIsWorse, LowIsWorse };
+
+struct SvgBindingDef {
+    FieldId      field;
+    const char*  view;         // matches SvgViewDef::view
+    const char*  shapeId;      // SVG shape ID
+    LabelAnchor  anchor;
+    const char*  label;        // overlay label (null = use FieldDef::label)
+    const char*  valueFmt;     // printf format for numeric value (null = use GetString)
+    ImU32        normalColor;  // shape color when normal (0 = skip color modulation)
+    ColorDir     colorDir;
+    double       warnThresh;   // threshold for warning color (kOrange)
+    double       critThresh;   // threshold for critical color (kRed)
+};
+
+//                                     FIELD                       VIEW    SHAPE               ANCHOR               LABEL       FMT       NORMAL   DIR                   WARN   CRIT
+inline const SvgBindingDef kSvgBindings[] = {
+    {FieldId::TacShields,      "SHIP", "shield",           LabelAnchor::Right, "SHIELDS",  "%.0f%%", kBlue,   ColorDir::LowIsWorse, 50.0, 25.0},
+    {FieldId::TacHullIntegrity,"SHIP", "engineering-hull", LabelAnchor::Center, "HULL",     "%.1f%%", kBlue,   ColorDir::LowIsWorse, 60.0, 30.0},
+    {FieldId::TacWarpCore,     "SHIP", "deflector",        LabelAnchor::Below,  "WARP CORE","%.1f%%", kOrange, ColorDir::LowIsWorse, 50.0, 25.0},
+    {FieldId::TacLifeSupport,  "SHIP", "bridge",           LabelAnchor::Above,  "LIFE SUPT","%.0f%%", kOrange, ColorDir::LowIsWorse, 50.0, 25.0},
+};
+inline constexpr int kNumSvgBindings = sizeof(kSvgBindings) / sizeof(kSvgBindings[0]);

@@ -3,6 +3,10 @@
   <!-- Constitution-class top-down wireframe -->
   <!-- Default strokes are white; colors applied at runtime via SvgRenderer overrides -->
 
+  <!-- Shield ellipse surrounding entire ship -->
+  <ellipse id="shield" cx="200" cy="270" rx="175" ry="230"
+           fill="none" stroke="#9999FF" stroke-width="1.5" stroke-dasharray="8,4"/>
+
   <!-- Saucer section -->
   <ellipse id="saucer" cx="200" cy="150" rx="120" ry="90"
            fill="none" stroke="#9999FF" stroke-width="2"/>

@@ -63,9 +63,13 @@ void UpdateFieldStore() {
     std::snprintf(g_fields.strings[(int)FieldId::Stardate], 128, "%.1f", stardate);
 
     // === Tactical ===
+    g_fields.Set(FieldId::TacWarpCore, 98.7);
     g_fields.SetString(FieldId::TacWarpCore,      "ONLINE  -  OUTPUT 98.7%");
+    g_fields.Set(FieldId::TacShields, 100.0);
     g_fields.SetString(FieldId::TacShields,       "ACTIVE  -  STRENGTH 100%");
+    g_fields.Set(FieldId::TacHullIntegrity, 97.3);
     g_fields.SetString(FieldId::TacHullIntegrity, "NOMINAL -  97.3%");
+    g_fields.Set(FieldId::TacLifeSupport, 100.0);
     g_fields.SetString(FieldId::TacLifeSupport,   "NOMINAL -  ALL DECKS");
 
     // === Environ — Atmospheric ===

@@ -1,13 +1,21 @@
 #include "tactical_panel.h"
+#include "field_defs.h"
 #include "field_renderer.h"
 #include <cmath>
+#include <cstring>
 
 TacticalPanel::TacticalPanel() {
-    // Load ship SVG and set LCARS color overrides per tagged part
-    shipSvg_.LoadFromFile("assets/ship_wireframe.svg");
+    // Load ship SVG from the view table
+    for (int i = 0; i < kNumSvgViews; i++) {
+        if (std::strcmp(kSvgViews[i].view, "SHIP") == 0) {
+            shipSvg_.LoadFromFile(kSvgViews[i].svgPath);
+            break;
+        }
+    }
 
     const ImU32 detail = IM_COL32(0x66, 0x88, 0xAA, 0xFF);
 
+    shipSvg_.SetShapeColor("shield",            kBlue);
     shipSvg_.SetShapeColor("saucer",            kBlue);
     shipSvg_.SetShapeColor("bridge",            kOrange);
     shipSvg_.SetShapeColor("saucer-grid",       detail);
@@ -41,15 +49,22 @@ TacticalPanel::TacticalPanel() {
         ImVec2 avail = ImGui::GetContentRegionAvail();
         ImVec2 cursor = ImGui::GetCursorScreenPos();
 
-        // Approach C: blink nacelle colors between purple and red
+        // 1. Data-driven color overrides from bindings
+        ApplySvgBindingColors(shipSvg_, "SHIP");
+
+        // 2. Existing nacelle blink (runs after bindings, so it wins for nacelles)
         float t = fmodf((float)ImGui::GetTime(), 1.0f);
         ImU32 nColor = (t < 0.5f) ? kPurple : kRed;
         shipSvg_.SetShapeColor("nacelle-left", nColor);
         shipSvg_.SetShapeColor("nacelle-right", nColor);
 
+        // 3. Draw SVG
         shipSvg_.Draw(cursor, avail, kBlue, 1.5f);
 
-        // Approach A: pulsing translucent ellipse overlay on saucer
+        // 4. Data-bound text labels
+        DrawSvgBindingLabels(shipSvg_, "SHIP", cursor, avail);
+
+        // 5. Existing saucer glow overlay
         ImDrawList* dl = ImGui::GetWindowDrawList();
         float pulse = (sinf((float)ImGui::GetTime() * 4.0f) + 1.0f) * 0.5f;
         ImVec4 r = shipSvg_.GetShapeBounds("saucer", cursor, avail);
