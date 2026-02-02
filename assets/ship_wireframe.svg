@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+  <!-- Constitution-class top-down wireframe -->
+  <!-- Default strokes are white; colors applied at runtime via SvgRenderer overrides -->
+
+  <!-- Saucer section -->
+  <ellipse id="saucer" cx="200" cy="150" rx="120" ry="90"
+           fill="none" stroke="#9999FF" stroke-width="2"/>
+
+  <!-- Saucer grid crosshairs -->
+  <g id="saucer-grid" fill="none" stroke="#6688AA" stroke-width="1">
+    <line x1="116" y1="150" x2="284" y2="150"/>
+    <line x1="200" y1="87" x2="200" y2="213"/>
+  </g>
+
+  <!-- Bridge dot -->
+  <circle id="bridge" cx="200" cy="150" r="5" fill="#FF9933" stroke="none"/>
+
+  <!-- Neck connecting saucer to engineering hull -->
+  <g id="neck" fill="none" stroke="#9999FF" stroke-width="2">
+    <line x1="188" y1="204" x2="188" y2="300"/>
+    <line x1="212" y1="204" x2="212" y2="300"/>
+  </g>
+
+  <!-- Engineering hull -->
+  <ellipse id="engineering-hull" cx="200" cy="370" rx="45" ry="105"
+           fill="none" stroke="#9999FF" stroke-width="2"/>
+
+  <!-- Deflector dish -->
+  <circle id="deflector" cx="200" cy="460" r="8"
+          fill="none" stroke="#FF9933" stroke-width="2"/>
+
+  <!-- Nacelle pylons -->
+  <line id="pylon-left" x1="158" y1="310" x2="80" y2="270"
+        fill="none" stroke="#9999FF" stroke-width="2"/>
+  <line id="pylon-right" x1="242" y1="310" x2="320" y2="270"
+        fill="none" stroke="#9999FF" stroke-width="2"/>
+
+  <!-- Left nacelle -->
+  <rect id="nacelle-left" x="60" y="150" width="40" height="170"
+        fill="none" stroke="#CC99CC" stroke-width="2"/>
+
+  <!-- Right nacelle -->
+  <rect id="nacelle-right" x="300" y="150" width="40" height="170"
+        fill="none" stroke="#CC99CC" stroke-width="2"/>
+
+  <!-- Bussard collectors (front caps) -->
+  <circle id="bussard-left" cx="80" cy="150" r="7" fill="#CC6666" stroke="none"/>
+  <circle id="bussard-right" cx="320" cy="150" r="7" fill="#CC6666" stroke="none"/>
+
+  <!-- Nacelle glow lines -->
+  <line id="nacelle-glow-left" x1="80" y1="170" x2="80" y2="305"
+        fill="none" stroke="#6688AA" stroke-width="1"/>
+  <line id="nacelle-glow-right" x1="320" y1="170" x2="320" y2="305"
+        fill="none" stroke="#6688AA" stroke-width="1"/>
+</svg>

@@ -68,6 +68,19 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(sqlite3)
 
+# --- nanosvg ---
+FetchContent_Declare(
+    nanosvg
+    GIT_REPOSITORY https://github.com/memononen/nanosvg.git
+    GIT_TAG        master
+    GIT_SHALLOW    TRUE
+)
+FetchContent_MakeAvailable(nanosvg)
+# The upstream CMakeLists only sets INSTALL_INTERFACE; add BUILD_INTERFACE so
+# our code can #include "nanosvg.h" during the build.
+target_include_directories(nanosvg PUBLIC
+    $<BUILD_INTERFACE:${nanosvg_SOURCE_DIR}/src>)
+
 # --- OpenGL ---
 find_package(OpenGL REQUIRED)
 
@@ -80,8 +93,9 @@ add_executable(lcars
     src/tactical_panel.cpp
     src/info_panel.cpp
     src/db_reader.cpp
+    src/svg_renderer.cpp
 )
-target_link_libraries(lcars PRIVATE imgui implot OpenGL::GL SQLite::SQLite3)
+target_link_libraries(lcars PRIVATE imgui implot nanosvg OpenGL::GL SQLite::SQLite3)
 
 # macOS: suppress OpenGL deprecation warnings
 if(APPLE)
