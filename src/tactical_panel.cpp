@@ -1,5 +1,6 @@
 #include "tactical_panel.h"
 #include "field_renderer.h"
+#include <cmath>
 
 TacticalPanel::TacticalPanel() {
     // Load ship SVG and set LCARS color overrides per tagged part
@@ -39,7 +40,26 @@ TacticalPanel::TacticalPanel() {
     ship.drawContent = [this]() {
         ImVec2 avail = ImGui::GetContentRegionAvail();
         ImVec2 cursor = ImGui::GetCursorScreenPos();
+
+        // Approach C: blink nacelle colors between purple and red
+        float t = fmodf((float)ImGui::GetTime(), 1.0f);
+        ImU32 nColor = (t < 0.5f) ? kPurple : kRed;
+        shipSvg_.SetShapeColor("nacelle-left", nColor);
+        shipSvg_.SetShapeColor("nacelle-right", nColor);
+
         shipSvg_.Draw(cursor, avail, kBlue, 1.5f);
+
+        // Approach A: pulsing translucent ellipse overlay on saucer
+        ImDrawList* dl = ImGui::GetWindowDrawList();
+        float pulse = (sinf((float)ImGui::GetTime() * 4.0f) + 1.0f) * 0.5f;
+        ImVec4 r = shipSvg_.GetShapeBounds("saucer", cursor, avail);
+        if (r.z > 0) {
+            ImU32 glow = IM_COL32(0x99, 0x99, 0xFF, (int)(pulse * 40));
+            float cx = r.x + r.z * 0.5f;
+            float cy = r.y + r.w * 0.5f;
+            dl->AddEllipseFilled(ImVec2(cx, cy), ImVec2(r.z * 0.5f, r.w * 0.5f), glow);
+        }
+
         ImGui::Dummy(avail);
     };
     views.push_back(std::move(ship));

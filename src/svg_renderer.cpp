@@ -1,6 +1,8 @@
 #include "svg_renderer.h"
 
 #include "nanosvg.h"
+#include <cstring>
+#include <cmath>
 
 SvgRenderer::~SvgRenderer() {
     if (image_) {
@@ -115,6 +117,34 @@ void SvgRenderer::Draw(ImVec2 origin, ImVec2 size, ImU32 defaultColor, float thi
             }
         }
     }
+}
+
+ImVec4 SvgRenderer::GetShapeBounds(const char* id, ImVec2 origin, ImVec2 size) const {
+    if (!image_ || !id || !id[0]) return ImVec4(0, 0, 0, 0);
+
+    float svgW = image_->width;
+    float svgH = image_->height;
+    if (svgW <= 0 || svgH <= 0) return ImVec4(0, 0, 0, 0);
+
+    // Same uniform-scale transform as Draw()
+    float scaleX = size.x / svgW;
+    float scaleY = size.y / svgH;
+    float scale = (scaleX < scaleY) ? scaleX : scaleY;
+
+    float offsetX = origin.x + (size.x - svgW * scale) * 0.5f;
+    float offsetY = origin.y + (size.y - svgH * scale) * 0.5f;
+
+    for (NSVGshape* shape = image_->shapes; shape != nullptr; shape = shape->next) {
+        if (strcmp(shape->id, id) == 0) {
+            float x = offsetX + shape->bounds[0] * scale;
+            float y = offsetY + shape->bounds[1] * scale;
+            float w = (shape->bounds[2] - shape->bounds[0]) * scale;
+            float h = (shape->bounds[3] - shape->bounds[1]) * scale;
+            return ImVec4(x, y, w, h);
+        }
+    }
+
+    return ImVec4(0, 0, 0, 0);
 }
 
 std::vector<std::string> SvgRenderer::GetShapeIds() const {

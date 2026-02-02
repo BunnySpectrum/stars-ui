@@ -9,6 +9,8 @@ src/
   lcars.cpp             Color definitions, ApplyLCARSTheme(), global chrome, panel chrome drawing
   tactical_panel.h      TacticalPanel declaration
   tactical_panel.cpp    TacticalPanel content (system status + telemetry chart)
+  svg_renderer.h        SvgRenderer: loads SVGs via nanosvg, draws with color overrides
+  svg_renderer.cpp      SvgRenderer implementation, shape bounds queries
 ```
 
 ## Core Concepts
@@ -235,6 +237,100 @@ The arc sweep direction depends on orientation:
 - Secondary data line: `kBlue`
 - Plots fill available space via `ImGui::GetContentRegionAvail()`
 - Minimum plot height: 100px
+
+## SVG Rendering
+
+Ship wireframes and other vector art are loaded and drawn via `SvgRenderer`
+(`src/svg_renderer.h`), which wraps the nanosvg library.
+
+### Loading and drawing
+
+```cpp
+SvgRenderer svg;
+svg.LoadFromFile("assets/ship_wireframe.svg");
+svg.Draw(origin, size, defaultColor, thickness);
+```
+
+`Draw()` computes a **uniform scale** (aspect-preserving fit) and centers the
+SVG within the target rectangle. All SVG coordinates are transformed to screen
+space through a single scale + offset.
+
+### Shape IDs
+
+Shapes in the SVG may have an `id` attribute (e.g. `id="nacelle-left"`).
+`GetShapeIds()` returns all IDs present in the image. These IDs are used to
+target color overrides and bounds queries.
+
+### Color overrides
+
+`SetShapeColor(id, color)` stores per-shape color overrides. When `Draw()`
+encounters a shape whose ID has an override, it uses that color for both fill
+and stroke instead of the SVG's own paint. If no override exists, the shape's
+native SVG colors are used; if the shape has no paint, `defaultColor` is used.
+
+Call `ClearColorOverrides()` to remove all overrides.
+
+### Shape bounds
+
+`GetShapeBounds(id, origin, size)` returns the screen-space bounding rectangle
+of a shape as `ImVec4(x, y, width, height)`. It recomputes the same
+uniform-scale transform that `Draw()` uses, then maps the shape's
+`bounds[4]` (`[minx, miny, maxx, maxy]` in SVG coordinates) to screen space.
+Returns `(0, 0, 0, 0)` if the shape is not found.
+
+Pass the same `origin` and `size` arguments you passed to `Draw()` so the
+bounds align with the rendered image.
+
+## SVG Overlay Animations
+
+Animated overlays on the ship SVG use two complementary approaches.
+
+### Color blink (per-frame color override)
+
+Call `SetShapeColor()` each frame with a time-varying color. The shape's own
+geometry is drawn in the alternating color — no extra draw calls needed.
+
+```cpp
+float t = fmodf((float)ImGui::GetTime(), 1.0f);
+ImU32 color = (t < 0.5f) ? kPurple : kRed;
+svg.SetShapeColor("nacelle-left", color);
+svg.SetShapeColor("nacelle-right", color);
+svg.Draw(cursor, avail, kBlue);
+```
+
+Set the color **before** calling `Draw()` so the current frame picks it up.
+
+### Geometry overlay (bounds + custom draw)
+
+For effects that go beyond the shape's own geometry (glows, highlights, filled
+regions over stroked shapes), use `GetShapeBounds()` after `Draw()` and draw
+on top with `ImGui::GetWindowDrawList()`.
+
+```cpp
+svg.Draw(cursor, avail, kBlue);
+
+ImDrawList* dl = ImGui::GetWindowDrawList();
+float pulse = (sinf((float)ImGui::GetTime() * 4.0f) + 1.0f) * 0.5f;
+ImVec4 r = svg.GetShapeBounds("saucer", cursor, avail);
+if (r.z > 0) {
+    ImU32 glow = IM_COL32(0x99, 0x99, 0xFF, (int)(pulse * 40));
+    float cx = r.x + r.z * 0.5f;
+    float cy = r.y + r.w * 0.5f;
+    dl->AddEllipseFilled(ImVec2(cx, cy), ImVec2(r.z * 0.5f, r.w * 0.5f), glow);
+}
+```
+
+Draw overlays **after** `Draw()` so they appear on top of the ship. The
+overlays automatically track and scale with the SVG because `GetShapeBounds()`
+uses the same transform.
+
+### Choosing an approach
+
+| Need                              | Approach          |
+|-----------------------------------|-------------------|
+| Blink/pulse a shape's own color   | Color override    |
+| Glow halo, filled highlight       | Geometry overlay  |
+| Both on the same shape            | Combine both      |
 
 ## ImGui Theme
 
