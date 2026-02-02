@@ -5,6 +5,21 @@
 #include <cstring>
 #include <vector>
 
+// Estimate the height needed to render a column of fields.
+static float EstimateColumnHeight(const std::vector<const FieldDef*>& fields) {
+    float lineH = ImGui::GetTextLineHeightWithSpacing();
+    float secH  = ImGui::GetFrameHeight() + 4.0f; // SeparatorText height
+    int nSections = 0;
+    const char* lastSec = nullptr;
+    for (auto* f : fields) {
+        if (!lastSec || std::strcmp(f->section, lastSec) != 0) {
+            nSections++;
+            lastSec = f->section;
+        }
+    }
+    return nSections * (secH + 8.0f) + (int)fields.size() * lineH + 16.0f;
+}
+
 // Draw a group of fields as section-header + label/value columns.
 static void DrawFieldColumn(const std::vector<const FieldDef*>& fields) {
     int i = 0;
@@ -41,32 +56,44 @@ static void DrawFieldColumn(const std::vector<const FieldDef*>& fields) {
 }
 
 void DrawFieldsForView(const char* viewName) {
-    // Collect fields for this view, split by column
-    std::vector<const FieldDef*> col0, col1;
+    // Collect fields for this view, split by column index
+    int maxCol = 0;
+    std::vector<const FieldDef*> cols[8]; // up to 8 columns
     for (int i = 0; i < kNumFields; i++) {
         if (std::strcmp(kFields[i].view, viewName) != 0) continue;
-        if (kFields[i].column == 1)
-            col1.push_back(&kFields[i]);
-        else
-            col0.push_back(&kFields[i]);
+        int c = kFields[i].column;
+        if (c < 0) c = 0;
+        if (c > 7) c = 7;
+        cols[c].push_back(&kFields[i]);
+        if (c > maxCol) maxCol = c;
     }
 
-    if (!col1.empty()) {
-        // Side-by-side layout
-        ImVec2 avail = ImGui::GetContentRegionAvail();
-        float halfW = avail.x * 0.5f - 4.0f;
+    int nCols = maxCol + 1;
 
-        ImGui::BeginChild("##Col0", ImVec2(halfW, 0), false);
-        DrawFieldColumn(col0);
-        ImGui::EndChild();
+    // Find the tallest column to use as the child height
+    float maxH = 0.0f;
+    for (int c = 0; c <= maxCol; c++) {
+        float h = EstimateColumnHeight(cols[c]);
+        if (h > maxH) maxH = h;
+    }
 
-        ImGui::SameLine(0, 8.0f);
-
-        ImGui::BeginChild("##Col1", ImVec2(halfW, 0), false);
-        DrawFieldColumn(col1);
+    if (nCols <= 1) {
+        ImGui::BeginChild("##Col0", ImVec2(0, maxH), false);
+        DrawFieldColumn(cols[0]);
         ImGui::EndChild();
     } else {
-        DrawFieldColumn(col0);
+        ImVec2 avail = ImGui::GetContentRegionAvail();
+        float gap = 8.0f;
+        float colW = (avail.x - gap * (nCols - 1)) / (float)nCols;
+
+        for (int c = 0; c <= maxCol; c++) {
+            if (c > 0) ImGui::SameLine(0, gap);
+            char id[16];
+            snprintf(id, sizeof(id), "##Col%d", c);
+            ImGui::BeginChild(id, ImVec2(colW, maxH), false);
+            DrawFieldColumn(cols[c]);
+            ImGui::EndChild();
+        }
     }
 }
 

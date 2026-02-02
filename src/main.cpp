@@ -70,6 +70,10 @@ int main(int argc, char** argv) {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.IniFilename = nullptr; // don't save imgui.ini
 
+    // Load Antonio font
+    io.Fonts->AddFontFromFileTTF("fonts/Antonio-Regular.ttf", 20.0f);
+    io.Fonts->Build();
+
     ImGui_ImplSDL2_InitForOpenGL(window, glContext);
     ImGui_ImplOpenGL3_Init(glslVersion);
 

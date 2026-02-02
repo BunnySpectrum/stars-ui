@@ -140,12 +140,12 @@ inline const FieldDef kFields[] = {
     { FieldId::EnvCO2,          "CO2",                  "PPM",  Display::Scalar,    "ENVIRON",   "ATMOSPHERIC CONDITIONS",     0 },
     { FieldId::EnvO2,           "O2",                   "%",    Display::Scalar,    "ENVIRON",   "ATMOSPHERIC CONDITIONS",     0 },
     // ENVIRON — decks
-    { FieldId::Deck1Bridge,     "DECK 1 BRIDGE",        "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                0 },
-    { FieldId::Deck2Officers,   "DECK 2 OFFICERS",      "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                0 },
-    { FieldId::Deck3Crew,       "DECK 3 CREW",          "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                0 },
-    { FieldId::Deck5Science,    "DECK 5 SCIENCE",       "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                0 },
-    { FieldId::Deck7Engineering,"DECK 7 ENGINEERING",   "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                0 },
-    { FieldId::Deck10Cargo,     "DECK 10 CARGO",        "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                0 },
+    { FieldId::Deck1Bridge,     "DECK 1 BRIDGE",        "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                1 },
+    { FieldId::Deck2Officers,   "DECK 2 OFFICERS",      "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                1 },
+    { FieldId::Deck3Crew,       "DECK 3 CREW",          "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                1 },
+    { FieldId::Deck5Science,    "DECK 5 SCIENCE",       "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                1 },
+    { FieldId::Deck7Engineering,"DECK 7 ENGINEERING",   "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                1 },
+    { FieldId::Deck10Cargo,     "DECK 10 CARGO",        "C",    Display::Scalar,    "ENVIRON",   "DECK STATUS",                1 },
 
     // POWER — generation
     { FieldId::GenWarpCore,     "WARP CORE",            "MW",   Display::Scalar,    "POWER",     "POWER GENERATION",           0 },
@@ -154,18 +154,18 @@ inline const FieldDef kFields[] = {
     { FieldId::GenAuxFusion,    "AUX FUSION",           "MW",   Display::Scalar,    "POWER",     "POWER GENERATION",           0 },
     { FieldId::GenTotal,        "TOTAL",                "MW",   Display::Scalar,    "POWER",     "POWER GENERATION",           0 },
     // POWER — consumption
-    { FieldId::ConPropulsion,   "PROPULSION",           "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          0 },
-    { FieldId::ConShields,      "SHIELDS",              "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          0 },
-    { FieldId::ConLifeSupport,  "LIFE SUPPORT",         "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          0 },
-    { FieldId::ConSensors,      "SENSORS",              "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          0 },
-    { FieldId::ConComputers,    "COMPUTERS",            "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          0 },
-    { FieldId::ConWeapons,      "WEAPONS",              "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          0 },
-    { FieldId::ConTotal,        "TOTAL",                "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          0 },
+    { FieldId::ConPropulsion,   "PROPULSION",           "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          1 },
+    { FieldId::ConShields,      "SHIELDS",              "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          1 },
+    { FieldId::ConLifeSupport,  "LIFE SUPPORT",         "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          1 },
+    { FieldId::ConSensors,      "SENSORS",              "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          1 },
+    { FieldId::ConComputers,    "COMPUTERS",            "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          1 },
+    { FieldId::ConWeapons,      "WEAPONS",              "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          1 },
+    { FieldId::ConTotal,        "TOTAL",                "MW",   Display::Scalar,    "POWER",     "POWER CONSUMPTION",          1 },
     // POWER — reserves
-    { FieldId::BatteryA,        "BATTERY A",            "%",    Display::Scalar,    "POWER",     "ENERGY RESERVES",            0 },
-    { FieldId::BatteryB,        "BATTERY B",            "%",    Display::Scalar,    "POWER",     "ENERGY RESERVES",            0 },
-    { FieldId::Emergency,       "EMERGENCY",            "%",    Display::Scalar,    "POWER",     "ENERGY RESERVES",            0 },
-    { FieldId::Surplus,         "SURPLUS",              "MW",   Display::Scalar,    "POWER",     "ENERGY RESERVES",            0 },
+    { FieldId::BatteryA,        "BATTERY A",            "%",    Display::Scalar,    "POWER",     "ENERGY RESERVES",            2 },
+    { FieldId::BatteryB,        "BATTERY B",            "%",    Display::Scalar,    "POWER",     "ENERGY RESERVES",            2 },
+    { FieldId::Emergency,       "EMERGENCY",            "%",    Display::Scalar,    "POWER",     "ENERGY RESERVES",            2 },
+    { FieldId::Surplus,         "SURPLUS",              "MW",   Display::Scalar,    "POWER",     "ENERGY RESERVES",            2 },
 
     // RADIO — channels
     { FieldId::Ch1Subspace,     "CH 1  SUBSPACE",       "GHz",  Display::Scalar,    "RADIO",     "ACTIVE CHANNELS",            0 },
@@ -175,12 +175,12 @@ inline const FieldDef kFields[] = {
     { FieldId::Ch5Command,      "CH 5  COMMAND",        "GHz",  Display::Scalar,    "RADIO",     "ACTIVE CHANNELS",            0 },
     { FieldId::Ch6Diplomatic,   "CH 6  DIPLOMATIC",     "GHz",  Display::Scalar,    "RADIO",     "ACTIVE CHANNELS",            0 },
     // RADIO — signal
-    { FieldId::SubspaceBandwidth,"SUBSPACE BANDWIDTH",  "GHz",  Display::Scalar,    "RADIO",     "SIGNAL STATUS",              0 },
-    { FieldId::SignalStrength,  "SIGNAL STRENGTH",      "dBm",  Display::Scalar,    "RADIO",     "SIGNAL STATUS",              0 },
-    { FieldId::NoiseFloor,      "NOISE FLOOR",          "dBm",  Display::Scalar,    "RADIO",     "SIGNAL STATUS",              0 },
-    { FieldId::SNR,             "SNR",                  "dB",   Display::Scalar,    "RADIO",     "SIGNAL STATUS",              0 },
-    { FieldId::AntennaArray,    "ANTENNA ARRAY",        "",     Display::Scalar,    "RADIO",     "SIGNAL STATUS",              0 },
-    { FieldId::Range,           "RANGE",                "LY",   Display::Scalar,    "RADIO",     "SIGNAL STATUS",              0 },
+    { FieldId::SubspaceBandwidth,"SUBSPACE BANDWIDTH",  "GHz",  Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
+    { FieldId::SignalStrength,  "SIGNAL STRENGTH",      "dBm",  Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
+    { FieldId::NoiseFloor,      "NOISE FLOOR",          "dBm",  Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
+    { FieldId::SNR,             "SNR",                  "dB",   Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
+    { FieldId::AntennaArray,    "ANTENNA ARRAY",        "",     Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
+    { FieldId::Range,           "RANGE",                "LY",   Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
 };
 
 inline constexpr int kNumFields = sizeof(kFields) / sizeof(kFields[0]);
