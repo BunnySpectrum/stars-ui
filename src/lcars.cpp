@@ -6,13 +6,6 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-// LCARS color palette
-const ImU32 kOrange = IM_COL32(0xFF, 0x99, 0x33, 0xFF);
-const ImU32 kPurple = IM_COL32(0xCC, 0x99, 0xCC, 0xFF);
-const ImU32 kBlue   = IM_COL32(0x99, 0x99, 0xFF, 0xFF);
-const ImU32 kTan    = IM_COL32(0xFF, 0xCC, 0x99, 0xFF);
-const ImU32 kRed    = IM_COL32(0xCC, 0x66, 0x66, 0xFF);
-const ImU32 kBeige  = IM_COL32(0xFF, 0xDD, 0xBB, 0xFF);
 
 ImVec4 U32ToVec4(ImU32 c) {
     return ImVec4(

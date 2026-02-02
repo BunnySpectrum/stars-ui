@@ -7,12 +7,12 @@
 #include <vector>
 
 // LCARS color palette
-extern const ImU32 kOrange;
-extern const ImU32 kPurple;
-extern const ImU32 kBlue;
-extern const ImU32 kTan;
-extern const ImU32 kRed;
-extern const ImU32 kBeige;
+inline constexpr ImU32 kOrange = IM_COL32(0xFF, 0x99, 0x33, 0xFF);
+inline constexpr ImU32 kPurple = IM_COL32(0xCC, 0x99, 0xCC, 0xFF);
+inline constexpr ImU32 kBlue   = IM_COL32(0x99, 0x99, 0xFF, 0xFF);
+inline constexpr ImU32 kTan    = IM_COL32(0xFF, 0xCC, 0x99, 0xFF);
+inline constexpr ImU32 kRed    = IM_COL32(0xCC, 0x66, 0x66, 0xFF);
+inline constexpr ImU32 kBeige  = IM_COL32(0xFF, 0xDD, 0xBB, 0xFF);
 
 ImVec4 U32ToVec4(ImU32 c);
 void ApplyLCARSTheme();

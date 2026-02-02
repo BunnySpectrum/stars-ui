@@ -63,7 +63,14 @@ target_link_libraries(implot PUBLIC imgui)
 find_package(OpenGL REQUIRED)
 
 # --- Main executable ---
-add_executable(lcars src/main.cpp src/lcars.cpp src/tactical_panel.cpp)
+add_executable(lcars
+    src/main.cpp
+    src/lcars.cpp
+    src/field_store.cpp
+    src/field_renderer.cpp
+    src/tactical_panel.cpp
+    src/info_panel.cpp
+)
 target_link_libraries(lcars PRIVATE imgui implot OpenGL::GL)
 
 # macOS: suppress OpenGL deprecation warnings

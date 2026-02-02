@@ -15,6 +15,8 @@
 #endif
 
 #include "lcars.h"
+#include "field_store.h"
+#include "info_panel.h"
 #include "tactical_panel.h"
 
 int main(int, char**) {
@@ -74,6 +76,7 @@ int main(int, char**) {
 
     // Panels listed in screen order (top to bottom)
     std::vector<std::unique_ptr<LCARSPanel>> panels;
+    panels.push_back(std::make_unique<InfoPanel>());
     panels.push_back(std::make_unique<TacticalPanel>());
 
     bool running = true;
@@ -92,6 +95,8 @@ int main(int, char**) {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
+
+        UpdateFieldStore();
 
         int winW, winH;
         SDL_GetWindowSize(window, &winW, &winH);
