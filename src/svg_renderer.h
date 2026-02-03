@@ -44,4 +44,8 @@ private:
     NSVGimage* image_ = nullptr;
     std::vector<SvgText> textElements_;
     std::unordered_map<std::string, ImU32> colorOverrides_;
+
+    // ViewBox offset (nanosvg handles this for paths, we need it for text)
+    float viewBoxX_ = 0.0f;
+    float viewBoxY_ = 0.0f;
 };

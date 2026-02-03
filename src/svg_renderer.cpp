@@ -2,6 +2,7 @@
 
 #include "nanosvg.h"
 #include <cstring>
+#include <cstdio>
 #include <cmath>
 #include <fstream>
 #include <sstream>
@@ -60,6 +61,21 @@ void SvgRenderer::ParseTextElements(const char* filename) {
     buffer << file.rdbuf();
     std::string content = buffer.str();
 
+    // Parse viewBox to get coordinate offset
+    // Format: viewBox="minX minY width height"
+    viewBoxX_ = 0.0f;
+    viewBoxY_ = 0.0f;
+    std::regex viewBoxRegex("viewBox=\"([^\"]*)\"");
+    std::smatch vbMatch;
+    if (std::regex_search(content, vbMatch, viewBoxRegex)) {
+        std::string vb = vbMatch[1].str();
+        float minX = 0, minY = 0, w = 0, h = 0;
+        if (std::sscanf(vb.c_str(), "%f %f %f %f", &minX, &minY, &w, &h) >= 2) {
+            viewBoxX_ = minX;
+            viewBoxY_ = minY;
+        }
+    }
+
     // Find all <text ...>content</text> elements
     std::regex textRegex(R"(<text\s+([^>]*)>([^<]*)</text>)");
     std::smatch match;
@@ -73,11 +89,11 @@ void SvgRenderer::ParseTextElements(const char* filename) {
         text.content = textContent;
         text.id = GetAttr(attrs, "id");
 
-        // Parse position
+        // Parse position and apply viewBox offset
         std::string xStr = GetAttr(attrs, "x");
         std::string yStr = GetAttr(attrs, "y");
-        text.x = xStr.empty() ? 0.0f : std::stof(xStr);
-        text.y = yStr.empty() ? 0.0f : std::stof(yStr);
+        text.x = (xStr.empty() ? 0.0f : std::stof(xStr)) - viewBoxX_;
+        text.y = (yStr.empty() ? 0.0f : std::stof(yStr)) - viewBoxY_;
 
         // Parse font size
         std::string fontSize = GetAttr(attrs, "font-size");
