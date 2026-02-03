@@ -7,6 +7,31 @@
 #include <cstring>
 #include <vector>
 
+// Look up threshold definition for a field (returns nullptr if none)
+static const FieldThresholdDef* FindFieldThreshold(FieldId id) {
+    for (int i = 0; i < kNumFieldThresholds; i++) {
+        if (kFieldThresholds[i].field == id)
+            return &kFieldThresholds[i];
+    }
+    return nullptr;
+}
+
+// Evaluate color for a field based on threshold (returns 0 if no threshold defined)
+static ImU32 EvaluateFieldColor(FieldId id) {
+    const FieldThresholdDef* t = FindFieldThreshold(id);
+    if (!t) return 0;
+
+    double value = g_fields.Get(id);
+    if (t->colorDir == ColorDir::LowIsWorse) {
+        if (value < t->critThresh) return kRed;
+        if (value < t->warnThresh) return kOrange;
+    } else { // HighIsWorse
+        if (value >= t->critThresh) return kRed;
+        if (value >= t->warnThresh) return kOrange;
+    }
+    return 0; // normal — use default color
+}
+
 // Estimate the height needed to render a column of fields.
 static float EstimateColumnHeight(const std::vector<const FieldDef*>& fields) {
     float lineH = ImGui::GetTextLineHeightWithSpacing();
@@ -48,8 +73,11 @@ static void DrawFieldColumn(const std::vector<const FieldDef*>& fields) {
 
         ImGui::NextColumn();
 
-        for (int j = secStart; j < secEnd; j++)
-            ImGui::TextColored(U32ToVec4(kBeige), "%s", g_fields.GetString(fields[j]->id));
+        for (int j = secStart; j < secEnd; j++) {
+            ImU32 color = EvaluateFieldColor(fields[j]->id);
+            if (color == 0) color = kBeige; // default
+            ImGui::TextColored(U32ToVec4(color), "%s", g_fields.GetString(fields[j]->id));
+        }
 
         ImGui::Columns(1);
         ImGui::Spacing();

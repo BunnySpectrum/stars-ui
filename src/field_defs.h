@@ -279,3 +279,21 @@ inline const SvgBindingDef kSvgBindings[] = {
     {FieldId::TacLifeSupport,  "SHIP", "bridge",           LabelAnchor::Above,  "LIFE SUPT","%.0f%%", kOrange, ColorDir::LowIsWorse, 50.0, 25.0},
 };
 inline constexpr int kNumSvgBindings = sizeof(kSvgBindings) / sizeof(kSvgBindings[0]);
+
+// ============================================================================
+// Field threshold definitions — color scalar fields based on value thresholds
+// ============================================================================
+
+struct FieldThresholdDef {
+    FieldId   field;
+    ColorDir  colorDir;
+    double    warnThresh;
+    double    critThresh;
+};
+
+//                                    FIELD                    DIR                   WARN    CRIT
+inline const FieldThresholdDef kFieldThresholds[] = {
+    { FieldId::SignalStrength, ColorDir::LowIsWorse,  -50.0,  -60.0 },
+    { FieldId::SNR,            ColorDir::LowIsWorse,   60.0,   50.0 },
+};
+inline constexpr int kNumFieldThresholds = sizeof(kFieldThresholds) / sizeof(kFieldThresholds[0]);
