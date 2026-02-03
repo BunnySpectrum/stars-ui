@@ -180,7 +180,7 @@ inline const FieldDef kFields[] = {
     { FieldId::NoiseFloor,      "NOISE FLOOR",          "dBm",  Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
     { FieldId::SNR,             "SNR",                  "dB",   Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
     { FieldId::AntennaArray,    "ANTENNA ARRAY",        "",     Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
-    { FieldId::Range,           "RANGE",                "LY",   Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
+    { FieldId::Range,           "RANGE",                "km",   Display::Scalar,    "RADIO",     "SIGNAL STATUS",              1 },
 };
 
 inline constexpr int kNumFields = sizeof(kFields) / sizeof(kFields[0]);
