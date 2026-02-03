@@ -233,6 +233,10 @@ inline const GraphDef kGraphs[] = {
     { "##RadioSignal",  "RADIO",    nullptr,            "FREQUENCY", "dBm",     -120.0f, -20.0f,
       {{ "Signal Strength",  kOrange, { -42.0f, 2.0f, 1.5f, 8.0f,  0.0f,   7.3f,  3.1f, 3.0f,  0.0f  }},
        { "Noise",            kPurple, {-110.0f, 3.0f, 0.7f, 2.0f,  0.0f,  11.0f,  2.3f, 1.5f,  1.571f}}} },
+
+    { "##OrbitalTrack", "RADIO",    "ORBITAL TRACK",    "TIME",      "km",   35750.0f, 42000.0f,
+      {{ "Altitude",         kOrange, {35786.0f, 0.5f, 0.1f, 10.0f, 0.0f,  0.0f,  0.0f, 0.0f,  0.0f  }},
+       { "Range",            kBlue,   {38000.0f, 0.3f, 0.2f, 500.0f, 1.571f, 0.0f,  0.0f, 0.0f,  0.0f  }}} },
 };
 
 inline constexpr int kNumGraphs = sizeof(kGraphs) / sizeof(kGraphs[0]);

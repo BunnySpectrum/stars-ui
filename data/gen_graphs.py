@@ -117,6 +117,11 @@ GRAPHS = [
         (0, (-42.0,  2.0, 1.5, 8.0, 0.0,       7.3,  3.1, 3.0, 0.0)),
         (1, (-110.0, 3.0, 0.7, 2.0, 0.0,      11.0,  2.3, 1.5, math.pi/2)),
     ]),
+    (4, [
+        # Orbital track: altitude and range (procedural fallback)
+        (0, (35786.0, 0.5, 0.1, 10.0, 0.0,     0.0,  0.0, 0.0, 0.0)),
+        (1, (38000.0, 0.3, 0.2, 500.0, math.pi/2, 0.0,  0.0, 0.0, 0.0)),
+    ]),
 ]
 
 
@@ -205,6 +210,20 @@ for step in range(NUM_STEPS):
                 for i in range(GRAPH_SAMPLES):
                     print(f"INSERT INTO graph_data VALUES({ts},{graph_id},"
                           f"{line_id},{xs[i]:.6f},{ys[i]:.6f});")
+        elif orb and graph_id == 4:
+            # Use real GOES-16 orbital data for graph 4 (altitude + range)
+            # Generate 256 samples interpolating across the orbital track
+            alt_km = orb["alt_km"]
+            range_km = orb["range_km"]
+            for i in range(GRAPH_SAMPLES):
+                x = i / (GRAPH_SAMPLES - 1) * GRAPH_X_MAX
+                # Add small variation for visual interest
+                alt_var = alt_km + 5.0 * math.sin(x * 0.5 + t * 0.1)
+                range_var = range_km + 50.0 * math.sin(x * 0.3 + t * 0.2 + 1.0)
+                print(f"INSERT INTO graph_data VALUES({ts},{graph_id},"
+                      f"0,{x:.6f},{alt_var:.6f});")
+                print(f"INSERT INTO graph_data VALUES({ts},{graph_id},"
+                      f"1,{x:.6f},{range_var:.6f});")
         else:
             for line_id, params in lines:
                 for i in range(GRAPH_SAMPLES):
