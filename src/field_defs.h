@@ -287,6 +287,8 @@ inline const SvgBindingDef kSvgBindings[] = {
     // MAP view bindings (GOES orbital map)
     {FieldId::SignalStrength,  "MAP",  "link-line",        LabelAnchor::Left,   "SIGNAL",   "%.0f dBm", kOrange, ColorDir::LowIsWorse, -50.0, -60.0},
     {FieldId::SNR,             "MAP",  "goes16",           LabelAnchor::Above,  "SNR",      "%.0f dB",  kBlue,   ColorDir::LowIsWorse, 60.0, 50.0},
+    // RF view bindings (RF circuit schematic)
+    {FieldId::SignalStrength,  "RF",   "antenna-ae1",      LabelAnchor::Right,  "SIGNAL",   "%.0f dBm", kOrange, ColorDir::LowIsWorse, -50.0, -60.0},
 };
 inline constexpr int kNumSvgBindings = sizeof(kSvgBindings) / sizeof(kSvgBindings[0]);
 

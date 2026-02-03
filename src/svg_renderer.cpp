@@ -212,6 +212,10 @@ void SvgRenderer::Draw(ImVec2 origin, ImVec2 size, ImU32 defaultColor, float thi
         }
     }
 
+    // NOTE: Text rendering disabled due to coordinate transform issues.
+    // See bug-svg-text-location.md for details.
+    // Use SvgBindingDef system to overlay data labels on shapes instead.
+#if 0
     // Render text elements (nanosvg doesn't support text, so we parse and render separately)
     ImFont* font = ImGui::GetFont();
     for (const SvgText& text : textElements_) {
@@ -246,6 +250,7 @@ void SvgRenderer::Draw(ImVec2 origin, ImVec2 size, ImU32 defaultColor, float thi
 
         dl->AddText(font, scaledFontSize, pos, textColor, text.content.c_str());
     }
+#endif
 }
 
 ImVec4 SvgRenderer::GetShapeBounds(const char* id, ImVec2 origin, ImVec2 size) const {

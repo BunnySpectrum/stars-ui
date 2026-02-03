@@ -180,6 +180,9 @@ TacticalPanel::TacticalPanel() {
         ImVec2 avail = ImGui::GetContentRegionAvail();
         ImVec2 cursor = ImGui::GetCursorScreenPos();
 
+        // Apply data-driven color overrides from bindings
+        ApplySvgBindingColors(rfSvg_, "RF");
+
         // Animate mixer components to show signal flow
         float t = (float)ImGui::GetTime();
         float mixerPulse = (sinf(t * 4.0f) + 1.0f) * 0.5f;
@@ -195,6 +198,9 @@ TacticalPanel::TacticalPanel() {
 
         // Draw SVG
         rfSvg_.Draw(cursor, avail, kBlue, 1.5f);
+
+        // Draw data-bound text labels
+        DrawSvgBindingLabels(rfSvg_, "RF", cursor, avail);
 
         ImGui::Dummy(avail);
     };
