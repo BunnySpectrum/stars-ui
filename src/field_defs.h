@@ -253,6 +253,7 @@ struct SvgViewDef {
 inline const SvgViewDef kSvgViews[] = {
     { "SHIP",  "assets/ship_wireframe.svg" },
     { "MAP",   "assets/goes_orbit.svg" },
+    { "RF",    "assets/rf_circuit.svg" },
 };
 inline constexpr int kNumSvgViews = sizeof(kSvgViews) / sizeof(kSvgViews[0]);
 

@@ -11,6 +11,8 @@ TacticalPanel::TacticalPanel() {
             shipSvg_.LoadFromFile(kSvgViews[i].svgPath);
         } else if (std::strcmp(kSvgViews[i].view, "MAP") == 0) {
             mapSvg_.LoadFromFile(kSvgViews[i].svgPath);
+        } else if (std::strcmp(kSvgViews[i].view, "RF") == 0) {
+            rfSvg_.LoadFromFile(kSvgViews[i].svgPath);
         }
     }
 
@@ -160,6 +162,43 @@ TacticalPanel::TacticalPanel() {
         ImGui::Dummy(avail);
     };
     views.push_back(std::move(map));
+
+    // RF view (RF circuit schematic)
+    // Set default colors for RF circuit components
+    rfSvg_.SetShapeColor("oscillator-y1",  kOrange);
+    rfSvg_.SetShapeColor("oscillator-y2",  kOrange);
+    rfSvg_.SetShapeColor("mixer-u2",       kBlue);
+    rfSvg_.SetShapeColor("mixer-u3",       kBlue);
+    rfSvg_.SetShapeColor("opamp-u4",       kPurple);
+    rfSvg_.SetShapeColor("dac-u1",         kTan);
+    rfSvg_.SetShapeColor("antenna-ae1",    kOrange);
+
+    PanelView rf;
+    rf.name = "RF";
+    rf.buttonColor = kTan;
+    rf.drawContent = [this]() {
+        ImVec2 avail = ImGui::GetContentRegionAvail();
+        ImVec2 cursor = ImGui::GetCursorScreenPos();
+
+        // Animate mixer components to show signal flow
+        float t = (float)ImGui::GetTime();
+        float mixerPulse = (sinf(t * 4.0f) + 1.0f) * 0.5f;
+        ImU32 mixerColor = IM_COL32(0x99, 0x99, 0xFF, 128 + (int)(mixerPulse * 127));
+        rfSvg_.SetShapeColor("mixer-u2", mixerColor);
+        rfSvg_.SetShapeColor("mixer-u3", mixerColor);
+
+        // Animate oscillators
+        float oscPulse = (sinf(t * 6.0f) + 1.0f) * 0.5f;
+        ImU32 oscColor = IM_COL32(0xFF, 0x99, 0x33, 128 + (int)(oscPulse * 127));
+        rfSvg_.SetShapeColor("oscillator-y1", oscColor);
+        rfSvg_.SetShapeColor("oscillator-y2", oscColor);
+
+        // Draw SVG
+        rfSvg_.Draw(cursor, avail, kBlue, 1.5f);
+
+        ImGui::Dummy(avail);
+    };
+    views.push_back(std::move(rf));
 }
 
 const char* TacticalPanel::GetTitle() const {
