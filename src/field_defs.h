@@ -218,9 +218,9 @@ struct GraphDef {
 
 //                                                                                               base    xf1   tf1    a1     p1      xf2    tf2    a2     p2
 inline const GraphDef kGraphs[] = {
-    { "##Telemetry",    "TACTICAL", "SENSOR TELEMETRY", "FREQUENCY", "AMPLITUDE", -1.5f, 1.5f,
-      {{ "Subspace Band",    kOrange, {   0.0f, 1.0f, 1.0f, 0.5f,  0.0f,   2.3f,  1.7f, 0.5f,  0.0f  }},
-       { "EM Spectrum",      kBlue,   {   0.0f, 0.7f, 0.8f, 0.8f,  1.571f, 0.0f,  0.0f, 0.0f,  0.0f  }}} },
+    { "##Telemetry",    "TACTICAL", "MAG FIELD (nT)", "TIME", "nT", -1.5f, 1.5f,
+      {{ "Bx",    kOrange, {   0.0f, 1.0f, 1.0f, 0.5f,  0.0f,   2.3f,  1.7f, 0.5f,  0.0f  }},
+       { "By",      kBlue,   {   0.0f, 0.7f, 0.8f, 0.8f,  1.571f, 0.0f,  0.0f, 0.0f,  0.0f  }}} },
 
     { "##EnvironTrend", "ENVIRON",  nullptr,            "TIME",      "VALUE",      18.0f, 55.0f,
       {{ "Temperature (C)",  kOrange, {  22.0f, 0.5f, 0.3f, 0.5f,  0.0f,   0.0f,  0.0f, 0.0f,  0.0f  }},
