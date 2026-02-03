@@ -6,6 +6,7 @@
 class TacticalPanel : public LCARSPanel {
     std::vector<PanelView> views;
     SvgRenderer shipSvg_;
+    SvgRenderer mapSvg_;
 public:
     TacticalPanel();
     const char* GetTitle() const override;

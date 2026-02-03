@@ -5,11 +5,12 @@
 #include <cstring>
 
 TacticalPanel::TacticalPanel() {
-    // Load ship SVG from the view table
+    // Load SVGs from the view table
     for (int i = 0; i < kNumSvgViews; i++) {
         if (std::strcmp(kSvgViews[i].view, "SHIP") == 0) {
             shipSvg_.LoadFromFile(kSvgViews[i].svgPath);
-            break;
+        } else if (std::strcmp(kSvgViews[i].view, "MAP") == 0) {
+            mapSvg_.LoadFromFile(kSvgViews[i].svgPath);
         }
     }
 
@@ -30,6 +31,19 @@ TacticalPanel::TacticalPanel() {
     shipSvg_.SetShapeColor("bussard-right",     kRed);
     shipSvg_.SetShapeColor("nacelle-glow-left", detail);
     shipSvg_.SetShapeColor("nacelle-glow-right",detail);
+
+    // Set default colors for map SVG
+    mapSvg_.SetShapeColor("geo-orbit",          detail);
+    mapSvg_.SetShapeColor("earth",              kBlue);
+    mapSvg_.SetShapeColor("earth-grid",         detail);
+    mapSvg_.SetShapeColor("equator",            kBlue);
+    mapSvg_.SetShapeColor("ground-station",     kOrange);
+    mapSvg_.SetShapeColor("goes16",             kBlue);
+    mapSvg_.SetShapeColor("link-line",          kOrange);
+    mapSvg_.SetShapeColor("signal-cone",        detail);
+    mapSvg_.SetShapeColor("subsatellite-point", kPurple);
+    mapSvg_.SetShapeColor("coverage-arc",       kPurple);
+    mapSvg_.SetShapeColor("lon-grid",           detail);
 
     // TACTICAL view
     PanelView tactical;
@@ -120,6 +134,32 @@ TacticalPanel::TacticalPanel() {
         { { {"HAIL", kBlue, nullptr}, {"ENCRYPT", kRed, nullptr} } }
     };
     views.push_back(std::move(radio));
+
+    // MAP view (GOES-16 orbital visualization)
+    PanelView map;
+    map.name = "MAP";
+    map.buttonColor = kBlue;
+    map.drawContent = [this]() {
+        ImVec2 avail = ImGui::GetContentRegionAvail();
+        ImVec2 cursor = ImGui::GetCursorScreenPos();
+
+        // Apply data-driven color overrides from bindings
+        ApplySvgBindingColors(mapSvg_, "MAP");
+
+        // Animate the satellite pulse
+        float pulse = (sinf((float)ImGui::GetTime() * 3.0f) + 1.0f) * 0.5f;
+        ImU32 satColor = IM_COL32(0x99, 0x99, 0xFF, 128 + (int)(pulse * 127));
+        mapSvg_.SetShapeColor("goes16", satColor);
+
+        // Draw SVG
+        mapSvg_.Draw(cursor, avail, kBlue, 1.5f);
+
+        // Draw data-bound text labels
+        DrawSvgBindingLabels(mapSvg_, "MAP", cursor, avail);
+
+        ImGui::Dummy(avail);
+    };
+    views.push_back(std::move(map));
 }
 
 const char* TacticalPanel::GetTitle() const {

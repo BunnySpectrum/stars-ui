@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- GOES-16 orbital visualization -->
+  <!-- Default colors applied at runtime via SvgRenderer overrides -->
+
+  <!-- GEO orbit ring (geostationary altitude ~35,786 km) -->
+  <circle id="geo-orbit" cx="200" cy="200" r="160"
+          fill="none" stroke="#6688AA" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Earth -->
+  <circle id="earth" cx="200" cy="200" r="60"
+          fill="none" stroke="#9999FF" stroke-width="2"/>
+
+  <!-- Earth grid lines -->
+  <g id="earth-grid" fill="none" stroke="#6688AA" stroke-width="0.5">
+    <line x1="140" y1="200" x2="260" y2="200"/>
+    <line x1="200" y1="140" x2="200" y2="260"/>
+    <ellipse cx="200" cy="200" rx="30" ry="60"/>
+  </g>
+
+  <!-- Equator highlight -->
+  <line id="equator" x1="140" y1="200" x2="260" y2="200"
+        fill="none" stroke="#9999FF" stroke-width="1"/>
+
+  <!-- Ground station (Wallops Island, VA - approx 37.9N, 75.5W) -->
+  <!-- Positioned on Earth's surface at ~38 degrees from center -->
+  <circle id="ground-station" cx="177" cy="165" r="4"
+          fill="#FF9933" stroke="none"/>
+
+  <!-- GOES-16 satellite marker (positioned at 75.2W longitude on GEO) -->
+  <g id="goes16-marker" transform="translate(85, 200)">
+    <circle id="goes16" cx="0" cy="0" r="6"
+            fill="none" stroke="#9999FF" stroke-width="2"/>
+    <line x1="-10" y1="0" x2="10" y2="0"
+          fill="none" stroke="#9999FF" stroke-width="1"/>
+    <line x1="0" y1="-10" x2="0" y2="10"
+          fill="none" stroke="#9999FF" stroke-width="1"/>
+  </g>
+
+  <!-- Line of sight from ground station to satellite -->
+  <line id="link-line" x1="177" y1="165" x2="85" y2="200"
+        fill="none" stroke="#FF9933" stroke-width="1.5"/>
+
+  <!-- Signal cone (simplified visualization) -->
+  <path id="signal-cone" d="M 85,200 L 155,140 L 155,260 Z"
+        fill="none" stroke="#6688AA" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+  <!-- Sub-satellite point marker on Earth's surface -->
+  <circle id="subsatellite-point" cx="140" cy="200" r="3"
+          fill="#CC99CC" stroke="none"/>
+
+  <!-- Coverage arc on Earth's surface -->
+  <path id="coverage-arc" d="M 168,145 A 60,60 0 0,1 168,255"
+        fill="none" stroke="#CC99CC" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- Longitude reference lines -->
+  <g id="lon-grid" fill="none" stroke="#6688AA" stroke-width="0.5" stroke-dasharray="2,4">
+    <line x1="200" y1="40" x2="200" y2="140"/>
+    <line x1="200" y1="260" x2="200" y2="360"/>
+  </g>
+
+  <!-- West indicator -->
+  <text id="west-label" x="50" y="205" fill="#6688AA" font-size="10" font-family="monospace">W</text>
+
+  <!-- East indicator -->
+  <text id="east-label" x="345" y="205" fill="#6688AA" font-size="10" font-family="monospace">E</text>
+</svg>

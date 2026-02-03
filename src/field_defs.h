@@ -252,6 +252,7 @@ struct SvgViewDef {
 
 inline const SvgViewDef kSvgViews[] = {
     { "SHIP",  "assets/ship_wireframe.svg" },
+    { "MAP",   "assets/goes_orbit.svg" },
 };
 inline constexpr int kNumSvgViews = sizeof(kSvgViews) / sizeof(kSvgViews[0]);
 
@@ -277,10 +278,14 @@ struct SvgBindingDef {
 
 //                                     FIELD                       VIEW    SHAPE               ANCHOR               LABEL       FMT       NORMAL   DIR                   WARN   CRIT
 inline const SvgBindingDef kSvgBindings[] = {
+    // SHIP view bindings
     {FieldId::TacShields,      "SHIP", "shield",           LabelAnchor::Right, "SHIELDS",  "%.0f%%", kBlue,   ColorDir::LowIsWorse, 50.0, 25.0},
     {FieldId::TacHullIntegrity,"SHIP", "engineering-hull", LabelAnchor::Center, "HULL",     "%.1f%%", kBlue,   ColorDir::LowIsWorse, 60.0, 30.0},
     {FieldId::TacWarpCore,     "SHIP", "deflector",        LabelAnchor::Below,  "WARP CORE","%.1f%%", kOrange, ColorDir::LowIsWorse, 50.0, 25.0},
     {FieldId::TacLifeSupport,  "SHIP", "bridge",           LabelAnchor::Above,  "LIFE SUPT","%.0f%%", kOrange, ColorDir::LowIsWorse, 50.0, 25.0},
+    // MAP view bindings (GOES orbital map)
+    {FieldId::SignalStrength,  "MAP",  "link-line",        LabelAnchor::Left,   "SIGNAL",   "%.0f dBm", kOrange, ColorDir::LowIsWorse, -50.0, -60.0},
+    {FieldId::SNR,             "MAP",  "goes16",           LabelAnchor::Above,  "SNR",      "%.0f dB",  kBlue,   ColorDir::LowIsWorse, 60.0, 50.0},
 };
 inline constexpr int kNumSvgBindings = sizeof(kSvgBindings) / sizeof(kSvgBindings[0]);
 
