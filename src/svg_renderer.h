@@ -7,6 +7,16 @@
 
 struct NSVGimage;
 
+// Text element parsed from SVG (nanosvg doesn't support text)
+struct SvgText {
+    std::string id;
+    std::string content;
+    float x, y;
+    float fontSize;
+    int anchor;  // 0=start, 1=middle, 2=end
+    ImU32 color;
+};
+
 class SvgRenderer {
 public:
     SvgRenderer() = default;
@@ -29,6 +39,9 @@ public:
     std::vector<std::string> GetShapeIds() const;
 
 private:
+    void ParseTextElements(const char* filename);
+
     NSVGimage* image_ = nullptr;
+    std::vector<SvgText> textElements_;
     std::unordered_map<std::string, ImU32> colorOverrides_;
 };
