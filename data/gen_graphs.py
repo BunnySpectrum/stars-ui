@@ -9,7 +9,26 @@ Usage:
     (cat data/seed.sql && python3 data/gen_graphs.py) | sqlite3 data/lcars.db
 """
 
+import json
 import math
+import os
+
+# ---------------------------------------------------------------------------
+# Load real-data caches (stdlib json only — no extra deps for the generator)
+# ---------------------------------------------------------------------------
+CACHE_DIR = os.path.join(os.path.dirname(__file__), "cache")
+
+_orbital_by_ts = {}
+_orbital_path = os.path.join(CACHE_DIR, "goes_orbital.json")
+if os.path.exists(_orbital_path):
+    with open(_orbital_path) as _f:
+        _orbital_by_ts = {r["ts"]: r for r in json.load(_f)}
+
+_mag_by_ts = {}
+_mag_path = os.path.join(CACHE_DIR, "goes_mag.json")
+if os.path.exists(_mag_path):
+    with open(_mag_path) as _f:
+        _mag_by_ts = {r["ts"]: r for r in json.load(_f)}
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -143,16 +162,55 @@ for step in range(NUM_STEPS):
         print(f"INSERT INTO scalar_data VALUES({ts},{fid},{val:.4f},'{sq(str_val)}');")
 
     # --- Constant scalar fields ---
+    orb = _orbital_by_ts.get(ts)
     for fid, val in CONSTANT_FIELDS:
-        print(f"INSERT INTO scalar_data VALUES({ts},{fid},NULL,'{sq(val)}');")
+        if orb and fid in (45, 46, 47, 48, 49, 50):
+            # Override RADIO fields with real GOES-16 orbital data
+            if fid == 45:
+                lon = orb["lon_deg"]
+                print(f"INSERT INTO scalar_data VALUES({ts},{fid},NULL,"
+                      f"'GOES-16  {lon:.2f} W');")
+            elif fid == 46:
+                sig = orb["signal_dbm"]
+                print(f"INSERT INTO scalar_data VALUES({ts},{fid},"
+                      f"{sig},'{sig} dBm');")
+            elif fid == 47:
+                noise = -110.0 + (orb["alt_km"] - 35786.0) / 500.0
+                print(f"INSERT INTO scalar_data VALUES({ts},{fid},"
+                      f"{noise:.1f},'{noise:.1f} dBm');")
+            elif fid == 48:
+                noise = -110.0 + (orb["alt_km"] - 35786.0) / 500.0
+                snr = orb["signal_dbm"] - noise
+                print(f"INSERT INTO scalar_data VALUES({ts},{fid},"
+                      f"{snr:.1f},'{snr:.1f} dB');")
+            elif fid == 49:
+                print(f"INSERT INTO scalar_data VALUES({ts},{fid},NULL,"
+                      f"'GOES-16 ALIGNED');")
+            elif fid == 50:
+                rng = orb["range_km"]
+                print(f"INSERT INTO scalar_data VALUES({ts},{fid},"
+                      f"{rng},'{rng:.1f} km');")
+        else:
+            print(f"INSERT INTO scalar_data VALUES({ts},{fid},NULL,'{sq(val)}');")
 
     # --- Graph data ---
+    mag = _mag_by_ts.get(ts)
     for graph_id, lines in GRAPHS:
-        for line_id, params in lines:
-            for i in range(GRAPH_SAMPLES):
-                x = i / (GRAPH_SAMPLES - 1) * GRAPH_X_MAX
-                y = wave(x, t, params)
-                print(f"INSERT INTO graph_data VALUES({ts},{graph_id},"
-                      f"{line_id},{x:.6f},{y:.6f});")
+        if mag and graph_id == 0:
+            # Use real magnetometer Bx/By for graph 0
+            for line_id in (0, 1):
+                key = f"line{line_id}"
+                ys = mag[key]
+                xs = mag["xs"]
+                for i in range(GRAPH_SAMPLES):
+                    print(f"INSERT INTO graph_data VALUES({ts},{graph_id},"
+                          f"{line_id},{xs[i]:.6f},{ys[i]:.6f});")
+        else:
+            for line_id, params in lines:
+                for i in range(GRAPH_SAMPLES):
+                    x = i / (GRAPH_SAMPLES - 1) * GRAPH_X_MAX
+                    y = wave(x, t, params)
+                    print(f"INSERT INTO graph_data VALUES({ts},{graph_id},"
+                          f"{line_id},{x:.6f},{y:.6f});")
 
 print("COMMIT;")
