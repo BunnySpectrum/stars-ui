@@ -17,6 +17,12 @@ struct SvgText {
     ImU32 color;
 };
 
+// Group element parsed from SVG (nanosvg flattens groups, so we parse them separately)
+struct SvgGroup {
+    std::string id;
+    float bounds[4];  // minX, minY, maxX, maxY in SVG coordinates
+};
+
 class SvgRenderer {
 public:
     SvgRenderer() = default;
@@ -40,9 +46,14 @@ public:
 
 private:
     void ParseTextElements(const char* filename);
+    void ParseGroupElements(const char* filename);
+
+    // Check if a shape's bounds fall within a group's bounds
+    bool ShapeInGroup(const float shapeBounds[4], const SvgGroup& group) const;
 
     NSVGimage* image_ = nullptr;
     std::vector<SvgText> textElements_;
+    std::vector<SvgGroup> groupElements_;
     std::unordered_map<std::string, ImU32> colorOverrides_;
 
     // ViewBox offset (nanosvg handles this for paths, we need it for text)

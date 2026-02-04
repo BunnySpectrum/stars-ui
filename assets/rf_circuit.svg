@@ -1,458 +1,220 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" width="297mm" height="210.01mm" version="1.1" viewBox="37 64 153 79">
- <g transform="translate(0) scale(1)" stroke="#000" stroke-linecap="round" stroke-linejoin="round">
-  <path d="m77.47 132.08v1.27h1.27l-1.27 1.27-1.27-1.27h1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" id="gnd-12" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m77.47 132.08" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="77.4700" y="137.7950" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  <path d="m110.49 132.08v1.27h1.27l-1.27 1.27-1.27-1.27h1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" id="gnd-3" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m110.49 132.08" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="110.4900" y="137.7950" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  </g>
- <g fill="#FFFFC2">
-  <rect x="69.85" y="115.57" width="15.24" height="10.16" rx="0" id="oscillator-y1" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".254">
-  <rect x="69.85" y="115.57" width="15.24" height="10.16" rx="0" />
-  <path d="m71.755 118.74h0.635v-1.27h0.635v1.27h0.635v-1.27h0.635v1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m69.85 120.65h-2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="70.3580" y="121.2850" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.5575" font-family="monospace" id="label-vctrl">Vctrl</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="68.5800" y="120.3960" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-1">1</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m77.47 115.57v-2.54" id="pwr-5v-4" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 77.47 116.08)">
-   <text x="77.4700" y="116.7130" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="3.8318" font-family="monospace" id="label-vdd">VDD</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 77.216 114.3)">
-   <text x="77.2160" y="114.3000" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-4">4</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m77.47 125.73v2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 77.47 125.22)">
-   <text x="77.4700" y="125.8570" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 77.216 127)">
-   <text x="77.2160" y="127.0000" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-2">2</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m85.09 120.65h2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="84.5820" y="121.2850" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="5.5855" font-family="monospace" id="label-rfout">RFout</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="86.3600" y="120.3960" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-3">3</text>
-  </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="69.8402" y="127.6350" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="2.5013" font-family="monospace" id="label-y1">Y1</text>
-  <text x="87.6807" y="127.6350" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="12.7822" font-family="monospace" id="label-lo1-10-7mhz">LO1 10.7MHz</text>
-  <path d="m142.24 87.63 10.16 5.08-10.16 5.08z" fill="#FFFFC2" fill-rule="evenodd" stroke="none" id="opamp-u4" />
-  <path d="m142.24 87.63 10.16 5.08-10.16 5.08z" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".254" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m142.24 90.17h-2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="142.3670" y="90.8050" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="1.7756" font-family="monospace">+</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="140.9700" y="89.9160" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-3">3</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m142.24 95.25h-2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="142.3670" y="95.8850" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="1.7756" font-family="monospace">-</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="140.9700" y="94.9960" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-2">2</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m152.4 92.71h2.54" />
- </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="153.6700" y="92.4560" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-1">1</text>
-  </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="149.2455" y="98.4250" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="3.8318" font-family="monospace" id="label-u4a">U4A</text>
-  <text x="150.4852" y="88.2650" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="6.3112" font-family="monospace" id="label-lm358">LM358</text>
-  <path d="m179.07 83.82v6.35" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".254" id="antenna-ae1" />
-  <path d="m180.34 83.82-1.27 5.08-1.27-5.08" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".254" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m179.07 88.9v2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="183.6987" y="89.5350" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="3.6503" font-family="monospace" id="label-ae1">AE1</text>
-  <text x="185.2166" y="86.7410" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="7.7021" font-family="monospace" id="label-antenna">Antenna</text>
-  <path d="m76.708 110.49 0.762-1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
-  <path d="m77.47 109.22 0.762 1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
-  <path d="m77.47 111.76v-2.54" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m77.47 111.76" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="77.4700" y="107.3150" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-5v">+5V</text>
-  <path d="m95.25 104.14v1.27h1.27l-1.27 1.27-1.27-1.27h1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" id="gnd-8" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m95.25 104.14" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="95.2500" y="109.8550" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  </g>
- <g fill="#FFFFC2">
-  <rect x="83.82" y="83.82" width="12.7" height="12.7" rx="0" id="mixer-u2" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".254">
-  <rect x="83.82" y="83.82" width="12.7" height="12.7" rx="0" />
-  <path d="m93.345 93.98-6.35-7.62" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <circle cx="90.17" cy="90.17" r="5.08" />
-  <path d="m86.36 93.345 6.985-6.985" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
-  <path d="m95.25 90.17h5.08" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="94.7420" y="90.8050" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="2.5618" font-family="monospace" id="label-rf">RF</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="97.7900" y="89.9160" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-3">3</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m95.25 96.52v3.81" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 95.25 96.012)">
-   <text x="95.2500" y="96.6470" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 94.996 98.425)">
-   <text x="94.9960" y="98.4250" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-1">1</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m90.17 95.25v5.08" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 90.17 94.742)">
-   <text x="90.1700" y="95.3770" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="2.5618" font-family="monospace" id="label-lo">LO</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 89.916 97.79)">
-   <text x="89.9160" y="97.7900" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-6">6</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m85.09 90.17h-5.08" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="85.5980" y="90.8050" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="1.8966" font-family="monospace" id="label-if">IF</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="82.5500" y="89.9160" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-2">2</text>
-  </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="95.1388" y="98.4250" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="2.7432" font-family="monospace" id="label-u2">U2</text>
-  <text x="80.5640" y="98.4250" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="6.4927" font-family="monospace" id="label-ade-6">ADE-6</text>
-  <path d="m128.27 104.14v1.27h1.27l-1.27 1.27-1.27-1.27h1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" id="gnd-5" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m128.27 104.14" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="128.2700" y="109.8550" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  </g>
- <g fill="#FFFFC2">
-  <rect x="49.53" y="80.01" width="15.24" height="15.24" rx="0" id="dac-u1" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".254">
-  <rect x="49.53" y="80.01" width="15.24" height="15.24" rx="0" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m49.53 82.55h-2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="50.0380" y="83.1850" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="3.0722" font-family="monospace" id="label-d-in">D_{IN}</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="48.2600" y="82.2960" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-7">7</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m49.53 85.09h-2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="50.0380" y="85.7250" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.9808" font-family="monospace" id="label-sclk">SCLK</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="48.2600" y="84.8360" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-6">6</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m49.53 92.71h-2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="50.0380" y="93.3450" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="5.1018" font-family="monospace" id="label-sync">~{SYNC}</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="48.2600" y="92.4560" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-5">5</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m57.15 80.01v-2.54" id="pwr-5v-1" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 57.15 80.518)">
-   <text x="57.1500" y="81.1530" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="3.3746" font-family="monospace" id="label-v-dd">V_{DD}</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 56.896 78.74)">
-   <text x="56.8960" y="78.7400" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-1">1</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m57.15 95.25v2.54" id="gnd-7" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 57.15 94.742)">
-   <text x="57.1500" y="95.3770" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 56.896 96.52)">
-   <text x="56.8960" y="96.5200" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-8">8</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m62.23 80.01v-2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 62.23 80.518)">
-   <text x="62.2300" y="81.1530" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="4.1487" font-family="monospace" id="label-v-ref">V_{REF}</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 61.976 78.74)">
-   <text x="61.9760" y="78.7400" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-2">2</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m64.77 90.17h2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="64.2620" y="90.8050" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="5.2833" font-family="monospace" id="label-v-out-a">V_{OUT}A</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="66.0400" y="89.9160" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-4">4</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m64.77 92.71h2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="64.2620" y="93.3450" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="5.4647" font-family="monospace" id="label-v-out-b">V_{OUT}B</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="66.0400" y="92.4560" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-3">3</text>
-  </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="66.4052" y="78.1050" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="2.7432" font-family="monospace" id="label-u1">U1</text>
-  <text x="69.3685" y="76.0730" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="8.6698" font-family="monospace" id="label-dac8552">DAC8552</text>
-  <path d="m56.388 72.39 0.762-1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
-  <path d="m57.15 71.12 0.762 1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
-  <path d="m57.15 73.66v-2.54" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m57.15 73.66" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="57.1500" y="69.2150" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-5v">+5V</text>
-  </g>
- <g fill="#FFFFC2">
-  <rect x="116.84" y="83.82" width="12.7" height="12.7" rx="0" id="mixer-u3" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".254">
-  <rect x="116.84" y="83.82" width="12.7" height="12.7" rx="0" />
-  <path d="m126.36 93.98-6.35-7.62" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <circle cx="123.19" cy="90.17" r="5.08" />
-  <path d="m119.38 93.345 6.985-6.985" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
-  <path d="m128.27 90.17h5.08" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="127.7620" y="90.8050" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="2.5618" font-family="monospace" id="label-rf">RF</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="130.8100" y="89.9160" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-3">3</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m128.27 96.52v3.81" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 128.27 96.012)">
-   <text x="128.2700" y="96.6470" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 128.02 98.425)">
-   <text x="128.0160" y="98.4250" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-1">1</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m123.19 95.25v5.08" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 123.19 94.742)">
-   <text x="123.1900" y="95.3770" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="2.5618" font-family="monospace" id="label-lo">LO</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 122.94 97.79)">
-   <text x="122.9360" y="97.7900" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-6">6</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m118.11 90.17h-5.08" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="118.6180" y="90.8050" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="1.8966" font-family="monospace" id="label-if">IF</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="115.5700" y="89.9160" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-2">2</text>
-  </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="128.1588" y="98.4250" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="2.7432" font-family="monospace" id="label-u3">U3</text>
-  <text x="113.5840" y="98.4250" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="6.4927" font-family="monospace" id="label-ade-6">ADE-6</text>
-  <path d="m57.15 101.6v1.27h1.27l-1.27 1.27-1.27-1.27h1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m57.15 101.6" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="57.1500" y="107.3150" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  </g>
- <g fill="#FFFFC2">
-  <rect x="102.87" y="115.57" width="15.24" height="10.16" rx="0" id="oscillator-y2" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".254">
-  <rect x="102.87" y="115.57" width="15.24" height="10.16" rx="0" />
-  <path d="m104.78 118.74h0.635v-1.27h0.635v1.27h0.635v-1.27h0.635v1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m102.87 120.65h-2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="103.3780" y="121.2850" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.5575" font-family="monospace" id="label-vctrl">Vctrl</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="101.6000" y="120.3960" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-1">1</text>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m110.49 115.57v-2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 110.49 116.08)">
-   <text x="110.4900" y="116.7130" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="3.8318" font-family="monospace" id="label-vdd">VDD</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 110.24 114.3)">
-   <text x="110.2360" y="114.3000" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-4">4</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m110.49 125.73v2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 110.49 125.22)">
-   <text x="110.4900" y="125.8570" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-gnd">GND</text>
-  </g>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <g transform="rotate(-90 110.24 127)">
-   <text x="110.2360" y="127.0000" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-2">2</text>
-  </g>
-  </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m118.11 120.65h2.54" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="117.6020" y="121.2850" font-size="1.6933" opacity="1" text-anchor="end" lengthAdjust="spacingAndGlyphs" textLength="5.5855" font-family="monospace" id="label-rfout">RFout</text>
-  </g>
- <g fill="none" stroke="#A90000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="119.3800" y="120.3960" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="1.4127" font-family="monospace" id="label-3">3</text>
-  </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="102.8602" y="127.6350" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="2.5013" font-family="monospace" id="label-y2">Y2</text>
-  <text x="120.7007" y="127.6350" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="12.7822" font-family="monospace" id="label-lo1-10-7mhz">LO1 10.7MHz</text>
-  <path d="m109.73 110.49 0.762-1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
-  <path d="m110.49 109.22 0.762 1.27" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
-  <path d="m110.49 111.76v-2.54" fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524" />
- </g>
- <g fill="none" stroke="#840000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m110.49 111.76" />
- </g>
- <g fill="none" stroke="#006464" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="110.4900" y="107.3150" font-size="1.6933" opacity="1" text-anchor="middle" lengthAdjust="spacingAndGlyphs" textLength="4.0737" font-family="monospace" id="label-5v">+5V</text>
-  </g>
- <g fill="none" stroke="#0F0F0F" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <text x="41.9900" y="84.7407" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="5.1018" font-family="monospace" id="label-sync">~{SYNC}</text>
-  <text x="116.0300" y="89.8207" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="1.8966" font-family="monospace" id="label-if">IF</text>
-  <text x="83.0100" y="89.8207" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="1.8966" font-family="monospace" id="label-if">IF</text>
-  <text x="41.9900" y="92.3607" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.9808" font-family="monospace" id="label-sclk">SCLK</text>
-  <text x="41.9900" y="94.9007" font-size="1.6933" opacity="1" lengthAdjust="spacingAndGlyphs" textLength="4.3761" font-family="monospace" id="label-d-in">D_IN</text>
-  </g>
- <g fill="none" stroke="#009600" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <path d="m57.15 97.79v3.81" />
-  <path d="m100.33 90.17h12.7" />
-  <path d="m95.25 100.33v3.81" />
-  <path d="m123.19 100.33v20.32" />
-  <path d="m110.49 113.03v-1.27" />
-  <path d="m67.31 90.17h12.7" />
-  <path d="m57.15 77.47v-3.81" />
-  <path d="m128.27 100.33v3.81" />
-  <path d="m179.07 92.71h-20.32" />
-  <path d="m154.94 92.71h3.81" />
-  <path d="m179.07 91.44v1.27" />
-  <path d="m90.17 100.33v20.32" />
-  <path d="m135.89 95.25h3.81" />
-  <path d="m133.35 90.17h6.35" />
-  <path d="m158.75 102.87h-22.86" />
-  <path d="m158.75 92.71v10.16" />
-  <path d="m135.89 102.87v-7.62" />
-  <path d="m77.47 113.03v-1.27" />
-  <path d="m123.19 120.65h-2.54" />
-  <path d="m110.49 128.27v3.81" />
-  <path d="m90.17 120.65h-2.54" />
-  <path d="m77.47 128.27v3.81" />
- </g>
- <g fill="#009600" stroke="#009600" stroke-linecap="round" stroke-linejoin="round" stroke-width=".1524">
-  <circle cx="158.75" cy="92.71" r=".4572" />
- </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="42.15 58.66 151.92 88.42" width="151.92mm" height="88.42mm">
+  <g id="pwr-5v-1" transform="translate(57.15,73.66)">
+    <path d="M-0.76,-1.27 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <path d="M0.00,-2.54 L0.76,-1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <path d="M0.00,0.00 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="0.00" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-0.76" text-anchor="start">1</text>
+    <text x="0.00" y="-5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">+5V</text>
+  </g>
+  <g id="opamp-u4" transform="translate(147.32,92.71)">
+    <path d="M-5.08,-5.08 L5.08,0.00 L-5.08,5.08 L-5.08,-5.08" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-7.62" y1="-2.54" x2="-5.08" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-4.95" text-anchor="start" y="-2.14">+</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-6.86" y="-3.04" text-anchor="middle">3</text>
+    <line x1="-7.62" y1="2.54" x2="-5.08" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-4.95" text-anchor="start" y="2.94">-</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-6.86" y="2.04" text-anchor="middle">2</text>
+    <line x1="7.62" y1="0.00" x2="5.08" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="6.86" y="-0.50" text-anchor="middle">1</text>
+    <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">U4</text>
+    <text x="0.00" y="-5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">LM358</text>
+  </g>
+  <g id="mixer-u2" transform="translate(90.17,90.17)">
+    <rect x="-6.35" y="-6.35" width="12.70" height="12.70" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
+    <path d="M3.17,3.81 L-3.17,-3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <circle cx="0.00" cy="0.00" r="5.08" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <path d="M-3.81,3.17 L3.17,-3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="10.16" y1="0.00" x2="5.08" y2="0.00" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="4.58" text-anchor="end" y="0.40">RF</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="8.64" y="-0.50" text-anchor="middle">3</text>
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">1</text>
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">4</text>
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">5</text>
+    <line x1="0.00" y1="10.16" x2="-0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="4.58">LO</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="8.64" text-anchor="start">6</text>
+    <line x1="-10.16" y1="0.00" x2="-5.08" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-4.58" text-anchor="start" y="0.40">IF</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-8.64" y="-0.50" text-anchor="middle">2</text>
+    <text x="6.35" y="7.62" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">U2</text>
+    <text x="-6.35" y="7.62" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">ADE-6</text>
+  </g>
+  <g id="gnd-12" transform="translate(77.47,132.08)">
+    <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
+    <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
+  </g>
+  <g id="oscillator-y1" transform="translate(77.47,120.65)">
+    <rect x="-7.62" y="-5.08" width="15.24" height="10.16" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
+    <path d="M-5.71,-1.91 L-5.08,-1.91 L-5.08,-3.17 L-4.45,-3.17 L-4.45,-1.91 L-3.81,-1.91 L-3.81,-3.17 L-3.17,-3.17 L-3.17,-1.91" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="0.00" x2="-7.62" y2="0.00" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="0.40">Vctrl</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="-0.50" text-anchor="middle">1</text>
+    <line x1="0.00" y1="-7.62" x2="-0.00" y2="-5.08" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="-3.58">VDD</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-6.86" text-anchor="start">4</text>
+    <line x1="0.00" y1="7.62" x2="0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="0.00" text-anchor="middle" y="4.58">GND</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="6.86" text-anchor="start">2</text>
+    <line x1="10.16" y1="0.00" x2="7.62" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="7.12" text-anchor="end" y="0.40">RFout</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="9.40" y="-0.50" text-anchor="middle">3</text>
+    <text x="-8.89" y="6.35" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">Y1</text>
+    <text x="3.81" y="6.35" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">LO1 10.7MHz</text>
+  </g>
+  <g id="pwr-5v-2" transform="translate(110.49,111.76)">
+    <path d="M-0.76,-1.27 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <path d="M0.00,-2.54 L0.76,-1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <path d="M0.00,0.00 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="0.00" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-0.76" text-anchor="start">1</text>
+    <text x="0.00" y="-5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">+5V</text>
+  </g>
+  <g id="mixer-u3" transform="translate(123.19,90.17)">
+    <rect x="-6.35" y="-6.35" width="12.70" height="12.70" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
+    <path d="M3.17,3.81 L-3.17,-3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <circle cx="0.00" cy="0.00" r="5.08" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <path d="M-3.81,3.17 L3.17,-3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="10.16" y1="0.00" x2="5.08" y2="0.00" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="4.58" text-anchor="end" y="0.40">RF</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="8.64" y="-0.50" text-anchor="middle">3</text>
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">1</text>
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">4</text>
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">5</text>
+    <line x1="0.00" y1="10.16" x2="-0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="4.58">LO</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="8.64" text-anchor="start">6</text>
+    <line x1="-10.16" y1="0.00" x2="-5.08" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-4.58" text-anchor="start" y="0.40">IF</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-8.64" y="-0.50" text-anchor="middle">2</text>
+    <text x="6.35" y="7.62" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">U3</text>
+    <text x="-6.35" y="7.62" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">ADE-6</text>
+  </g>
+  <g id="dac-u1" transform="translate(57.15,87.63)">
+    <rect x="-7.62" y="-7.62" width="15.24" height="15.24" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="-5.08" x2="-7.62" y2="-5.08" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="-4.68">DIN</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="-5.58" text-anchor="middle">7</text>
+    <line x1="-10.16" y1="-2.54" x2="-7.62" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="-2.14">SCLK</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="-3.04" text-anchor="middle">6</text>
+    <line x1="-10.16" y1="5.08" x2="-7.62" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="5.48">SYNC</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="4.58" text-anchor="middle">5</text>
+    <line x1="0.00" y1="-10.16" x2="-0.00" y2="-7.62" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="-6.12">VDD</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-9.40" text-anchor="start">1</text>
+    <line x1="0.00" y1="10.16" x2="0.00" y2="7.62" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="0.00" text-anchor="middle" y="7.12">GND</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="9.40" text-anchor="start">8</text>
+    <line x1="5.08" y1="-10.16" x2="5.08" y2="-7.62" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="-6.12">VREF</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="-9.40" text-anchor="start">2</text>
+    <line x1="10.16" y1="2.54" x2="7.62" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="7.12" text-anchor="end" y="2.94">VOUTA</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="9.40" y="2.04" text-anchor="middle">4</text>
+    <line x1="10.16" y1="5.08" x2="7.62" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="7.12" text-anchor="end" y="5.48">VOUTB</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="9.40" y="4.58" text-anchor="middle">3</text>
+    <text x="7.87" y="-10.16" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">U1</text>
+    <text x="7.87" y="-12.19" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">DAC8552</text>
+  </g>
+  <g id="gnd-8" transform="translate(95.25,104.14)">
+    <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
+    <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
+  </g>
+  <g id="gnd-7" transform="translate(57.15,101.60)">
+    <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
+    <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
+  </g>
+  <g id="pwr-5v-4" transform="translate(77.47,111.76)">
+    <path d="M-0.76,-1.27 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <path d="M0.00,-2.54 L0.76,-1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <path d="M0.00,0.00 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="0.00" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-0.76" text-anchor="start">1</text>
+    <text x="0.00" y="-5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">+5V</text>
+  </g>
+  <g id="gnd-5" transform="translate(128.27,104.14)">
+    <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
+    <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
+  </g>
+  <g id="gnd-3" transform="translate(110.49,132.08)">
+    <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
+    <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
+  </g>
+  <g id="oscillator-y2" transform="translate(110.49,120.65)">
+    <rect x="-7.62" y="-5.08" width="15.24" height="10.16" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
+    <path d="M-5.71,-1.91 L-5.08,-1.91 L-5.08,-3.17 L-4.45,-3.17 L-4.45,-1.91 L-3.81,-1.91 L-3.81,-3.17 L-3.17,-3.17 L-3.17,-1.91" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="0.00" x2="-7.62" y2="0.00" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="0.40">Vctrl</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="-0.50" text-anchor="middle">1</text>
+    <line x1="0.00" y1="-7.62" x2="-0.00" y2="-5.08" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="-3.58">VDD</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-6.86" text-anchor="start">4</text>
+    <line x1="0.00" y1="7.62" x2="0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="0.00" text-anchor="middle" y="4.58">GND</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="6.86" text-anchor="start">2</text>
+    <line x1="10.16" y1="0.00" x2="7.62" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="7.12" text-anchor="end" y="0.40">RFout</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="9.40" y="-0.50" text-anchor="middle">3</text>
+    <text x="-8.89" y="6.35" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">Y2</text>
+    <text x="3.81" y="6.35" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">LO1 10.7MHz</text>
+  </g>
+  <g id="antenna-ae1" transform="translate(179.07,86.36)">
+    <path d="M0.00,-2.54 L0.00,3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <path d="M1.27,-2.54 L0.00,2.54 L-1.27,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="5.08" x2="0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <text font-family="monospace" font-size="0.33mm" fill="#006464" x="0.00" text-anchor="middle" y="1.52">A</text>
+    <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="4.32" text-anchor="start">1</text>
+    <text x="2.79" y="2.54" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">AE1</text>
+    <text x="2.29" y="-0.25" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">Antenna</text>
+  </g>
+  <path d="M123.19,120.65 L120.65,120.65" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M128.27,100.33 L128.27,104.14" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M77.47,128.27 L77.47,132.08" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M77.47,113.03 L77.47,111.76" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M110.49,113.03 L110.49,111.76" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M90.17,120.65 L87.63,120.65" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M90.17,100.33 L90.17,120.65" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M123.19,100.33 L123.19,120.65" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M179.07,92.71 L158.75,92.71" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M154.94,92.71 L158.75,92.71" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M135.89,102.87 L135.89,95.25" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M179.07,91.44 L179.07,92.71" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M67.31,90.17 L80.01,90.17" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M100.33,90.17 L113.03,90.17" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M110.49,128.27 L110.49,132.08" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M57.15,97.79 L57.15,101.60" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M135.89,95.25 L139.70,95.25" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M133.35,90.17 L139.70,90.17" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M158.75,102.87 L135.89,102.87" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M57.15,77.47 L57.15,73.66" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M158.75,92.71 L158.75,102.87" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M95.25,100.33 L95.25,104.14" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <circle cx="158.75" cy="92.71" r="0.5" fill="#00AA00" />
+  <text x="104.14" y="90.17" font-family="monospace" font-size="0.42mm" fill="#006464" id="label-if-freq-x">IF_FREQ_X</text>
 </svg>
