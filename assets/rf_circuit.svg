@@ -4,19 +4,19 @@
     <path d="M-0.76,-1.27 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
     <path d="M0.00,-2.54 L0.76,-1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
     <path d="M0.00,0.00 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="0.00" y1="0.00" x2="0.00" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="0.00" y2="-2.54" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-0.76" text-anchor="start">1</text>
     <text x="0.00" y="-5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">+5V</text>
   </g>
   <g id="opamp-u4" transform="translate(147.32,92.71)">
     <path d="M-5.08,-5.08 L5.08,0.00 L-5.08,5.08 L-5.08,-5.08" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
-    <line x1="-7.62" y1="-2.54" x2="-5.08" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-7.62" y1="-2.54" x2="-5.08" y2="-2.54" stroke="#840000" stroke-width="0.2540" data-pin="3" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-4.95" text-anchor="start" y="-2.14">+</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-6.86" y="-3.04" text-anchor="middle">3</text>
-    <line x1="-7.62" y1="2.54" x2="-5.08" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-7.62" y1="2.54" x2="-5.08" y2="2.54" stroke="#840000" stroke-width="0.2540" data-pin="2" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-4.95" text-anchor="start" y="2.94">-</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-6.86" y="2.04" text-anchor="middle">2</text>
-    <line x1="7.62" y1="0.00" x2="5.08" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <line x1="7.62" y1="0.00" x2="5.08" y2="-0.00" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="6.86" y="-0.50" text-anchor="middle">1</text>
     <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">U4</text>
     <text x="0.00" y="-5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">LM358</text>
@@ -26,22 +26,22 @@
     <path d="M3.17,3.81 L-3.17,-3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
     <circle cx="0.00" cy="0.00" r="5.08" fill="none" stroke="#840000" stroke-width="0.2540" />
     <path d="M-3.81,3.17 L3.17,-3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="10.16" y1="0.00" x2="5.08" y2="0.00" stroke="#840000" stroke-width="0.2540" />
+    <line x1="10.16" y1="0.00" x2="5.08" y2="0.00" stroke="#840000" stroke-width="0.2540" data-pin="3" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="4.58" text-anchor="end" y="0.40">RF</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="8.64" y="-0.50" text-anchor="middle">3</text>
-    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">1</text>
-    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" data-pin="4" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">4</text>
-    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" data-pin="5" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">5</text>
-    <line x1="0.00" y1="10.16" x2="-0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="10.16" x2="-0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" data-pin="6" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="4.58">LO</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="8.64" text-anchor="start">6</text>
-    <line x1="-10.16" y1="0.00" x2="-5.08" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="0.00" x2="-5.08" y2="-0.00" stroke="#840000" stroke-width="0.2540" data-pin="2" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-4.58" text-anchor="start" y="0.40">IF</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-8.64" y="-0.50" text-anchor="middle">2</text>
     <text x="6.35" y="7.62" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">U2</text>
@@ -49,23 +49,23 @@
   </g>
   <g id="gnd-12" transform="translate(77.47,132.08)">
     <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
     <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
   </g>
   <g id="oscillator-y1" transform="translate(77.47,120.65)">
     <rect x="-7.62" y="-5.08" width="15.24" height="10.16" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
     <path d="M-5.71,-1.91 L-5.08,-1.91 L-5.08,-3.17 L-4.45,-3.17 L-4.45,-1.91 L-3.81,-1.91 L-3.81,-3.17 L-3.17,-3.17 L-3.17,-1.91" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="-10.16" y1="0.00" x2="-7.62" y2="0.00" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="0.00" x2="-7.62" y2="0.00" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="0.40">Vctrl</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="-0.50" text-anchor="middle">1</text>
-    <line x1="0.00" y1="-7.62" x2="-0.00" y2="-5.08" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="-7.62" x2="-0.00" y2="-5.08" stroke="#840000" stroke-width="0.2540" data-pin="4" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="-3.58">VDD</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-6.86" text-anchor="start">4</text>
-    <line x1="0.00" y1="7.62" x2="0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="7.62" x2="0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" data-pin="2" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="0.00" text-anchor="middle" y="4.58">GND</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="6.86" text-anchor="start">2</text>
-    <line x1="10.16" y1="0.00" x2="7.62" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <line x1="10.16" y1="0.00" x2="7.62" y2="-0.00" stroke="#840000" stroke-width="0.2540" data-pin="3" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="7.12" text-anchor="end" y="0.40">RFout</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="9.40" y="-0.50" text-anchor="middle">3</text>
     <text x="-8.89" y="6.35" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">Y1</text>
@@ -75,7 +75,7 @@
     <path d="M-0.76,-1.27 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
     <path d="M0.00,-2.54 L0.76,-1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
     <path d="M0.00,0.00 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="0.00" y1="0.00" x2="0.00" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="0.00" y2="-2.54" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-0.76" text-anchor="start">1</text>
     <text x="0.00" y="-5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">+5V</text>
   </g>
@@ -84,22 +84,22 @@
     <path d="M3.17,3.81 L-3.17,-3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
     <circle cx="0.00" cy="0.00" r="5.08" fill="none" stroke="#840000" stroke-width="0.2540" />
     <path d="M-3.81,3.17 L3.17,-3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="10.16" y1="0.00" x2="5.08" y2="0.00" stroke="#840000" stroke-width="0.2540" />
+    <line x1="10.16" y1="0.00" x2="5.08" y2="0.00" stroke="#840000" stroke-width="0.2540" data-pin="3" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="4.58" text-anchor="end" y="0.40">RF</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="8.64" y="-0.50" text-anchor="middle">3</text>
-    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">1</text>
-    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" data-pin="4" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">4</text>
-    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" />
+    <line x1="5.08" y1="10.16" x2="5.08" y2="6.35" stroke="#840000" stroke-width="0.2540" data-pin="5" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="5.85">GND</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="9.02" text-anchor="start">5</text>
-    <line x1="0.00" y1="10.16" x2="-0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="10.16" x2="-0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" data-pin="6" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="4.58">LO</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="8.64" text-anchor="start">6</text>
-    <line x1="-10.16" y1="0.00" x2="-5.08" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="0.00" x2="-5.08" y2="-0.00" stroke="#840000" stroke-width="0.2540" data-pin="2" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-4.58" text-anchor="start" y="0.40">IF</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-8.64" y="-0.50" text-anchor="middle">2</text>
     <text x="6.35" y="7.62" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">U3</text>
@@ -107,28 +107,28 @@
   </g>
   <g id="dac-u1" transform="translate(57.15,87.63)">
     <rect x="-7.62" y="-7.62" width="15.24" height="15.24" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
-    <line x1="-10.16" y1="-5.08" x2="-7.62" y2="-5.08" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="-5.08" x2="-7.62" y2="-5.08" stroke="#840000" stroke-width="0.2540" data-pin="7" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="-4.68">DIN</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="-5.58" text-anchor="middle">7</text>
-    <line x1="-10.16" y1="-2.54" x2="-7.62" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="-2.54" x2="-7.62" y2="-2.54" stroke="#840000" stroke-width="0.2540" data-pin="6" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="-2.14">SCLK</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="-3.04" text-anchor="middle">6</text>
-    <line x1="-10.16" y1="5.08" x2="-7.62" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="5.08" x2="-7.62" y2="5.08" stroke="#840000" stroke-width="0.2540" data-pin="5" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="5.48">SYNC</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="4.58" text-anchor="middle">5</text>
-    <line x1="0.00" y1="-10.16" x2="-0.00" y2="-7.62" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="-10.16" x2="-0.00" y2="-7.62" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="-6.12">VDD</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-9.40" text-anchor="start">1</text>
-    <line x1="0.00" y1="10.16" x2="0.00" y2="7.62" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="10.16" x2="0.00" y2="7.62" stroke="#840000" stroke-width="0.2540" data-pin="8" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="0.00" text-anchor="middle" y="7.12">GND</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="9.40" text-anchor="start">8</text>
-    <line x1="5.08" y1="-10.16" x2="5.08" y2="-7.62" stroke="#840000" stroke-width="0.2540" />
+    <line x1="5.08" y1="-10.16" x2="5.08" y2="-7.62" stroke="#840000" stroke-width="0.2540" data-pin="2" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="5.08" text-anchor="middle" y="-6.12">VREF</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="5.58" y="-9.40" text-anchor="start">2</text>
-    <line x1="10.16" y1="2.54" x2="7.62" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="10.16" y1="2.54" x2="7.62" y2="2.54" stroke="#840000" stroke-width="0.2540" data-pin="4" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="7.12" text-anchor="end" y="2.94">VOUTA</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="9.40" y="2.04" text-anchor="middle">4</text>
-    <line x1="10.16" y1="5.08" x2="7.62" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <line x1="10.16" y1="5.08" x2="7.62" y2="5.08" stroke="#840000" stroke-width="0.2540" data-pin="3" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="7.12" text-anchor="end" y="5.48">VOUTB</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="9.40" y="4.58" text-anchor="middle">3</text>
     <text x="7.87" y="-10.16" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">U1</text>
@@ -136,13 +136,13 @@
   </g>
   <g id="gnd-8" transform="translate(95.25,104.14)">
     <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
     <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
   </g>
   <g id="gnd-7" transform="translate(57.15,101.60)">
     <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
     <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
   </g>
@@ -150,35 +150,35 @@
     <path d="M-0.76,-1.27 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
     <path d="M0.00,-2.54 L0.76,-1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
     <path d="M0.00,0.00 L0.00,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="0.00" y1="0.00" x2="0.00" y2="-2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="0.00" y2="-2.54" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-0.76" text-anchor="start">1</text>
     <text x="0.00" y="-5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">+5V</text>
   </g>
   <g id="gnd-5" transform="translate(128.27,104.14)">
     <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
     <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
   </g>
   <g id="gnd-3" transform="translate(110.49,132.08)">
     <path d="M0.00,0.00 L0.00,1.27 L1.27,1.27 L0.00,2.54 L-1.27,1.27 L0.00,1.27" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="0.76" text-anchor="start">1</text>
     <text x="0.00" y="5.08" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="middle">GND</text>
   </g>
   <g id="oscillator-y2" transform="translate(110.49,120.65)">
     <rect x="-7.62" y="-5.08" width="15.24" height="10.16" fill="#FFFFC2" stroke="#840000" stroke-width="0.2540" />
     <path d="M-5.71,-1.91 L-5.08,-1.91 L-5.08,-3.17 L-4.45,-3.17 L-4.45,-1.91 L-3.81,-1.91 L-3.81,-3.17 L-3.17,-3.17 L-3.17,-1.91" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="-10.16" y1="0.00" x2="-7.62" y2="0.00" stroke="#840000" stroke-width="0.2540" />
+    <line x1="-10.16" y1="0.00" x2="-7.62" y2="0.00" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-7.12" text-anchor="start" y="0.40">Vctrl</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="-9.40" y="-0.50" text-anchor="middle">1</text>
-    <line x1="0.00" y1="-7.62" x2="-0.00" y2="-5.08" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="-7.62" x2="-0.00" y2="-5.08" stroke="#840000" stroke-width="0.2540" data-pin="4" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="-0.00" text-anchor="middle" y="-3.58">VDD</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="-6.86" text-anchor="start">4</text>
-    <line x1="0.00" y1="7.62" x2="0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="7.62" x2="0.00" y2="5.08" stroke="#840000" stroke-width="0.2540" data-pin="2" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="0.00" text-anchor="middle" y="4.58">GND</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="6.86" text-anchor="start">2</text>
-    <line x1="10.16" y1="0.00" x2="7.62" y2="-0.00" stroke="#840000" stroke-width="0.2540" />
+    <line x1="10.16" y1="0.00" x2="7.62" y2="-0.00" stroke="#840000" stroke-width="0.2540" data-pin="3" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="7.12" text-anchor="end" y="0.40">RFout</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="9.40" y="-0.50" text-anchor="middle">3</text>
     <text x="-8.89" y="6.35" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">Y2</text>
@@ -187,7 +187,7 @@
   <g id="antenna-ae1" transform="translate(179.07,86.36)">
     <path d="M0.00,-2.54 L0.00,3.81" fill="none" stroke="#840000" stroke-width="0.2540" />
     <path d="M1.27,-2.54 L0.00,2.54 L-1.27,-2.54" fill="none" stroke="#840000" stroke-width="0.2540" />
-    <line x1="0.00" y1="5.08" x2="0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" />
+    <line x1="0.00" y1="5.08" x2="0.00" y2="2.54" stroke="#840000" stroke-width="0.2540" data-pin="1" />
     <text font-family="monospace" font-size="0.33mm" fill="#006464" x="0.00" text-anchor="middle" y="1.52">A</text>
     <text font-family="monospace" font-size="0.27mm" fill="#006464" x="0.50" y="4.32" text-anchor="start">1</text>
     <text x="2.79" y="2.54" font-family="monospace" font-size="0.42mm" fill="#006464" text-anchor="start">AE1</text>
@@ -198,7 +198,7 @@
   <path d="M77.47,128.27 L77.47,132.08" fill="none" stroke="#00AA00" stroke-width="0.2540" />
   <path d="M77.47,113.03 L77.47,111.76" fill="none" stroke="#00AA00" stroke-width="0.2540" />
   <path d="M110.49,113.03 L110.49,111.76" fill="none" stroke="#00AA00" stroke-width="0.2540" />
-  <path d="M90.17,120.65 L87.63,120.65" fill="none" stroke="#00AA00" stroke-width="0.2540" />
+  <path d="M90.17,120.65 L87.63,120.65" fill="none" stroke="#0017aa" stroke-width="0.2540" />
   <path d="M90.17,100.33 L90.17,120.65" fill="none" stroke="#00AA00" stroke-width="0.2540" />
   <path d="M123.19,100.33 L123.19,120.65" fill="none" stroke="#00AA00" stroke-width="0.2540" />
   <path d="M179.07,92.71 L158.75,92.71" fill="none" stroke="#00AA00" stroke-width="0.2540" />
