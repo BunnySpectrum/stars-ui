@@ -1,9 +1,9 @@
 #pragma once
 
-#include "lcars.h"
+#include "stars.h"
 #include "svg_renderer.h"
 
-class TacticalPanel : public LCARSPanel {
+class TacticalPanel : public STARSPanel {
     std::vector<PanelView> views;
     SvgRenderer shipSvg_;
     SvgRenderer mapSvg_;

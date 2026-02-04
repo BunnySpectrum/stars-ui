@@ -1,4 +1,4 @@
-#include "lcars.h"
+#include "stars.h"
 
 #include <cmath>
 
@@ -16,7 +16,7 @@ ImVec4 U32ToVec4(ImU32 c) {
     );
 }
 
-void ApplyLCARSTheme() {
+void ApplySTARSTheme() {
     ImGuiStyle& style = ImGui::GetStyle();
     style.WindowRounding    = 0.0f;
     style.FrameRounding     = 8.0f;
@@ -112,7 +112,7 @@ static void DrawElbowArc(ImDrawList* dl, float cx, float cy, float r, float arcS
 // Per-panel chrome
 // ---------------------------------------------------------------------------
 
-ImVec4 DrawPanelChrome(LCARSPanel& panel, float px, float py, float pw, float ph, VOrientation vOrient) {
+ImVec4 DrawPanelChrome(STARSPanel& panel, float px, float py, float pw, float ph, VOrientation vOrient) {
     ImDrawList* dl = ImGui::GetBackgroundDrawList();
 
     const float titleH = 30.0f;

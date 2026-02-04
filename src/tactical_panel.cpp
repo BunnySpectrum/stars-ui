@@ -208,7 +208,7 @@ TacticalPanel::TacticalPanel() {
 }
 
 const char* TacticalPanel::GetTitle() const {
-    return "LCARS TACTICAL DISPLAY 47";
+    return "STARS TACTICAL DISPLAY 47";
 }
 
 const std::vector<PanelView>& TacticalPanel::GetViews() const {

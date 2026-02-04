@@ -33,7 +33,7 @@ Y_MAX = 1.5
 def find_nc_file():
     """List S3 bucket to find a .nc file in the MAG prefix."""
     print(f"Listing S3: {S3_LIST_URL} ...")
-    req = urllib.request.Request(S3_LIST_URL, headers={"User-Agent": "lcars-fetch/1.0"})
+    req = urllib.request.Request(S3_LIST_URL, headers={"User-Agent": "stars-fetch/1.0"})
     with urllib.request.urlopen(req, timeout=30) as resp:
         xml_data = resp.read()
 
@@ -65,7 +65,7 @@ def download_nc(s3_key):
 
     url = f"{S3_BASE}/{s3_key}"
     print(f"Downloading {url} ...")
-    req = urllib.request.Request(url, headers={"User-Agent": "lcars-fetch/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "stars-fetch/1.0"})
     with urllib.request.urlopen(req, timeout=60) as resp:
         data = resp.read()
 

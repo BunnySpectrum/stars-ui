@@ -1,8 +1,8 @@
 #pragma once
 
-#include "lcars.h"
+#include "stars.h"
 
-class InfoPanel : public LCARSPanel {
+class InfoPanel : public STARSPanel {
     std::vector<PanelView> views;
 public:
     InfoPanel();

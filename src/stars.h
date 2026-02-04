@@ -6,7 +6,7 @@
 #include <functional>
 #include <vector>
 
-// LCARS color palette
+// STARS color palette
 inline constexpr ImU32 kOrange = IM_COL32(0xFF, 0x99, 0x33, 0xFF);
 inline constexpr ImU32 kPurple = IM_COL32(0xCC, 0x99, 0xCC, 0xFF);
 inline constexpr ImU32 kBlue   = IM_COL32(0x99, 0x99, 0xFF, 0xFF);
@@ -15,7 +15,7 @@ inline constexpr ImU32 kRed    = IM_COL32(0xCC, 0x66, 0x66, 0xFF);
 inline constexpr ImU32 kBeige  = IM_COL32(0xFF, 0xDD, 0xBB, 0xFF);
 
 ImVec4 U32ToVec4(ImU32 c);
-void ApplyLCARSTheme();
+void ApplySTARSTheme();
 
 // Panel orientation
 enum class HOrientation { Left, Right };
@@ -42,8 +42,8 @@ struct PanelView {
 };
 
 // Abstract panel base
-struct LCARSPanel {
-    virtual ~LCARSPanel() = default;
+struct STARSPanel {
+    virtual ~STARSPanel() = default;
     virtual const char* GetTitle() const = 0;
     virtual HOrientation GetHOrientation() const { return HOrientation::Left; }
     virtual float GetHeightWeight() const { return 1.0f; }
@@ -57,4 +57,4 @@ void DrawGlobalTopBar(float W);
 void DrawGlobalBottomBar(float W, float H);
 
 // Per-panel chrome. Returns content rect as ImVec4(x, y, w, h).
-ImVec4 DrawPanelChrome(LCARSPanel& panel, float px, float py, float pw, float ph, VOrientation vOrient);
+ImVec4 DrawPanelChrome(STARSPanel& panel, float px, float py, float pw, float ph, VOrientation vOrient);

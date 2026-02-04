@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lcars.h"
+#include "stars.h"
 
 // ============================================================================
 // Field IDs — add entries here, then add a corresponding row to kFields[].

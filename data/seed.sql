@@ -1,4 +1,4 @@
--- LCARS seed schema
+-- STARS seed schema
 
 CREATE TABLE scalar_data (
     timestamp     REAL    NOT NULL,

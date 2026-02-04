@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(lcars LANGUAGES C CXX)
+project(stars LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -85,9 +85,9 @@ target_include_directories(nanosvg PUBLIC
 find_package(OpenGL REQUIRED)
 
 # --- Main executable ---
-add_executable(lcars
+add_executable(stars
     src/main.cpp
-    src/lcars.cpp
+    src/stars.cpp
     src/field_store.cpp
     src/field_renderer.cpp
     src/tactical_panel.cpp
@@ -95,9 +95,9 @@ add_executable(lcars
     src/db_reader.cpp
     src/svg_renderer.cpp
 )
-target_link_libraries(lcars PRIVATE imgui implot nanosvg OpenGL::GL SQLite::SQLite3)
+target_link_libraries(stars PRIVATE imgui implot nanosvg OpenGL::GL SQLite::SQLite3)
 
 # macOS: suppress OpenGL deprecation warnings
 if(APPLE)
-    target_compile_definitions(lcars PRIVATE GL_SILENCE_DEPRECATION)
+    target_compile_definitions(stars PRIVATE GL_SILENCE_DEPRECATION)
 endif()

@@ -1,6 +1,6 @@
 # Next Steps: Real GOES Data in the UI
 
-Now that `data/cache/goes_orbital.json` and `data/cache/goes_mag.json` feed real satellite data into the seed database, these are recommended next steps for surfacing that data more effectively in the LCARS UI.
+Now that `data/cache/goes_orbital.json` and `data/cache/goes_mag.json` feed real satellite data into the seed database, these are recommended next steps for surfacing that data more effectively in the STARS UI.
 
 ## 1. Update RADIO field labels to reflect real units
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Generate scalar_data and graph_data INSERT statements for the LCARS seed DB.
+"""Generate scalar_data and graph_data INSERT statements for the STARS seed DB.
 
 Produces 100 timestamps (0.0 to 9.9 at 0.1s intervals) of:
   - 51 scalar rows per timestamp  (timers tick, clocks advance, others constant)
   - 2048 graph rows per timestamp (4 graphs x 2 lines x 256 samples, waves evolve)
 
 Usage:
-    (cat data/seed.sql && python3 data/gen_graphs.py) | sqlite3 data/lcars.db
+    (cat data/seed.sql && python3 data/gen_graphs.py) | sqlite3 data/stars.db
 """
 
 import json

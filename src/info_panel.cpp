@@ -12,7 +12,7 @@ InfoPanel::InfoPanel() {
 }
 
 const char* InfoPanel::GetTitle() const {
-    return "LCARS INFORMATION DISPLAY 01";
+    return "STARS INFORMATION DISPLAY 01";
 }
 
 const std::vector<PanelView>& InfoPanel::GetViews() const {

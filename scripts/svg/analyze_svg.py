@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Analyze an SVG file for LCARS UI compatibility.
+"""Analyze an SVG file for STARS UI compatibility.
 
 This script checks whether an SVG file meets the requirements for use
-with the LCARS UI's SvgRenderer, which relies on:
+with the STARS UI's SvgRenderer, which relies on:
 - Shape IDs for runtime color changes and label overlays
 - Presentation attributes (not inline styles) for reliable parsing
 - Real text elements (not stroked paths) for proper rendering
@@ -240,7 +240,7 @@ def print_report(metrics: dict, quiet: bool = False) -> bool:
     click.echo("-" * 40)
 
     if all_pass:
-        click.echo("  [OK] SVG is fully compatible with LCARS UI")
+        click.echo("  [OK] SVG is fully compatible with STARS UI")
         verdict = True
     elif critical_pass:
         click.echo("  [OK] SVG is compatible (minor warnings)")
@@ -270,7 +270,7 @@ def print_report(metrics: dict, quiet: bool = False) -> bool:
 @click.option('--quiet', '-q', is_flag=True, help='Only show summary, not full report')
 @click.option('--json', 'json_output', is_flag=True, help='Output results as JSON')
 def main(svg_file: str, quiet: bool, json_output: bool):
-    """Analyze an SVG file for LCARS UI compatibility.
+    """Analyze an SVG file for STARS UI compatibility.
 
     SVG_FILE is the path to the SVG file to analyze.
 

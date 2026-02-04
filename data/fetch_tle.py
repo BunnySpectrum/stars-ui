@@ -45,7 +45,7 @@ def fetch_tle():
             return json.load(f)
 
     print(f"Downloading TLE from {TLE_URL} ...")
-    req = urllib.request.Request(TLE_URL, headers={"User-Agent": "lcars-fetch/1.0"})
+    req = urllib.request.Request(TLE_URL, headers={"User-Agent": "stars-fetch/1.0"})
     with urllib.request.urlopen(req, timeout=30) as resp:
         data = json.loads(resp.read().decode())
 

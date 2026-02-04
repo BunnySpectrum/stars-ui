@@ -145,7 +145,7 @@ data/cache/goes_mag.json        (stdlib json, 100 x 256 samples)
        |
   gen_graphs.py  (reads cache with stdlib json if present)
        |
-  data/lcars.db
+  data/stars.db
 ```
 
 ### New Files
@@ -179,7 +179,7 @@ data/cache/goes_mag.json        (stdlib json, 100 x 256 samples)
 
 ```bash
 # Without real data (existing behavior preserved):
-make data/lcars.db
+make data/stars.db
 
 # With real data:
 pip install -r data/requirements.txt

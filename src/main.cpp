@@ -14,7 +14,7 @@
 #include <GL/gl.h>
 #endif
 
-#include "lcars.h"
+#include "stars.h"
 #include "field_store.h"
 #include "db_reader.h"
 #include "info_panel.h"
@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
     SDL_Window* window = SDL_CreateWindow(
-        "LCARS Dashboard",
+        "STARS Dashboard",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         1280, 800,
         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
     ImGui_ImplSDL2_InitForOpenGL(window, glContext);
     ImGui_ImplOpenGL3_Init(glslVersion);
 
-    ApplyLCARSTheme();
+    ApplySTARSTheme();
 
     // Database setup
     const char* dbPath = (argc > 1) ? argv[1] : nullptr;
@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
     }
 
     // Panels listed in screen order (top to bottom)
-    std::vector<std::unique_ptr<LCARSPanel>> panels;
+    std::vector<std::unique_ptr<STARSPanel>> panels;
     panels.push_back(std::make_unique<InfoPanel>());
     panels.push_back(std::make_unique<TacticalPanel>());
 

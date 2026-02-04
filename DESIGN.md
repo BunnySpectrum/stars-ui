@@ -1,12 +1,12 @@
-# LCARS UI Design Rules
+# STARS UI Design Rules
 
 ## Architecture
 
 ```
 src/
   main.cpp              App bootstrap (SDL, OpenGL, ImGui), main loop, screen composition
-  lcars.h               Shared header: color palette, theme, panel types, drawing helpers
-  lcars.cpp             Color definitions, ApplyLCARSTheme(), global chrome, panel chrome drawing
+  stars.h               Shared header: color palette, theme, panel types, drawing helpers
+  stars.cpp             Color definitions, ApplySTARSTheme(), global chrome, panel chrome drawing
   tactical_panel.h      TacticalPanel declaration
   tactical_panel.cpp    TacticalPanel content (system status + telemetry chart)
   svg_renderer.h        SvgRenderer: loads SVGs via nanosvg, draws with color overrides
@@ -96,7 +96,7 @@ The title text is rendered in black on the bar's surface.
 
 The elbow is the curved corner piece where the title row meets the view column.
 It is drawn as a filled rectangle covering the corner, with a black quarter-
-circle arc cut out of the inner corner (the signature LCARS curve). The elbow:
+circle arc cut out of the inner corner (the signature STARS curve). The elbow:
 - Occupies the corner of the title row and extends into the view column.
 - Displays text showing the **currently selected view name** (black text).
 - Is **not clickable** (decorative/informational only).
@@ -356,13 +356,13 @@ Scrollbar grabs: purple -> blue (hover) -> orange (active).
 ## Adding a New Panel
 
 1. Create `src/my_panel.h` and `src/my_panel.cpp`.
-2. Subclass `LCARSPanel`.
+2. Subclass `STARSPanel`.
 3. Define the panel's title, views, and options per view.
 4. Each view provides a content drawing function and optionally a list of option
    groups with pill-shaped buttons.
 5. Add `src/my_panel.cpp` to the `add_executable` list in `CMakeLists.txt`.
 6. In `main.cpp`, include the header and add it to the screen's panel list.
-7. Use only the `kColor` constants and `U32ToVec4()` from `lcars.h` for colors.
+7. Use only the `kColor` constants and `U32ToVec4()` from `stars.h` for colors.
 8. Use `ImGui::GetContentRegionAvail()` for sizing flexible content.
 9. Do not create your own `ImGui::Begin()` / `ImGui::End()` calls -- the main
    loop handles window management.

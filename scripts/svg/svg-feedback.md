@@ -1,6 +1,6 @@
-# SVG Export Feedback for LCARS UI Integration
+# SVG Export Feedback for STARS UI Integration
 
-This document describes requirements for KiCad-exported SVGs to be compatible with our LCARS UI system.
+This document describes requirements for KiCad-exported SVGs to be compatible with our STARS UI system.
 
 ## Summary of Requirements
 
@@ -68,7 +68,7 @@ Every shape that should change color or have a label overlay needs a unique `id`
 
 **This is important for components that will have data labels attached.**
 
-The LCARS UI anchors data labels to shapes by finding the shape's bounding box. **Line-only paths have zero width or height, so labels cannot be anchored to them.**
+The STARS UI anchors data labels to shapes by finding the shape's bounding box. **Line-only paths have zero width or height, so labels cannot be anchored to them.**
 
 ### Problem Example
 

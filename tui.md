@@ -2,7 +2,7 @@
 
 Synchronized Transparent Access/Retrieval System
 
-Notes on rendering the LCARS-style UI using only terminal characters (ASCII,
+Notes on rendering the STARS-style UI using only terminal characters (ASCII,
 Unicode box-drawing, block elements, braille) for a TUI version of the
 interface.
 
@@ -92,7 +92,7 @@ and the line cell differ by only one dot.
 
 ## Color Palette (ANSI)
 
-Map the graphical LCARS palette (see DESIGN.md) to 256-color or truecolor ANSI
+Map the graphical STARS palette (see DESIGN.md) to 256-color or truecolor ANSI
 escape codes. The background is always black.
 
 | Role              | Hex       | ANSI 256 approx | Description           |
@@ -129,14 +129,14 @@ The TUI layout mirrors the graphical version's panel architecture:
 - **Buttons** alternate between a label row (`█ LABEL █`) and a spacer
   row (`████████████`) to create the pill/rectangle look.
 - **Title row** and **global bars** are `▀`/`▄` capped thick lines with
-  segmented gaps to mimic multi-color LCARS bar sections.
+  segmented gaps to mimic multi-color STARS bar sections.
 - **Elbows** connect the sidebar to the title row at the inner corner.
 - **Content area** uses standard box-drawing characters for sub-panels.
 
 ## Proposed Render: Smooth Elbow (▛▙)
 
 Uses quadrant block characters for a rounded inner corner, closest to the
-original LCARS curve.
+original STARS curve.
 
 ```
  ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -177,7 +177,7 @@ a concave curve into the content area.
 ## Proposed Render: 45-Degree Chamfer (◤◣)
 
 Uses triangle block characters for an angular chamfered corner. Sharper,
-more geometric feel — still distinctly LCARS but with a harder edge.
+more geometric feel — still distinctly STARS but with a harder edge.
 
 ```
  ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -309,7 +309,7 @@ continuing down while the inner edge has already ended.
 
 | Aspect            | Smooth (`▛▙`)              | 45-Degree (`◤◣`)            | Braille (`⡿⣷`)                   |
 |-------------------|----------------------------|-----------------------------|------------------------------------|
-| Feel              | Organic, faithful to LCARS | Geometric, modernized       | Dot-matrix / retro-terminal        |
+| Feel              | Organic, faithful to STARS | Geometric, modernized       | Dot-matrix / retro-terminal        |
 | Block elements    | Yes (`█▀▄`)                | Yes (`█▀▄`)                 | None — all braille patterns        |
 | Terminal support  | Needs quadrant blocks      | Needs geometric shapes      | Needs braille (U+2800–U+28FF)     |
 | Curve fidelity    | Good (2×2 sub-cell)        | Stylized reinterpretation   | Best (2×4 dots per cell)           |
@@ -334,14 +334,14 @@ Buttons in the sidebar are built from alternating label and spacer rows:
  ████████████  ← spacer
 ```
 
-- Spacer rows create visual separation (the gap between LCARS buttons).
+- Spacer rows create visual separation (the gap between STARS buttons).
 - Label rows show the button text centered between block-character walls.
 - The selected/active button can be highlighted by using a different color
   or inverting the text.
 
 ## Segmented Bar Construction
 
-Top and bottom bars are segmented with gaps to mimic multi-color LCARS bars:
+Top and bottom bars are segmented with gaps to mimic multi-color STARS bars:
 
 ```
  ████████████   S.T.A.R.S. Terminal                     █████ ████ ██████
@@ -352,7 +352,7 @@ Top and bottom bars are segmented with gaps to mimic multi-color LCARS bars:
 Each segment would be a different color in the palette (orange, lavender,
 periwinkle). The gaps are 1 character of black/background.
 
-## Mapping to Graphical LCARS Concepts
+## Mapping to Graphical STARS Concepts
 
 | Graphical (DESIGN.md)   | TUI Equivalent                              |
 |-------------------------|---------------------------------------------|

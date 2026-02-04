@@ -1,5 +1,5 @@
 #include "svg_renderer.h"
-#include "lcars.h"
+#include "stars.h"
 
 #include "nanosvg.h"
 #include <cstring>
@@ -168,7 +168,7 @@ void SvgRenderer::ParseTextElements(const char* filename) {
         else if (anchor == "end") text.anchor = 2;
         else text.anchor = 0; // start
 
-        // Use LCARS orange for all SVG text to ensure visibility
+        // Use STARS orange for all SVG text to ensure visibility
         text.color = kOrange;
 
         textElements_.push_back(text);
