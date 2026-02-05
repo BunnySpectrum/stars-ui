@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(stars LANGUAGES C CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
@@ -90,8 +90,6 @@ add_executable(stars
     src/stars.cpp
     src/field_store.cpp
     src/field_renderer.cpp
-    src/tactical_panel.cpp
-    src/info_panel.cpp
     src/db_reader.cpp
     src/svg_renderer.cpp
 )

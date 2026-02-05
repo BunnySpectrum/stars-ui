@@ -1,11 +1,7 @@
 #include "field_renderer.h"
-#include "field_defs.h"
-#include "field_store.h"
 #include "svg_renderer.h"
 
-#include <cstdio>
-#include <cstring>
-#include <vector>
+#include <cmath>
 
 // Look up threshold definition for a field (returns nullptr if none)
 static const FieldThresholdDef* FindFieldThreshold(FieldId id) {
@@ -17,7 +13,8 @@ static const FieldThresholdDef* FindFieldThreshold(FieldId id) {
 }
 
 // Evaluate color for a field based on threshold (returns 0 if no threshold defined)
-static ImU32 EvaluateFieldColor(FieldId id) {
+// Non-static because it's used by template functions in the header
+ImU32 EvaluateFieldColor(FieldId id) {
     const FieldThresholdDef* t = FindFieldThreshold(id);
     if (!t) return 0;
 
@@ -32,65 +29,14 @@ static ImU32 EvaluateFieldColor(FieldId id) {
     return 0; // normal — use default color
 }
 
-// Estimate the height needed to render a column of fields.
-static float EstimateColumnHeight(const std::vector<const FieldDef*>& fields) {
-    float lineH = ImGui::GetTextLineHeightWithSpacing();
-    float secH  = ImGui::GetFrameHeight() + 4.0f; // SeparatorText height
-    int nSections = 0;
-    const char* lastSec = nullptr;
-    for (auto* f : fields) {
-        if (!lastSec || std::strcmp(f->section, lastSec) != 0) {
-            nSections++;
-            lastSec = f->section;
-        }
-    }
-    return nSections * (secH + 8.0f) + (int)fields.size() * lineH + 16.0f;
-}
+// Template implementations are in field_renderer.h
 
-// Draw a group of fields as section-header + label/value columns.
-static void DrawFieldColumn(const std::vector<const FieldDef*>& fields) {
-    int i = 0;
-    while (i < (int)fields.size()) {
-        const char* section = fields[i]->section;
-        int secStart = i;
-
-        // Find end of this section
-        while (i < (int)fields.size() && std::strcmp(fields[i]->section, section) == 0)
-            i++;
-        int secEnd = i;
-
-        // Section header
-        ImGui::PushStyleColor(ImGuiCol_Text, U32ToVec4(kTan));
-        ImGui::SeparatorText(section);
-        ImGui::PopStyleColor();
-
-        // Label-value pairs
-        ImGui::Columns(2, nullptr, false);
-        ImGui::SetColumnWidth(0, 200.0f);
-
-        for (int j = secStart; j < secEnd; j++)
-            ImGui::TextColored(U32ToVec4(kPurple), "%s", fields[j]->label);
-
-        ImGui::NextColumn();
-
-        for (int j = secStart; j < secEnd; j++) {
-            ImU32 color = EvaluateFieldColor(fields[j]->id);
-            if (color == 0) color = kBeige; // default
-            ImGui::TextColored(U32ToVec4(color), "%s", g_fields.GetString(fields[j]->id));
-        }
-
-        ImGui::Columns(1);
-        ImGui::Spacing();
-        ImGui::Spacing();
-    }
-}
-
-void DrawFieldsForView(const char* viewName) {
+void DrawFieldsForView(ViewId viewId) {
     // Collect fields for this view, split by column index
     int maxCol = 0;
-    std::vector<const FieldDef*> cols[8]; // up to 8 columns
+    std::vector<const FieldDef*> cols[8];
     for (int i = 0; i < kNumFields; i++) {
-        if (std::strcmp(kFields[i].view, viewName) != 0) continue;
+        if (kFields[i].view != viewId) continue;
         int c = kFields[i].column;
         if (c < 0) c = 0;
         if (c > 7) c = 7;
@@ -100,16 +46,15 @@ void DrawFieldsForView(const char* viewName) {
 
     int nCols = maxCol + 1;
 
-    // Find the tallest column to use as the child height
     float maxH = 0.0f;
     for (int c = 0; c <= maxCol; c++) {
-        float h = EstimateColumnHeight(cols[c]);
+        float h = detail::EstimateColumnHeight(cols[c]);
         if (h > maxH) maxH = h;
     }
 
     if (nCols <= 1) {
         ImGui::BeginChild("##Col0", ImVec2(0, maxH), false);
-        DrawFieldColumn(cols[0]);
+        detail::DrawFieldColumn(cols[0]);
         ImGui::EndChild();
     } else {
         ImVec2 avail = ImGui::GetContentRegionAvail();
@@ -121,15 +66,15 @@ void DrawFieldsForView(const char* viewName) {
             char id[16];
             snprintf(id, sizeof(id), "##Col%d", c);
             ImGui::BeginChild(id, ImVec2(colW, maxH), false);
-            DrawFieldColumn(cols[c]);
+            detail::DrawFieldColumn(cols[c]);
             ImGui::EndChild();
         }
     }
 }
 
-void DrawGraphsForView(const char* viewName) {
+void DrawGraphsForView(ViewId viewId) {
     for (int g = 0; g < kNumGraphs; g++) {
-        if (std::strcmp(kGraphs[g].view, viewName) != 0) continue;
+        if (kGraphs[g].view != viewId) continue;
 
         const GraphDef& gd  = kGraphs[g];
         const GraphBuffer& buf = g_graphBufs[g];
@@ -145,15 +90,16 @@ void DrawGraphsForView(const char* viewName) {
         float plotH = avail.y;
         if (plotH < 100.0f) plotH = 100.0f;
 
-        if (ImPlot::BeginPlot(gd.plotId, ImVec2(plotW, plotH))) {
+        if (ImPlot::BeginPlot(GraphIdToPlotId(gd.id), ImVec2(plotW, plotH))) {
             ImPlot::SetupAxes(gd.xLabel, gd.yLabel);
             ImPlot::SetupAxisLimits(ImAxis_X1, 0, kGraphXMax, ImPlotCond_Once);
             ImPlot::SetupAxisLimits(ImAxis_Y1, gd.yMin, gd.yMax, ImPlotCond_Once);
 
             for (int l = 0; l < 2; l++) {
-                if (!gd.lines[l].label) continue;
+                const char* label = GraphLineIdToLabel(gd.lines[l].id);
+                if (!label) continue;
                 ImPlot::PushStyleColor(ImPlotCol_Line, U32ToVec4(gd.lines[l].color));
-                ImPlot::PlotLine(gd.lines[l].label, buf.xs, buf.ys[l], kGraphSamples);
+                ImPlot::PlotLine(label, buf.xs, buf.ys[l], kGraphSamples);
                 ImPlot::PopStyleColor();
             }
 
@@ -177,28 +123,67 @@ static ImU32 EvaluateThresholdColor(double value, const SvgBindingDef& b) {
     return b.normalColor;
 }
 
-void ApplySvgBindingColors(SvgRenderer& svg, const char* viewName) {
+void ApplySvgBindingColors(SvgRenderer& svg, ViewId viewId) {
     for (int i = 0; i < kNumSvgBindings; i++) {
         const SvgBindingDef& b = kSvgBindings[i];
-        if (std::strcmp(b.view, viewName) != 0) continue;
+        if (b.view != viewId) continue;
         if (b.normalColor == 0) continue;
 
         double value = g_fields.Get(b.field);
         ImU32 color = EvaluateThresholdColor(value, b);
-        svg.SetShapeColor(b.shapeId, color);
+        svg.SetShapeColor(ShapeIdToString(b.shapeId), color);
     }
 }
 
-void DrawSvgBindingLabels(const SvgRenderer& svg, const char* viewName,
+void ApplySvgBindingColors(SvgRenderer& svg, std::span<const SvgBindingDef> bindings) {
+    for (const auto& b : bindings) {
+        if (b.normalColor == 0) continue;
+
+        double value = g_fields.Get(b.field);
+        ImU32 color = EvaluateThresholdColor(value, b);
+        svg.SetShapeColor(ShapeIdToString(b.shapeId), color);
+    }
+}
+
+void ApplyDefaultColors(SvgRenderer& svg, std::span<const ShapeColorDef> colors) {
+    for (const auto& c : colors) {
+        svg.SetShapeColor(ShapeIdToString(c.shapeId), c.color);
+    }
+}
+
+void ApplyShapeAnimations(SvgRenderer& svg, std::span<const ShapeAnimDef> animations, float time) {
+    for (const auto& anim : animations) {
+        ImU32 color;
+
+        switch (anim.type) {
+        case AnimType::Blink: {
+            float period = 1.0f / anim.frequency;
+            float t = fmodf(time, period);
+            color = (t < period * 0.5f) ? anim.color1 : anim.color2;
+            break;
+        }
+        case AnimType::AlphaPulse: {
+            float pulse = (sinf(time * anim.frequency) + 1.0f) * 0.5f;
+            int alpha = anim.minAlpha + (int)(pulse * (255 - anim.minAlpha));
+            color = (anim.color1 & 0x00FFFFFF) | ((ImU32)alpha << 24);
+            break;
+        }
+        }
+
+        svg.SetShapeColor(ShapeIdToString(anim.shapeId), color);
+    }
+}
+
+void DrawSvgBindingLabels(const SvgRenderer& svg, ViewId viewId,
                           ImVec2 origin, ImVec2 size) {
     ImDrawList* dl = ImGui::GetWindowDrawList();
     constexpr float pad = 4.0f;
 
     for (int i = 0; i < kNumSvgBindings; i++) {
         const SvgBindingDef& b = kSvgBindings[i];
-        if (std::strcmp(b.view, viewName) != 0) continue;
+        if (b.view != viewId) continue;
 
-        ImVec4 r = svg.GetShapeBounds(b.shapeId, origin, size);
+        ImVec4 r = svg.GetShapeBounds(ShapeIdToString(b.shapeId), origin, size);
         if (r.z <= 0) continue;
 
         // Line 1: label
@@ -268,3 +253,124 @@ void DrawSvgBindingLabels(const SvgRenderer& svg, const char* viewName,
         dl->AddText(ImVec2(valueX, by + lineH + 2.0f), kBeige, valueBuf);
     }
 }
+
+void DrawSvgBindingLabels(const SvgRenderer& svg, std::span<const SvgBindingDef> bindings,
+                          ImVec2 origin, ImVec2 size) {
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    constexpr float pad = 4.0f;
+
+    for (const auto& b : bindings) {
+        ImVec4 r = svg.GetShapeBounds(ShapeIdToString(b.shapeId), origin, size);
+        if (r.z <= 0) continue;
+
+        // Line 1: label
+        const char* labelText = b.label;
+        if (!labelText) {
+            for (int f = 0; f < kNumFields; f++) {
+                if (kFields[f].id == b.field) { labelText = kFields[f].label; break; }
+            }
+        }
+        if (!labelText) labelText = "???";
+
+        // Line 2: value
+        char valueBuf[64];
+        if (b.valueFmt) {
+            std::snprintf(valueBuf, sizeof(valueBuf), b.valueFmt, g_fields.Get(b.field));
+        } else {
+            std::snprintf(valueBuf, sizeof(valueBuf), "%s", g_fields.GetString(b.field));
+        }
+
+        ImVec2 labelSize = ImGui::CalcTextSize(labelText);
+        ImVec2 valueSize = ImGui::CalcTextSize(valueBuf);
+        float lineH = ImGui::GetTextLineHeight();
+        float blockW = (labelSize.x > valueSize.x) ? labelSize.x : valueSize.x;
+        float blockH = lineH * 2.0f + 2.0f;
+
+        float cx = r.x + r.z * 0.5f;
+        float cy = r.y + r.w * 0.5f;
+
+        float bx, by;
+        switch (b.anchor) {
+        case LabelAnchor::Center:
+            bx = cx - blockW * 0.5f;
+            by = cy - blockH * 0.5f;
+            break;
+        case LabelAnchor::Above:
+            bx = cx - blockW * 0.5f;
+            by = r.y - blockH - pad;
+            break;
+        case LabelAnchor::Below:
+            bx = cx - blockW * 0.5f;
+            by = r.y + r.w + pad;
+            break;
+        case LabelAnchor::Left:
+            bx = r.x - blockW - pad;
+            by = cy - blockH * 0.5f;
+            break;
+        case LabelAnchor::Right:
+            bx = r.x + r.z + pad;
+            by = cy - blockH * 0.5f;
+            break;
+        }
+
+        ImU32 bgColor = IM_COL32(0, 0, 0, 180);
+        dl->AddRectFilled(ImVec2(bx - pad, by - pad),
+                          ImVec2(bx + blockW + pad, by + blockH + pad),
+                          bgColor, 2.0f);
+
+        float labelX = bx + (blockW - labelSize.x) * 0.5f;
+        dl->AddText(ImVec2(labelX, by), kBeige, labelText);
+
+        float valueX = bx + (blockW - valueSize.x) * 0.5f;
+        dl->AddText(ImVec2(valueX, by + lineH + 2.0f), kBeige, valueBuf);
+    }
+}
+
+// ============================================================================
+// Animation helpers for data-driven SVG views
+// ============================================================================
+
+void ApplyShapeAnimations(SvgRenderer& svg, const ViewDef& view, float time) {
+    for (int i = 0; i < view.animationCount; i++) {
+        const ShapeAnimDef& anim = view.animations[i];
+        ImU32 color;
+
+        switch (anim.type) {
+        case AnimType::Blink: {
+            // Toggle between color1 and color2 based on frequency
+            float period = 1.0f / anim.frequency;
+            float t = fmodf(time, period);
+            color = (t < period * 0.5f) ? anim.color1 : anim.color2;
+            break;
+        }
+        case AnimType::AlphaPulse: {
+            // Sin-wave alpha variation from minAlpha to 255
+            float pulse = (sinf(time * anim.frequency) + 1.0f) * 0.5f;
+            int alpha = anim.minAlpha + (int)(pulse * (255 - anim.minAlpha));
+            // Extract RGB from color1, apply computed alpha
+            color = (anim.color1 & 0x00FFFFFF) | ((ImU32)alpha << 24);
+            break;
+        }
+        }
+
+        svg.SetShapeColor(ShapeIdToString(anim.shapeId), color);
+    }
+}
+
+void DrawGlowOverlay(const SvgRenderer& svg, const GlowOverlayDef& glow,
+                     ImVec2 origin, ImVec2 size, float time) {
+    if (glow.shapeId == ShapeId::None) return;
+
+    ImVec4 r = svg.GetShapeBounds(ShapeIdToString(glow.shapeId), origin, size);
+    if (r.z <= 0) return;
+
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    float pulse = (sinf(time * glow.frequency) + 1.0f) * 0.5f;
+    int alpha = (int)(pulse * glow.maxAlpha);
+    ImU32 glowColor = (glow.color & 0x00FFFFFF) | ((ImU32)alpha << 24);
+
+    float cx = r.x + r.z * 0.5f;
+    float cy = r.y + r.w * 0.5f;
+    dl->AddEllipseFilled(ImVec2(cx, cy), ImVec2(r.z * 0.5f, r.w * 0.5f), glowColor);
+}
+

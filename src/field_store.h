@@ -25,7 +25,7 @@ struct GraphBuffer {
 
 // Global instances
 extern FieldStore g_fields;
-extern GraphBuffer g_graphBufs[kNumGraphs];
+extern GraphBuffer g_graphBufs[static_cast<int>(GraphId::COUNT)];
 
 // When true, UpdateFieldStore() is a no-op — data comes from the database.
 extern bool g_useDatabase;

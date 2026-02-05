@@ -125,7 +125,8 @@ void DbReader::LoadGraphs(double ts) {
     sqlite3_reset(graphStmt_);
     sqlite3_bind_double(graphStmt_, 1, ts);
 
-    int idx[kNumGraphs][2] = {};
+    constexpr int kTotalGraphs = static_cast<int>(GraphId::COUNT);
+    int idx[kTotalGraphs][2] = {};
 
     while (sqlite3_step(graphStmt_) == SQLITE_ROW) {
         int graphId = sqlite3_column_int(graphStmt_, 0);
@@ -133,7 +134,7 @@ void DbReader::LoadGraphs(double ts) {
         float x     = (float)sqlite3_column_double(graphStmt_, 2);
         float y     = (float)sqlite3_column_double(graphStmt_, 3);
 
-        if (graphId < 0 || graphId >= kNumGraphs) continue;
+        if (graphId < 0 || graphId >= kTotalGraphs) continue;
         if (lineId < 0 || lineId > 1) continue;
 
         int i = idx[graphId][lineId];

@@ -17,8 +17,8 @@
 #include "stars.h"
 #include "field_store.h"
 #include "db_reader.h"
-#include "info_panel.h"
-#include "tactical_panel.h"
+#include "panels/info_panel.h"
+#include "panels/tactical_panel.h"
 
 int main(int argc, char** argv) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {

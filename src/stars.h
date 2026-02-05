@@ -3,7 +3,11 @@
 #include "imgui.h"
 #include "implot.h"
 
+#include "svg_renderer.h"
+
 #include <functional>
+#include <map>
+#include <string>
 #include <vector>
 
 // STARS color palette
@@ -44,12 +48,23 @@ struct PanelView {
 // Abstract panel base
 struct STARSPanel {
     virtual ~STARSPanel() = default;
-    virtual const char* GetTitle() const = 0;
+    const char* GetTitle() const { return title_; }
     virtual HOrientation GetHOrientation() const { return HOrientation::Left; }
-    virtual float GetHeightWeight() const { return 1.0f; }
-    virtual const std::vector<PanelView>& GetViews() const = 0;
+    float GetHeightWeight() const { return heightWeight_; }
+    const std::vector<PanelView>& GetViews() const { return views_; }
 
     int activeView = 0;
+
+protected:
+    STARSPanel(const char* title, float heightWeight = 1.0f)
+        : title_(title), heightWeight_(heightWeight) {}
+
+    std::vector<PanelView> views_;
+    std::map<std::string, SvgRenderer> svgRenderers_;
+
+private:
+    const char* title_;
+    float heightWeight_;
 };
 
 // Global chrome

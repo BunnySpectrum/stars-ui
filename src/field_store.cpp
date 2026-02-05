@@ -1,11 +1,12 @@
 #include "field_store.h"
+#include "views/view_radio.h"
 
 #include <cmath>
 #include <ctime>
 #include <cstdio>
 
 FieldStore  g_fields;
-GraphBuffer g_graphBufs[kNumGraphs];
+GraphBuffer g_graphBufs[static_cast<int>(GraphId::COUNT)];
 bool        g_useDatabase = false;
 
 static void FormatTimer(FieldId id, double seconds) {
@@ -128,16 +129,29 @@ void UpdateFieldStore() {
 
     // === Graph buffers ===
     float ft = (float)t;
-    for (int g = 0; g < kNumGraphs; g++) {
+
+    // Helper lambda to populate a graph buffer from a GraphDef
+    auto populateGraph = [ft](const GraphDef& gd) {
+        int idx = static_cast<int>(gd.id);
         for (int i = 0; i < kGraphSamples; i++) {
             float x = (float)i / (float)(kGraphSamples - 1) * kGraphXMax;
-            g_graphBufs[g].xs[i] = x;
+            g_graphBufs[idx].xs[i] = x;
             for (int l = 0; l < 2; l++) {
-                const WaveParams& w = kGraphs[g].lines[l].wave;
-                g_graphBufs[g].ys[l][i] = w.base
+                const WaveParams& w = gd.lines[l].wave;
+                g_graphBufs[idx].ys[l][i] = w.base
                     + sinf(x * w.xf1 + ft * w.tf1 + w.p1) * w.a1
                     + sinf(x * w.xf2 + ft * w.tf2 + w.p2) * w.a2;
             }
         }
+    };
+
+    // Populate graphs from kGraphs[] (legacy views)
+    for (int g = 0; g < kNumGraphs; g++) {
+        populateGraph(kGraphs[g]);
+    }
+
+    // Populate graphs from kRadioContent (migrated Radio view)
+    for (const auto& gd : kRadioContent.graphs) {
+        populateGraph(gd);
     }
 }

@@ -37,3 +37,6 @@ compile_commands.json
 # GOES satellite data cache
 data/cache/
 !data/cache/.gitkeep
+
+# Databases
+*.db
