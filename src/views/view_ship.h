@@ -3,6 +3,7 @@
 #include "view_common.h"
 #include "../field_defs.h"
 #include "../field_renderer.h"
+#include "view_tactical.h"
 #include "../../assets/ship_wireframe_ids.h"
 
 #include <span>
@@ -38,6 +39,8 @@ struct ShipGlowOverlayDef {
 
 namespace ship_detail {
 
+using namespace std::string_literals;
+
 // Helper color for detail/grid elements
 inline constexpr ImU32 kDetail = IM_COL32(0x66, 0x88, 0xAA, 0xFF);
 
@@ -72,12 +75,12 @@ inline constexpr ShipGlowOverlayDef kGlowOverlay = {
 };
 
 // SVG bindings — connect fields to SVG shapes with labels and thresholds
-inline constexpr SvgBindingDef kSvgBindings[] = {
-    //  FIELD                        VIEW         SHAPE                          ANCHOR               LABEL       FMT       NORMAL   DIR                   WARN   CRIT
-    {FieldId::TacShields,       ViewId::Ship, ShapeId::Ship_Shield,          LabelAnchor::Right,  "SHIELDS",  "%.0f%%",   kBlue,   ColorDir::LowIsWorse, 50.0, 25.0},
-    {FieldId::TacHullIntegrity, ViewId::Ship, ShapeId::Ship_EngineeringHull, LabelAnchor::Center, "HULL",     "%.1f%%",   kBlue,   ColorDir::LowIsWorse, 60.0, 30.0},
-    {FieldId::TacWarpCore,      ViewId::Ship, ShapeId::Ship_Deflector,       LabelAnchor::Below,  "WARP CORE","%.1f%%",   kOrange, ColorDir::LowIsWorse, 50.0, 25.0},
-    {FieldId::TacLifeSupport,   ViewId::Ship, ShapeId::Ship_Bridge,          LabelAnchor::Above,  "LIFE SUPT","%.0f%%",   kOrange, ColorDir::LowIsWorse, 50.0, 25.0},
+inline const SvgBindingDef kSvgBindings[] = {
+    //  FIELD                        SHAPE                          ANCHOR               LABEL         FMT       NORMAL   DIR                   WARN   CRIT
+    {FieldId::TacShields,       ShapeId::Ship_Shield,          LabelAnchor::Right,  "SHIELDS"s,   "%.0f%%",   kBlue,   ColorDir::LowIsWorse, 50.0, 25.0},
+    {FieldId::TacHullIntegrity, ShapeId::Ship_EngineeringHull, LabelAnchor::Center, "HULL"s,      "%.1f%%",   kBlue,   ColorDir::LowIsWorse, 60.0, 30.0},
+    {FieldId::TacWarpCore,      ShapeId::Ship_Deflector,       LabelAnchor::Below,  "WARP CORE"s, "%.1f%%",   kOrange, ColorDir::LowIsWorse, 50.0, 25.0},
+    {FieldId::TacLifeSupport,   ShapeId::Ship_Bridge,          LabelAnchor::Above,  "LIFE SUPT"s, "%.0f%%",   kOrange, ColorDir::LowIsWorse, 50.0, 25.0},
 };
 
 } // namespace ship_detail
@@ -97,6 +100,9 @@ struct ShipSvgContent {
     std::span<const ShipShapeAnimDef>  animations = ship_detail::kAnimations;
     std::span<const SvgBindingDef>     svgBindings = ship_detail::kSvgBindings;
     ShipGlowOverlayDef                 glowOverlay = ship_detail::kGlowOverlay;
+
+    // Field definitions for label lookup (Ship binds to Tactical fields)
+    std::span<const TacticalFieldDef>  bindingFields = tactical_detail::kFields;
 
     // Runtime state (set by TacticalPanel during init)
     SvgRenderer* svg = nullptr;

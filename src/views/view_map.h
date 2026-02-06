@@ -3,6 +3,7 @@
 #include "view_common.h"
 #include "../field_defs.h"
 #include "../field_renderer.h"
+#include "view_radio.h"
 #include "../../assets/goes_orbit_ids.h"
 
 #include <span>
@@ -30,6 +31,8 @@ struct MapShapeAnimDef {
 
 namespace map_detail {
 
+using namespace std::string_literals;
+
 // Helper color for detail/grid elements
 inline constexpr ImU32 kDetail = IM_COL32(0x66, 0x88, 0xAA, 0xFF);
 
@@ -54,10 +57,10 @@ inline constexpr MapShapeAnimDef kAnimations[] = {
 };
 
 // SVG bindings — connect fields to SVG shapes with labels and thresholds
-inline constexpr SvgBindingDef kSvgBindings[] = {
-    //  FIELD                   VIEW        SHAPE                ANCHOR              LABEL     FMT         NORMAL   DIR                   WARN    CRIT
-    {FieldId::SignalStrength, ViewId::Map, ShapeId::Map_LinkLine, LabelAnchor::Left,  "SIGNAL", "%.0f dBm", kOrange, ColorDir::LowIsWorse, -50.0, -60.0},
-    {FieldId::SNR,            ViewId::Map, ShapeId::Map_Goes16,   LabelAnchor::Above, "SNR",    "%.0f dB",  kBlue,   ColorDir::LowIsWorse,  60.0,  50.0},
+inline const SvgBindingDef kSvgBindings[] = {
+    //  FIELD                   SHAPE                  ANCHOR              LABEL       FMT         NORMAL   DIR                   WARN    CRIT
+    {FieldId::SignalStrength, ShapeId::Map_LinkLine, LabelAnchor::Left,  "SIGNAL"s,  "%.0f dBm", kOrange, ColorDir::LowIsWorse, -50.0, -60.0},
+    {FieldId::SNR,            ShapeId::Map_Goes16,   LabelAnchor::Above, "SNR"s,     "%.0f dB",  kBlue,   ColorDir::LowIsWorse,  60.0,  50.0},
 };
 
 } // namespace map_detail
@@ -76,6 +79,9 @@ struct MapSvgContent {
     std::span<const MapShapeColorDef> defaultColors = map_detail::kDefaultColors;
     std::span<const MapShapeAnimDef>  animations = map_detail::kAnimations;
     std::span<const SvgBindingDef>    svgBindings = map_detail::kSvgBindings;
+
+    // Field definitions for label lookup (Map binds to Radio fields)
+    std::span<const RadioFieldDef>    bindingFields = radio_detail::kFields;
 
     // Runtime state (set by TacticalPanel during init)
     SvgRenderer* svg = nullptr;

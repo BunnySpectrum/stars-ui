@@ -36,21 +36,7 @@ enum class RadioFieldId : int {
 // ============================================================================
 
 // Radio-specific field definition (uses local RadioFieldId, no ViewId needed)
-struct RadioFieldDef {
-    RadioFieldId id;
-    const char*  label;
-    const char*  units;
-    Display      display;
-    const char*  section;
-    int          column;
-
-    // Convert to unified FieldId for FieldStore access
-    FieldId GetFieldId() const {
-        return static_cast<FieldId>(
-            static_cast<int>(FieldId::Ch1Subspace) + static_cast<int>(id)
-        );
-    }
-};
+using RadioFieldDef = FieldDefT<RadioFieldId, FieldId::Ch1Subspace>;
 
 // ============================================================================
 // Radio view content — unified fields + graphs (no SVG for this view)
@@ -58,7 +44,7 @@ struct RadioFieldDef {
 
 namespace radio_detail {
 
-//      ID                                  LABEL                   UNITS   DISPLAY            SECTION                COL
+//      ID                                  LABEL                   UNITS   DISPLAY            SECTION                COL   DIR                    WARN    CRIT
 inline constexpr RadioFieldDef kFields[] = {
     // ACTIVE CHANNELS
     { RadioFieldId::Ch1Subspace,      "CH 1  SUBSPACE",       "GHz",  Display::Scalar,   "ACTIVE CHANNELS",     0 },
@@ -69,9 +55,9 @@ inline constexpr RadioFieldDef kFields[] = {
     { RadioFieldId::Ch6Diplomatic,    "CH 6  DIPLOMATIC",     "GHz",  Display::Scalar,   "ACTIVE CHANNELS",     0 },
     // SIGNAL STATUS
     { RadioFieldId::SubspaceBandwidth,"SUBSPACE BANDWIDTH",   "GHz",  Display::Scalar,   "SIGNAL STATUS",       1 },
-    { RadioFieldId::SignalStrength,   "SIGNAL STRENGTH",      "dBm",  Display::Scalar,   "SIGNAL STATUS",       1 },
+    { RadioFieldId::SignalStrength,   "SIGNAL STRENGTH",      "dBm",  Display::Scalar,   "SIGNAL STATUS",       1,    ColorDir::LowIsWorse, -50.0, -60.0 },
     { RadioFieldId::NoiseFloor,       "NOISE FLOOR",          "dBm",  Display::Scalar,   "SIGNAL STATUS",       1 },
-    { RadioFieldId::SNR,              "SNR",                  "dB",   Display::Scalar,   "SIGNAL STATUS",       1 },
+    { RadioFieldId::SNR,              "SNR",                  "dB",   Display::Scalar,   "SIGNAL STATUS",       1,    ColorDir::LowIsWorse,  60.0,  50.0 },
     { RadioFieldId::AntennaArray,     "ANTENNA ARRAY",        "",     Display::Scalar,   "SIGNAL STATUS",       1 },
     { RadioFieldId::Range,            "RANGE",                "km",   Display::Scalar,   "SIGNAL STATUS",       1 },
 };

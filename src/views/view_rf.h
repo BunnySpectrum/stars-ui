@@ -3,6 +3,7 @@
 #include "view_common.h"
 #include "../field_defs.h"
 #include "../field_renderer.h"
+#include "view_radio.h"
 #include "../../assets/rf_circuit_ids.h"
 
 #include <span>
@@ -30,6 +31,8 @@ struct RfShapeAnimDef {
 
 namespace rf_detail {
 
+using namespace std::string_literals;
+
 // Default shape colors
 inline constexpr RfShapeColorDef kDefaultColors[] = {
     {RfCircuitId::OscillatorY1, kOrange},
@@ -50,9 +53,9 @@ inline constexpr RfShapeAnimDef kAnimations[] = {
 };
 
 // SVG bindings — connect fields to SVG shapes with labels and thresholds
-inline constexpr SvgBindingDef kSvgBindings[] = {
-    //  FIELD                   VIEW        SHAPE               ANCHOR              LABEL     FMT         NORMAL   DIR                  WARN    CRIT
-    {FieldId::SignalStrength, ViewId::Rf, ShapeId::Rf_MixerU2, LabelAnchor::Right, "SIGNAL", "%.0f dBm", kOrange, ColorDir::LowIsWorse, -50.0, -60.0},
+inline const SvgBindingDef kSvgBindings[] = {
+    //  FIELD                   SHAPE                ANCHOR              LABEL       FMT         NORMAL   DIR                  WARN    CRIT
+    {FieldId::SignalStrength, ShapeId::Rf_MixerU2, LabelAnchor::Right, "SIGNAL"s,  "%.0f dBm", kOrange, ColorDir::LowIsWorse, -50.0, -60.0},
 };
 
 } // namespace rf_detail
@@ -71,6 +74,9 @@ struct RfSvgContent {
     std::span<const RfShapeColorDef> defaultColors = rf_detail::kDefaultColors;
     std::span<const RfShapeAnimDef>  animations = rf_detail::kAnimations;
     std::span<const SvgBindingDef>   svgBindings = rf_detail::kSvgBindings;
+
+    // Field definitions for label lookup (RF binds to Radio fields)
+    std::span<const RadioFieldDef>   bindingFields = radio_detail::kFields;
 
     // Runtime state (set by TacticalPanel during init)
     SvgRenderer* svg = nullptr;

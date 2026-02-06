@@ -42,21 +42,7 @@ enum class PowerFieldId : int {
 // ============================================================================
 
 // Power-specific field definition (uses local PowerFieldId, no ViewId needed)
-struct PowerFieldDef {
-    PowerFieldId id;
-    const char*  label;
-    const char*  units;
-    Display      display;
-    const char*  section;
-    int          column;
-
-    // Convert to unified FieldId for FieldStore access
-    FieldId GetFieldId() const {
-        return static_cast<FieldId>(
-            static_cast<int>(FieldId::GenWarpCore) + static_cast<int>(id)
-        );
-    }
-};
+using PowerFieldDef = FieldDefT<PowerFieldId, FieldId::GenWarpCore>;
 
 // ============================================================================
 // Power view content — fields + graphs

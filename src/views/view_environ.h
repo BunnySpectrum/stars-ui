@@ -36,21 +36,7 @@ enum class EnvironFieldId : int {
 // ============================================================================
 
 // Environ-specific field definition (uses local EnvironFieldId, no ViewId needed)
-struct EnvironFieldDef {
-    EnvironFieldId id;
-    const char*    label;
-    const char*    units;
-    Display        display;
-    const char*    section;
-    int            column;
-
-    // Convert to unified FieldId for FieldStore access
-    FieldId GetFieldId() const {
-        return static_cast<FieldId>(
-            static_cast<int>(FieldId::EnvTemperature) + static_cast<int>(id)
-        );
-    }
-};
+using EnvironFieldDef = FieldDefT<EnvironFieldId, FieldId::EnvTemperature>;
 
 // ============================================================================
 // Environ view content — fields + graphs

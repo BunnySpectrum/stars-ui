@@ -1,4 +1,7 @@
 #include "field_store.h"
+#include "views/view_tactical.h"
+#include "views/view_environ.h"
+#include "views/view_power.h"
 #include "views/view_radio.h"
 
 #include <cmath>
@@ -145,13 +148,9 @@ void UpdateFieldStore() {
         }
     };
 
-    // Populate graphs from kGraphs[] (legacy views)
-    for (int g = 0; g < kNumGraphs; g++) {
-        populateGraph(kGraphs[g]);
-    }
-
-    // Populate graphs from kRadioContent (migrated Radio view)
-    for (const auto& gd : kRadioContent.graphs) {
-        populateGraph(gd);
-    }
+    // Populate graphs from each view's content
+    for (const auto& gd : kTacticalContent.graphs) populateGraph(gd);
+    for (const auto& gd : kEnvironContent.graphs)  populateGraph(gd);
+    for (const auto& gd : kPowerContent.graphs)    populateGraph(gd);
+    for (const auto& gd : kRadioContent.graphs)    populateGraph(gd);
 }

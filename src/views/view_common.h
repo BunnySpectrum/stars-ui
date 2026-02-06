@@ -28,8 +28,8 @@ enum class AnimType {
 // Text label anchor positions relative to SVG shapes
 enum class LabelAnchor { Center, Above, Below, Left, Right };
 
-// Direction for threshold color evaluation
-enum class ColorDir { HighIsWorse, LowIsWorse };
+// Direction for threshold color evaluation (None = no threshold)
+enum class ColorDir { None, HighIsWorse, LowIsWorse };
 
 // Graph constants
 inline constexpr int   kGraphSamples = 256;

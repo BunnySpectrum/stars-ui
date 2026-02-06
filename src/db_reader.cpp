@@ -1,6 +1,11 @@
 #include "db_reader.h"
 #include "field_defs.h"
 #include "field_store.h"
+#include "views/view_info.h"
+#include "views/view_tactical.h"
+#include "views/view_environ.h"
+#include "views/view_power.h"
+#include "views/view_radio.h"
 
 #include <sqlite3.h>
 #include <imgui.h>
@@ -8,6 +13,7 @@
 #include <cmath>
 #include <cstdio>
 #include <ctime>
+#include <span>
 
 DbReader g_dbReader;
 
@@ -146,30 +152,39 @@ void DbReader::LoadGraphs(double ts) {
     }
 }
 
-void DbReader::FormatAllFields() {
-    for (int i = 0; i < kNumFields; i++) {
-        const FieldDef& fd = kFields[i];
+template<typename FieldDefT>
+static void FormatFields(std::span<const FieldDefT> fields) {
+    for (const auto& fd : fields) {
+        FieldId fid = fd.GetFieldId();
 
         if (fd.display == Display::TimerUp || fd.display == Display::TimerDown) {
-            double seconds = g_fields.Get(fd.id);
+            double seconds = g_fields.Get(fid);
             if (seconds < 0) seconds = 0;
             int d = (int)(seconds / 86400.0);
             int h = (int)(std::fmod(seconds, 86400.0) / 3600.0);
             int m = (int)(std::fmod(seconds, 3600.0) / 60.0);
             int s = (int)(std::fmod(seconds, 60.0));
-            std::snprintf(g_fields.strings[(int)fd.id], sizeof(g_fields.strings[0]),
+            std::snprintf(g_fields.strings[(int)fid], sizeof(g_fields.strings[0]),
                           "%03dD %02dH %02dM %02dS", d, h, m, s);
         }
         else if (fd.display == Display::Clock) {
-            double epoch = g_fields.Get(fd.id);
+            double epoch = g_fields.Get(fid);
             std::time_t tt = (std::time_t)epoch;
             struct std::tm* tm = std::gmtime(&tt);
             if (tm) {
-                std::snprintf(g_fields.strings[(int)fd.id], sizeof(g_fields.strings[0]),
+                std::snprintf(g_fields.strings[(int)fid], sizeof(g_fields.strings[0]),
                               "%04d.%02d.%02d  %02d:%02d:%02d",
                               tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
                               tm->tm_hour, tm->tm_min, tm->tm_sec);
             }
         }
     }
+}
+
+void DbReader::FormatAllFields() {
+    FormatFields<InfoFieldDef>(info_detail::kFields);
+    FormatFields<TacticalFieldDef>(tactical_detail::kFields);
+    FormatFields<EnvironFieldDef>(environ_detail::kFields);
+    FormatFields<PowerFieldDef>(power_detail::kFields);
+    FormatFields<RadioFieldDef>(radio_detail::kFields);
 }

@@ -10,14 +10,8 @@
 #include <cstring>
 #include <vector>
 
-// Generic rendering driven by the kFields[] and kGraphs[] tables.
-// Call these from a PanelView's drawContent lambda.
-
-void DrawFieldsForView(ViewId viewId);
-void DrawGraphsForView(ViewId viewId);
-
-// Color evaluation for field thresholds (used by templates)
-ImU32 EvaluateFieldColor(FieldId id);
+// Generic rendering for view content.
+// Call DrawViewContent() from a PanelView's drawContent lambda.
 
 // ============================================================================
 // Template implementations for generic view rendering
@@ -64,9 +58,19 @@ inline void DrawFieldColumn(const std::vector<const FieldDefT*>& fields) {
         ImGui::NextColumn();
 
         for (int j = secStart; j < secEnd; j++) {
-            FieldId fid = fields[j]->GetFieldId();
-            ImU32 color = EvaluateFieldColor(fid);
-            if (color == 0) color = kBeige;
+            const auto* f = fields[j];
+            FieldId fid = f->GetFieldId();
+            ImU32 color = kBeige;
+            if (f->colorDir != ColorDir::None) {
+                double value = g_fields.Get(fid);
+                if (f->colorDir == ColorDir::LowIsWorse) {
+                    if (value < f->critThresh) color = kRed;
+                    else if (value < f->warnThresh) color = kOrange;
+                } else { // HighIsWorse
+                    if (value >= f->critThresh) color = kRed;
+                    else if (value >= f->warnThresh) color = kOrange;
+                }
+            }
             ImGui::TextColored(U32ToVec4(color), "%s", g_fields.GetString(fid));
         }
 
@@ -189,9 +193,9 @@ inline void DrawViewContent(ContentT& content) {
             // Draw the SVG
             content.svg->Draw(cursor, avail, content.strokeColor, content.strokeWidth);
 
-            // Draw labels if present
-            if constexpr (requires { content.svgBindings; }) {
-                DrawSvgBindingLabels(*content.svg, content.svgBindings, cursor, avail);
+            // Draw labels if present (requires bindingFields for label lookup)
+            if constexpr (requires { content.svgBindings; content.bindingFields; }) {
+                DrawSvgBindingLabels(*content.svg, content.svgBindings, content.bindingFields, cursor, avail);
             }
 
             // Draw glow overlay if present
@@ -206,21 +210,18 @@ inline void DrawViewContent(ContentT& content) {
 
 // SVG data-binding helpers — drive shape colors and overlay labels from field data.
 class SvgRenderer;
-struct ViewDef;
 struct GlowOverlayDef;
 struct SvgBindingDef;
 struct ShapeAnimDef;
 struct ShapeColorDef;
 
-// Legacy versions (iterate global tables, filter by viewId)
-void ApplySvgBindingColors(SvgRenderer& svg, ViewId viewId);
-void DrawSvgBindingLabels(const SvgRenderer& svg, ViewId viewId,
-                          ImVec2 origin, ImVec2 size);
-
-// Span-based versions (for migrated views with per-view data)
+// Span-based versions (for views with per-view binding data)
 void ApplySvgBindingColors(SvgRenderer& svg, std::span<const SvgBindingDef> bindings);
+
+// Templated version that looks up labels from per-view field definitions
+template<typename FieldDefT>
 void DrawSvgBindingLabels(const SvgRenderer& svg, std::span<const SvgBindingDef> bindings,
-                          ImVec2 origin, ImVec2 size);
+                          std::span<const FieldDefT> fields, ImVec2 origin, ImVec2 size);
 
 // Template versions using duck typing - call def.GetShapeString()
 template<typename ColorDefT>
@@ -232,9 +233,6 @@ inline void ApplyShapeAnimations(SvgRenderer& svg, std::span<const AnimDefT> ani
 // Non-template overloads for backward compatibility with ShapeColorDef/ShapeAnimDef
 void ApplyDefaultColors(SvgRenderer& svg, std::span<const ShapeColorDef> colors);
 void ApplyShapeAnimations(SvgRenderer& svg, std::span<const ShapeAnimDef> animations, float time);
-
-// Animation helpers for data-driven SVG views
-void ApplyShapeAnimations(SvgRenderer& svg, const ViewDef& view, float time);
 void DrawGlowOverlay(const SvgRenderer& svg, const GlowOverlayDef& glow,
                      ImVec2 origin, ImVec2 size, float time);
 
@@ -298,4 +296,76 @@ inline void DrawGlowOverlay(const SvgRenderer& svg, const GlowDefT& glow,
     float cx = r.x + r.z * 0.5f;
     float cy = r.y + r.w * 0.5f;
     dl->AddEllipseFilled(ImVec2(cx, cy), ImVec2(r.z * 0.5f, r.w * 0.5f), glowColor);
+}
+
+template<typename FieldDefT>
+inline void DrawSvgBindingLabels(const SvgRenderer& svg, std::span<const SvgBindingDef> bindings,
+                                  std::span<const FieldDefT> fields, ImVec2 origin, ImVec2 size) {
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    constexpr float pad = 4.0f;
+
+    for (const auto& b : bindings) {
+        ImVec4 r = svg.GetShapeBounds(ShapeIdToString(b.shapeId), origin, size);
+        if (r.z <= 0) continue;
+
+        // Line 1: label
+        const char* labelText = nullptr;
+        if (!b.label.empty()) {
+            labelText = b.label.c_str();
+        } else {
+            labelText = "???";
+        }
+
+        // Line 2: value
+        char valueBuf[64];
+        if (b.valueFmt) {
+            std::snprintf(valueBuf, sizeof(valueBuf), b.valueFmt, g_fields.Get(b.field));
+        } else {
+            std::snprintf(valueBuf, sizeof(valueBuf), "%s", g_fields.GetString(b.field));
+        }
+
+        ImVec2 labelSize = ImGui::CalcTextSize(labelText);
+        ImVec2 valueSize = ImGui::CalcTextSize(valueBuf);
+        float lineH = ImGui::GetTextLineHeight();
+        float blockW = (labelSize.x > valueSize.x) ? labelSize.x : valueSize.x;
+        float blockH = lineH * 2.0f + 2.0f;
+
+        float cx = r.x + r.z * 0.5f;
+        float cy = r.y + r.w * 0.5f;
+
+        float bx, by;
+        switch (b.anchor) {
+        case LabelAnchor::Center:
+            bx = cx - blockW * 0.5f;
+            by = cy - blockH * 0.5f;
+            break;
+        case LabelAnchor::Above:
+            bx = cx - blockW * 0.5f;
+            by = r.y - blockH - pad;
+            break;
+        case LabelAnchor::Below:
+            bx = cx - blockW * 0.5f;
+            by = r.y + r.w + pad;
+            break;
+        case LabelAnchor::Left:
+            bx = r.x - blockW - pad;
+            by = cy - blockH * 0.5f;
+            break;
+        case LabelAnchor::Right:
+            bx = r.x + r.z + pad;
+            by = cy - blockH * 0.5f;
+            break;
+        }
+
+        ImU32 bgColor = IM_COL32(0, 0, 0, 180);
+        dl->AddRectFilled(ImVec2(bx - pad, by - pad),
+                          ImVec2(bx + blockW + pad, by + blockH + pad),
+                          bgColor, 2.0f);
+
+        float labelX = bx + (blockW - labelSize.x) * 0.5f;
+        dl->AddText(ImVec2(labelX, by), kBeige, labelText);
+
+        float valueX = bx + (blockW - valueSize.x) * 0.5f;
+        dl->AddText(ImVec2(valueX, by + lineH + 2.0f), kBeige, valueBuf);
+    }
 }

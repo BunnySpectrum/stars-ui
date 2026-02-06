@@ -25,21 +25,7 @@ enum class TacticalFieldId : int {
 // ============================================================================
 
 // Tactical-specific field definition (uses local TacticalFieldId, no ViewId needed)
-struct TacticalFieldDef {
-    TacticalFieldId id;
-    const char*     label;
-    const char*     units;
-    Display         display;
-    const char*     section;
-    int             column;
-
-    // Convert to unified FieldId for FieldStore access
-    FieldId GetFieldId() const {
-        return static_cast<FieldId>(
-            static_cast<int>(FieldId::TacWarpCore) + static_cast<int>(id)
-        );
-    }
-};
+using TacticalFieldDef = FieldDefT<TacticalFieldId, FieldId::TacWarpCore>;
 
 // ============================================================================
 // Tactical view content — fields + graphs

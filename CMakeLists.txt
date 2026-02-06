@@ -93,7 +93,7 @@ add_executable(stars
     src/db_reader.cpp
     src/svg_renderer.cpp
 )
-target_link_libraries(stars PRIVATE imgui implot nanosvg OpenGL::GL SQLite::SQLite3)
+target_link_libraries(stars PRIVATE implot nanosvg OpenGL::GL SQLite::SQLite3)
 
 # macOS: suppress OpenGL deprecation warnings
 if(APPLE)
