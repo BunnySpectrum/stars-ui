@@ -2,6 +2,7 @@
 
 #include "view_common.h"
 #include "../field_defs.h"
+#include "../field_store.h"
 #include "../field_renderer.h"
 #include "view_radio.h"
 #include "../../assets/goes_orbit_ids.h"
@@ -72,7 +73,7 @@ inline const SvgBindingDef kSvgBindings[] = {
 class SvgRenderer;
 
 struct MapSvgContent {
-    const char* svgPath = "assets/goes_orbit.svg";
+    const char* svgPath = "poc/assets/goes_orbit.svg";
     ImU32       strokeColor = kBlue;
     float       strokeWidth = 1.5f;
 
@@ -97,12 +98,14 @@ inline MapSvgContent kMapSvgContent;
 inline const ViewInfo kMapViewInfo = {
     "MAP",
     kBlue,
-    [] { DrawViewContent(kMapSvgContent); },
+    [](const FieldStore& fs, std::span<const GraphBuffer>) { DrawViewContent(kMapSvgContent, fs, {}); },
     [](SvgRenderer& svg) {
         svg.LoadFromFile(kMapSvgContent.svgPath);
         ApplyDefaultColors(svg, kMapSvgContent.defaultColors);
         kMapSvgContent.svg = &svg;
     },
     {},
-    0
+    0,
+    0,   // graphCount (no graphs)
+    UpdateMapFields,
 };

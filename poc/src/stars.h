@@ -1,14 +1,19 @@
 #pragma once
 
-#include "imgui.h"
-#include "implot.h"
+#include "imgui/imgui.h"
+#include "implot/implot.h"
 
 #include "svg_renderer.h"
+#include "graph_buffer.h"
 
 #include <functional>
 #include <map>
+#include <span>
 #include <string>
 #include <vector>
+
+// Forward declarations
+struct FieldStore;
 
 // STARS color palette
 inline constexpr ImU32 kOrange = IM_COL32(0xFF, 0x99, 0x33, 0xFF);
@@ -20,6 +25,8 @@ inline constexpr ImU32 kBeige  = IM_COL32(0xFF, 0xDD, 0xBB, 0xFF);
 
 ImVec4 U32ToVec4(ImU32 c);
 void ApplySTARSTheme();
+void SetAurebeshFont(ImFont* font);
+ImFont* GetAurebeshFont();
 
 // Panel orientation
 enum class HOrientation { Left, Right };
@@ -41,8 +48,13 @@ struct OptionGroup {
 struct PanelView {
     const char* name;                       // shown on elbow + view button
     ImU32 buttonColor;                      // view button fill color
-    std::function<void()> drawContent;      // called inside ImGui content window
+    std::function<void(const FieldStore&, std::span<const GraphBuffer>)> drawContent;  // called inside ImGui content window
     std::vector<OptionGroup> optionGroups;  // options for this view
+
+    // Per-view data
+    FieldStore* fields = nullptr;                              // per-view field storage
+    std::vector<GraphBuffer> graphBufs;                        // per-view graph buffers
+    std::function<void(FieldStore&, std::span<GraphBuffer>)> updateFields;  // update function
 };
 
 // Abstract panel base
@@ -51,6 +63,7 @@ struct STARSPanel {
     const char* GetTitle() const { return title_; }
     virtual HOrientation GetHOrientation() const { return HOrientation::Left; }
     float GetHeightWeight() const { return heightWeight_; }
+    std::vector<PanelView>& GetViews() { return views_; }
     const std::vector<PanelView>& GetViews() const { return views_; }
 
     int activeView = 0;

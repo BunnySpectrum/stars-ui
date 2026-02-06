@@ -1,0 +1,5 @@
+filegroup(
+    name = "all_fonts",
+    srcs = glob(["*.ttf"]),
+    visibility = ["//visibility:public"],
+)

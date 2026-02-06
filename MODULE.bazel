@@ -1,0 +1,45 @@
+"""STARS UI Bazel Module"""
+
+module(
+    name = "stars_ui",
+    version = "1.0.0",
+)
+
+# Apple support for macOS builds
+bazel_dep(name = "apple_support", version = "2.3.0")
+
+# C++ rules
+bazel_dep(name = "rules_cc", version = "0.1.1")
+
+# C++ dependencies from BCR
+bazel_dep(name = "glfw", version = "3.4.0.bcr.1")
+bazel_dep(name = "imgui", version = "1.91.8")
+bazel_dep(name = "implot", version = "0.17")
+bazel_dep(name = "sqlite3", version = "3.49.1.bcr.1")
+
+# nanosvg via http_archive (not in BCR)
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+http_archive(
+    name = "nanosvg",
+    urls = ["https://github.com/memononen/nanosvg/archive/5cefd9847949af6df13f65027fd43af5a7513633.zip"],
+    strip_prefix = "nanosvg-5cefd9847949af6df13f65027fd43af5a7513633",
+    build_file = "//third_party:nanosvg.BUILD",
+)
+
+# Python rules
+bazel_dep(name = "rules_python", version = "1.7.0")
+
+# Python interpreter
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    python_version = "3.11",
+)
+
+# Python dependencies
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pip_deps",
+    python_version = "3.11",
+    requirements_lock = "//examples:requirements.txt",
+)
+use_repo(pip, "pip_deps")

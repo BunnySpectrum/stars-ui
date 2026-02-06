@@ -8,7 +8,7 @@
 #include "views/view_radio.h"
 
 #include <sqlite3.h>
-#include <imgui.h>
+#include "imgui/imgui.h"
 
 #include <cmath>
 #include <cstdio>
@@ -115,13 +115,13 @@ void DbReader::LoadScalars(double ts) {
 
         if (sqlite3_column_type(scalarStmt_, 1) != SQLITE_NULL) {
             double numVal = sqlite3_column_double(scalarStmt_, 1);
-            g_fields.Set(id, numVal);
+            g_dbFields.Set(id, numVal);
         }
 
         if (sqlite3_column_type(scalarStmt_, 2) != SQLITE_NULL) {
             const char* strVal = (const char*)sqlite3_column_text(scalarStmt_, 2);
             if (strVal)
-                g_fields.SetString(id, strVal);
+                g_dbFields.SetString(id, strVal);
         }
     }
 }
@@ -146,8 +146,8 @@ void DbReader::LoadGraphs(double ts) {
         int i = idx[graphId][lineId];
         if (i >= kGraphSamples) continue;
 
-        g_graphBufs[graphId].xs[i] = x;
-        g_graphBufs[graphId].ys[lineId][i] = y;
+        g_dbGraphBufs[graphId].xs[i] = x;
+        g_dbGraphBufs[graphId].ys[lineId][i] = y;
         idx[graphId][lineId]++;
     }
 }
@@ -158,21 +158,21 @@ static void FormatFields(std::span<const FieldDefT> fields) {
         FieldId fid = fd.GetFieldId();
 
         if (fd.display == Display::TimerUp || fd.display == Display::TimerDown) {
-            double seconds = g_fields.Get(fid);
+            double seconds = g_dbFields.Get(fid);
             if (seconds < 0) seconds = 0;
             int d = (int)(seconds / 86400.0);
             int h = (int)(std::fmod(seconds, 86400.0) / 3600.0);
             int m = (int)(std::fmod(seconds, 3600.0) / 60.0);
             int s = (int)(std::fmod(seconds, 60.0));
-            std::snprintf(g_fields.strings[(int)fid], sizeof(g_fields.strings[0]),
+            std::snprintf(g_dbFields.strings[(int)fid], sizeof(g_dbFields.strings[0]),
                           "%03dD %02dH %02dM %02dS", d, h, m, s);
         }
         else if (fd.display == Display::Clock) {
-            double epoch = g_fields.Get(fid);
+            double epoch = g_dbFields.Get(fid);
             std::time_t tt = (std::time_t)epoch;
             struct std::tm* tm = std::gmtime(&tt);
             if (tm) {
-                std::snprintf(g_fields.strings[(int)fid], sizeof(g_fields.strings[0]),
+                std::snprintf(g_dbFields.strings[(int)fid], sizeof(g_dbFields.strings[0]),
                               "%04d.%02d.%02d  %02d:%02d:%02d",
                               tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
                               tm->tm_hour, tm->tm_min, tm->tm_sec);

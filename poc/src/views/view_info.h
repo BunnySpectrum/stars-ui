@@ -2,6 +2,7 @@
 
 #include "view_common.h"
 #include "../field_defs.h"
+#include "../field_store.h"
 #include "../field_renderer.h"
 
 #include <span>
@@ -68,8 +69,10 @@ inline constexpr ViewContentDef<InfoFieldDef> kInfoContent = {
 inline const ViewInfo kInfoViewInfo = {
     "INFO",
     kBlue,
-    [] { DrawViewContent(kInfoContent); },
+    [](const FieldStore& fs, std::span<const GraphBuffer>) { DrawViewContent(kInfoContent, fs, {}); },
     {},  // no SVG
     {},  // no option groups
-    0
+    0,
+    0,   // graphCount
+    UpdateInfoFields,
 };

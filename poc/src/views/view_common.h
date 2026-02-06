@@ -1,11 +1,13 @@
 #pragma once
 
 #include "../stars.h"
+#include "../graph_buffer.h"
 #include <functional>
 #include <span>
 
 // Forward declarations
 struct GraphDef;
+struct FieldStore;
 
 // ============================================================================
 // Common types shared across all view definitions
@@ -31,8 +33,7 @@ enum class LabelAnchor { Center, Above, Below, Left, Right };
 // Direction for threshold color evaluation (None = no threshold)
 enum class ColorDir { None, HighIsWorse, LowIsWorse };
 
-// Graph constants
-inline constexpr int   kGraphSamples = 256;
+// Graph constants (kGraphSamples is in graph_buffer.h)
 inline constexpr float kGraphXMax    = 10.0f;
 
 // Wave parameters for procedural graph data generation:
@@ -86,8 +87,11 @@ class SvgRenderer;
 struct ViewInfo {
     const char*           name;
     ImU32                 buttonColor;
-    std::function<void()> drawContent;                  // callable for drawing content
+    std::function<void(const FieldStore&, std::span<const GraphBuffer>)> drawContent;  // callable for drawing content
     std::function<void(SvgRenderer&)> initSvg = {};     // optional SVG initializer
     OptionGroupDef        optionGroups[4];
     int                   optionGroupCount;
+    // Per-view update
+    int graphCount = 0;                                 // number of graph buffers to allocate
+    std::function<void(FieldStore&, std::span<GraphBuffer>)> updateFields = {};
 };

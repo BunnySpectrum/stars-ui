@@ -2,6 +2,7 @@
 
 #include "view_common.h"
 #include "../field_defs.h"
+#include "../field_store.h"
 #include "../field_renderer.h"
 
 #include <span>
@@ -85,9 +86,11 @@ inline constexpr ViewContentDef<EnvironFieldDef> kEnvironContent = {
 inline const ViewInfo kEnvironViewInfo = {
     "ENVIRON",
     kBlue,
-    [] { DrawViewContent(kEnvironContent); },
+    [](const FieldStore& fs, std::span<const GraphBuffer> gbufs) { DrawViewContent(kEnvironContent, fs, gbufs); },
     {},  // no SVG
     { {{{"ALL DECKS", kBlue}, {"BRIDGE", kBlue}, {"ENGINEERING", kBlue}}, 3},
       {{{"ALERTS", kRed}}, 1} },
-    2
+    2,
+    1,   // graphCount (1 graph for EnvironTrend)
+    UpdateEnvironFields,
 };

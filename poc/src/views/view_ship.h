@@ -2,6 +2,7 @@
 
 #include "view_common.h"
 #include "../field_defs.h"
+#include "../field_store.h"
 #include "../field_renderer.h"
 #include "view_tactical.h"
 #include "../../assets/ship_wireframe_ids.h"
@@ -92,7 +93,7 @@ inline const SvgBindingDef kSvgBindings[] = {
 class SvgRenderer;
 
 struct ShipSvgContent {
-    const char* svgPath = "assets/ship_wireframe.svg";
+    const char* svgPath = "poc/assets/ship_wireframe.svg";
     ImU32       strokeColor = kBlue;
     float       strokeWidth = 1.5f;
 
@@ -118,12 +119,14 @@ inline ShipSvgContent kShipSvgContent;
 inline const ViewInfo kShipViewInfo = {
     "SHIP",
     kTan,
-    [] { DrawViewContent(kShipSvgContent); },
+    [](const FieldStore& fs, std::span<const GraphBuffer>) { DrawViewContent(kShipSvgContent, fs, {}); },
     [](SvgRenderer& svg) {
         svg.LoadFromFile(kShipSvgContent.svgPath);
         ApplyDefaultColors(svg, kShipSvgContent.defaultColors);
         kShipSvgContent.svg = &svg;
     },
     {},
-    0
+    0,
+    0,   // graphCount (no graphs)
+    UpdateShipFields,
 };

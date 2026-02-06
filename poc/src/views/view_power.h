@@ -2,6 +2,7 @@
 
 #include "view_common.h"
 #include "../field_defs.h"
+#include "../field_store.h"
 #include "../field_renderer.h"
 
 #include <span>
@@ -96,9 +97,11 @@ inline constexpr ViewContentDef<PowerFieldDef> kPowerContent = {
 inline const ViewInfo kPowerViewInfo = {
     "POWER",
     kTan,
-    [] { DrawViewContent(kPowerContent); },
+    [](const FieldStore& fs, std::span<const GraphBuffer> gbufs) { DrawViewContent(kPowerContent, fs, gbufs); },
     {},  // no SVG
     { {{{"OVERVIEW", kTan}, {"GRID MAP", kTan}}, 2},
       {{{"DIVERT", kRed}, {"BALANCE", kBlue}}, 2} },
-    2
+    2,
+    1,   // graphCount (1 graph for PowerTrend)
+    UpdatePowerFields,
 };

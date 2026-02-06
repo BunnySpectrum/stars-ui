@@ -1,7 +1,7 @@
 #pragma once
 
-#include "imgui.h"
-#include "implot.h"
+#include "imgui/imgui.h"
+#include "implot/implot.h"
 #include "views/view_common.h"
 #include "field_defs.h"
 #include "field_store.h"
@@ -35,7 +35,7 @@ inline float EstimateColumnHeight(const std::vector<const FieldDefT*>& fields) {
 }
 
 template<typename FieldDefT>
-inline void DrawFieldColumn(const std::vector<const FieldDefT*>& fields) {
+inline void DrawFieldColumn(const std::vector<const FieldDefT*>& fields, const FieldStore& store) {
     int i = 0;
     while (i < (int)fields.size()) {
         const char* section = fields[i]->section;
@@ -62,7 +62,7 @@ inline void DrawFieldColumn(const std::vector<const FieldDefT*>& fields) {
             FieldId fid = f->GetFieldId();
             ImU32 color = kBeige;
             if (f->colorDir != ColorDir::None) {
-                double value = g_fields.Get(fid);
+                double value = store.Get(fid);
                 if (f->colorDir == ColorDir::LowIsWorse) {
                     if (value < f->critThresh) color = kRed;
                     else if (value < f->warnThresh) color = kOrange;
@@ -71,7 +71,7 @@ inline void DrawFieldColumn(const std::vector<const FieldDefT*>& fields) {
                     else if (value >= f->warnThresh) color = kOrange;
                 }
             }
-            ImGui::TextColored(U32ToVec4(color), "%s", g_fields.GetString(fid));
+            ImGui::TextColored(U32ToVec4(color), "%s", store.GetString(fid));
         }
 
         ImGui::Columns(1);
@@ -84,7 +84,7 @@ inline void DrawFieldColumn(const std::vector<const FieldDefT*>& fields) {
 
 // Draw fields from a span, split into columns
 template<typename FieldDefT>
-inline void DrawFieldsFromTable(std::span<const FieldDefT> fields) {
+inline void DrawFieldsFromTable(std::span<const FieldDefT> fields, const FieldStore& store) {
     int maxCol = 0;
     std::vector<const FieldDefT*> cols[8];
     for (const auto& f : fields) {
@@ -105,7 +105,7 @@ inline void DrawFieldsFromTable(std::span<const FieldDefT> fields) {
 
     if (nCols <= 1) {
         ImGui::BeginChild("##Col0", ImVec2(0, maxH), false);
-        detail::DrawFieldColumn(cols[0]);
+        detail::DrawFieldColumn(cols[0], store);
         ImGui::EndChild();
     } else {
         ImVec2 avail = ImGui::GetContentRegionAvail();
@@ -117,7 +117,7 @@ inline void DrawFieldsFromTable(std::span<const FieldDefT> fields) {
             char id[16];
             snprintf(id, sizeof(id), "##Col%d", c);
             ImGui::BeginChild(id, ImVec2(colW, maxH), false);
-            detail::DrawFieldColumn(cols[c]);
+            detail::DrawFieldColumn(cols[c], store);
             ImGui::EndChild();
         }
     }
@@ -125,9 +125,10 @@ inline void DrawFieldsFromTable(std::span<const FieldDefT> fields) {
 
 // Draw graphs from a span
 template<typename GraphDefT>
-inline void DrawGraphsFromTable(std::span<const GraphDefT> graphs) {
-    for (const auto& gd : graphs) {
-        const GraphBuffer& buf = g_graphBufs[static_cast<int>(gd.id)];
+inline void DrawGraphsFromTable(std::span<const GraphDefT> graphs, std::span<const GraphBuffer> graphBufs) {
+    for (size_t i = 0; i < graphs.size() && i < graphBufs.size(); i++) {
+        const auto& gd = graphs[i];
+        const GraphBuffer& buf = graphBufs[i];
 
         if (gd.section) {
             ImGui::PushStyleColor(ImGuiCol_Text, U32ToVec4(kTan));
@@ -160,17 +161,17 @@ inline void DrawGraphsFromTable(std::span<const GraphDefT> graphs) {
 
 // Generic view content drawing - uses duck typing for fields, graphs, and SVG
 template<typename ContentT>
-inline void DrawViewContent(ContentT& content) {
+inline void DrawViewContent(ContentT& content, const FieldStore& store, std::span<const GraphBuffer> graphBufs) {
     // 1. Draw fields if present and non-empty
     if constexpr (requires { content.fields; }) {
         if (!content.fields.empty())
-            DrawFieldsFromTable(content.fields);
+            DrawFieldsFromTable(content.fields, store);
     }
 
     // 2. Draw graphs if present and non-empty
     if constexpr (requires { content.graphs; }) {
         if (!content.graphs.empty())
-            DrawGraphsFromTable(content.graphs);
+            DrawGraphsFromTable(content.graphs, graphBufs);
     }
 
     // 3. Draw SVG if renderer is set
@@ -182,7 +183,7 @@ inline void DrawViewContent(ContentT& content) {
 
             // Apply bindings if present
             if constexpr (requires { content.svgBindings; }) {
-                ApplySvgBindingColors(*content.svg, content.svgBindings);
+                ApplySvgBindingColors(*content.svg, content.svgBindings, store);
             }
 
             // Apply animations if present
@@ -195,7 +196,7 @@ inline void DrawViewContent(ContentT& content) {
 
             // Draw labels if present (requires bindingFields for label lookup)
             if constexpr (requires { content.svgBindings; content.bindingFields; }) {
-                DrawSvgBindingLabels(*content.svg, content.svgBindings, content.bindingFields, cursor, avail);
+                DrawSvgBindingLabels(*content.svg, content.svgBindings, content.bindingFields, cursor, avail, store);
             }
 
             // Draw glow overlay if present
@@ -216,12 +217,12 @@ struct ShapeAnimDef;
 struct ShapeColorDef;
 
 // Span-based versions (for views with per-view binding data)
-void ApplySvgBindingColors(SvgRenderer& svg, std::span<const SvgBindingDef> bindings);
+void ApplySvgBindingColors(SvgRenderer& svg, std::span<const SvgBindingDef> bindings, const FieldStore& store);
 
 // Templated version that looks up labels from per-view field definitions
 template<typename FieldDefT>
 void DrawSvgBindingLabels(const SvgRenderer& svg, std::span<const SvgBindingDef> bindings,
-                          std::span<const FieldDefT> fields, ImVec2 origin, ImVec2 size);
+                          std::span<const FieldDefT> fields, ImVec2 origin, ImVec2 size, const FieldStore& store);
 
 // Template versions using duck typing - call def.GetShapeString()
 template<typename ColorDefT>
@@ -300,7 +301,7 @@ inline void DrawGlowOverlay(const SvgRenderer& svg, const GlowDefT& glow,
 
 template<typename FieldDefT>
 inline void DrawSvgBindingLabels(const SvgRenderer& svg, std::span<const SvgBindingDef> bindings,
-                                  std::span<const FieldDefT> fields, ImVec2 origin, ImVec2 size) {
+                                  std::span<const FieldDefT> fields, ImVec2 origin, ImVec2 size, const FieldStore& store) {
     ImDrawList* dl = ImGui::GetWindowDrawList();
     constexpr float pad = 4.0f;
 
@@ -319,9 +320,9 @@ inline void DrawSvgBindingLabels(const SvgRenderer& svg, std::span<const SvgBind
         // Line 2: value
         char valueBuf[64];
         if (b.valueFmt) {
-            std::snprintf(valueBuf, sizeof(valueBuf), b.valueFmt, g_fields.Get(b.field));
+            std::snprintf(valueBuf, sizeof(valueBuf), b.valueFmt, store.Get(b.field));
         } else {
-            std::snprintf(valueBuf, sizeof(valueBuf), "%s", g_fields.GetString(b.field));
+            std::snprintf(valueBuf, sizeof(valueBuf), "%s", store.GetString(b.field));
         }
 
         ImVec2 labelSize = ImGui::CalcTextSize(labelText);

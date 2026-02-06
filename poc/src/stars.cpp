@@ -6,6 +6,15 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+static ImFont* g_aurebeshFont = nullptr;
+
+void SetAurebeshFont(ImFont* font) {
+    g_aurebeshFont = font;
+}
+
+ImFont* GetAurebeshFont() {
+    return g_aurebeshFont;
+}
 
 ImVec4 U32ToVec4(ImU32 c) {
     return ImVec4(
@@ -83,6 +92,16 @@ void DrawGlobalTopBar(float W) {
     const float h = 40.0f;
     dl->AddRectFilled(ImVec2(0, 0), ImVec2(W, h), kOrange);
     dl->AddRectFilled(ImVec2(W - 20, 0), ImVec2(W, h), kOrange, 20.0f, ImDrawFlags_RoundCornersRight);
+
+    // Draw "STARS" in Aurebesh on the title bar
+    if (g_aurebeshFont) {
+        const char* aurebeshText = "STARS";
+        float fontSize = 24.0f;
+        ImVec2 textSize = g_aurebeshFont->CalcTextSizeA(fontSize, FLT_MAX, 0.0f, aurebeshText);
+        float textX = 20.0f;
+        float textY = (h - textSize.y) * 0.5f;
+        dl->AddText(g_aurebeshFont, fontSize, ImVec2(textX, textY), IM_COL32(0, 0, 0, 255), aurebeshText);
+    }
 }
 
 void DrawGlobalBottomBar(float W, float H) {

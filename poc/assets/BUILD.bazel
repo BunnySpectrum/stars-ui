@@ -1,0 +1,14 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+filegroup(
+    name = "all_assets",
+    srcs = glob(["*.svg"]),
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "asset_ids",
+    hdrs = glob(["*_ids.h"]),
+    include_prefix = "assets",
+    visibility = ["//visibility:public"],
+)

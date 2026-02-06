@@ -2,6 +2,7 @@
 
 #include "view_common.h"
 #include "../field_defs.h"
+#include "../field_store.h"
 #include "../field_renderer.h"
 #include "view_radio.h"
 #include "../../assets/rf_circuit_ids.h"
@@ -67,7 +68,7 @@ inline const SvgBindingDef kSvgBindings[] = {
 class SvgRenderer;
 
 struct RfSvgContent {
-    const char* svgPath = "assets/rf_circuit.svg";
+    const char* svgPath = "poc/assets/rf_circuit.svg";
     ImU32       strokeColor = kBlue;
     float       strokeWidth = 1.5f;
 
@@ -92,12 +93,14 @@ inline RfSvgContent kRfSvgContent;
 inline const ViewInfo kRfViewInfo = {
     "RF",
     kTan,
-    [] { DrawViewContent(kRfSvgContent); },
+    [](const FieldStore& fs, std::span<const GraphBuffer>) { DrawViewContent(kRfSvgContent, fs, {}); },
     [](SvgRenderer& svg) {
         svg.LoadFromFile(kRfSvgContent.svgPath);
         ApplyDefaultColors(svg, kRfSvgContent.defaultColors);
         kRfSvgContent.svg = &svg;
     },
     {},
-    0
+    0,
+    0,   // graphCount (no graphs)
+    UpdateRfFields,
 };

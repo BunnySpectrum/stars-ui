@@ -2,6 +2,7 @@
 
 #include "stars.h"
 #include "svg_renderer.h"
+#include "field_store.h"
 #include "views/view_common.h"
 
 #include <map>
@@ -31,6 +32,11 @@ inline PanelView CreatePanelViewFromViewInfo(const ViewInfo& vi,
     if (vi.initSvg) {
         vi.initSvg(svgRenderers[vi.name]);
     }
+
+    // Allocate per-view field store and graph buffers
+    pv.fields = new FieldStore();
+    pv.graphBufs.resize(vi.graphCount);
+    pv.updateFields = vi.updateFields;
 
     pv.drawContent = vi.drawContent;
     return pv;

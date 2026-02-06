@@ -20,11 +20,11 @@ static ImU32 EvaluateThresholdColor(double value, const SvgBindingDef& b) {
     return b.normalColor;
 }
 
-void ApplySvgBindingColors(SvgRenderer& svg, std::span<const SvgBindingDef> bindings) {
+void ApplySvgBindingColors(SvgRenderer& svg, std::span<const SvgBindingDef> bindings, const FieldStore& store) {
     for (const auto& b : bindings) {
         if (b.normalColor == 0) continue;
 
-        double value = g_fields.Get(b.field);
+        double value = store.Get(b.field);
         ImU32 color = EvaluateThresholdColor(value, b);
         svg.SetShapeColor(ShapeIdToString(b.shapeId), color);
     }

@@ -3,6 +3,13 @@ build/
 cmake-build-*/
 out/
 
+# Bazel
+bazel-*
+
+# Python
+__pycache__/
+*.pyc
+
 # Compiled objects
 *.o
 *.obj
@@ -35,8 +42,7 @@ Makefile
 compile_commands.json
 
 # GOES satellite data cache
-data/cache/
-!data/cache/.gitkeep
+**/data/cache/
 
 # Databases
 *.db

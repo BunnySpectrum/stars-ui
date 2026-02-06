@@ -1,12 +1,12 @@
-#include <SDL.h>
+#include <GLFW/glfw3.h>
 #include <cstdio>
 #include <memory>
 #include <vector>
 
-#include "imgui.h"
-#include "imgui_impl_sdl2.h"
-#include "imgui_impl_opengl3.h"
-#include "implot.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+#include "implot/implot.h"
 
 #ifdef __APPLE__
 #include <OpenGL/gl3.h>
@@ -20,46 +20,41 @@
 #include "panels/info_panel.h"
 #include "panels/tactical_panel.h"
 
+static void glfwErrorCallback(int error, const char* description) {
+    std::fprintf(stderr, "GLFW error %d: %s\n", error, description);
+}
+
 int main(int argc, char** argv) {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-        std::fprintf(stderr, "SDL_Init error: %s\n", SDL_GetError());
+    glfwSetErrorCallback(glfwErrorCallback);
+
+    if (!glfwInit()) {
+        std::fprintf(stderr, "glfwInit failed\n");
         return 1;
     }
 
     // OpenGL attributes
 #ifdef __APPLE__
     const char* glslVersion = "#version 150";
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #else
     const char* glslVersion = "#version 130";
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-
-    SDL_Window* window = SDL_CreateWindow(
-        "STARS Dashboard",
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        1280, 800,
-        SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
-    );
+    GLFWwindow* window = glfwCreateWindow(1280, 800, "STARS Dashboard", nullptr, nullptr);
     if (!window) {
-        std::fprintf(stderr, "SDL_CreateWindow error: %s\n", SDL_GetError());
-        SDL_Quit();
+        std::fprintf(stderr, "glfwCreateWindow failed\n");
+        glfwTerminate();
         return 1;
     }
 
-    SDL_GLContext glContext = SDL_GL_CreateContext(window);
-    SDL_GL_MakeCurrent(window, glContext);
-    SDL_GL_SetSwapInterval(1); // vsync
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1); // vsync
 
     // ImGui + ImPlot setup
     IMGUI_CHECKVERSION();
@@ -70,55 +65,50 @@ int main(int argc, char** argv) {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.IniFilename = nullptr; // don't save imgui.ini
 
-    // Load Antonio font
-    io.Fonts->AddFontFromFileTTF("fonts/Antonio-Regular.ttf", 20.0f);
-    io.Fonts->Build();
-
-    ImGui_ImplSDL2_InitForOpenGL(window, glContext);
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glslVersion);
+
+    // Load fonts (after backend init so Build() is handled correctly)
+    io.Fonts->AddFontFromFileTTF("poc/fonts/Antonio-Regular.ttf", 20.0f);
+    ImFont* aurebeshFont = io.Fonts->AddFontFromFileTTF("poc/fonts/AurebeshAF-Canon.ttf", 24.0f);
+
+    // Store Aurebesh font for use in chrome rendering
+    SetAurebeshFont(aurebeshFont);
 
     ApplySTARSTheme();
 
-    // Database setup
-    const char* dbPath = (argc > 1) ? argv[1] : nullptr;
-    if (dbPath) {
-        if (g_dbReader.Open(dbPath)) {
-            g_useDatabase = true;
-            std::printf("Database mode: %s\n", dbPath);
-        } else {
-            std::fprintf(stderr, "Failed to open database, using demo data\n");
-        }
-    } else {
-        std::printf("No database specified, using demo data\n");
+    // Database setup (required)
+    if (argc < 2) {
+        std::fprintf(stderr, "Usage: %s <database.db>\n", argv[0]);
+        glfwDestroyWindow(window);
+        glfwTerminate();
+        return 1;
     }
+    const char* dbPath = argv[1];
+    if (!g_dbReader.Open(dbPath)) {
+        std::fprintf(stderr, "Failed to open database: %s\n", dbPath);
+        glfwDestroyWindow(window);
+        glfwTerminate();
+        return 1;
+    }
+    std::printf("Database: %s\n", dbPath);
 
     // Panels listed in screen order (top to bottom)
     std::vector<std::unique_ptr<STARSPanel>> panels;
     panels.push_back(std::make_unique<InfoPanel>());
     panels.push_back(std::make_unique<TacticalPanel>());
 
-    bool running = true;
-    while (running) {
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            ImGui_ImplSDL2_ProcessEvent(&event);
-            if (event.type == SDL_QUIT)
-                running = false;
-            if (event.type == SDL_WINDOWEVENT &&
-                event.window.event == SDL_WINDOWEVENT_CLOSE &&
-                event.window.windowID == SDL_GetWindowID(window))
-                running = false;
-        }
+    while (!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
 
         ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplSDL2_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        UpdateFieldStore();
-        if (g_useDatabase) g_dbReader.PollIfNeeded();
+        g_dbReader.PollIfNeeded();
 
         int winW, winH;
-        SDL_GetWindowSize(window, &winW, &winH);
+        glfwGetWindowSize(window, &winW, &winH);
         float W = (float)winW;
         float H = (float)winH;
 
@@ -168,10 +158,17 @@ int main(int argc, char** argv) {
                 ImGuiWindowFlags_NoBringToFrontOnFocus
             );
 
-            const auto& views = panels[i]->GetViews();
+            auto& views = panels[i]->GetViews();
             int av = panels[i]->activeView;
-            if (av >= 0 && av < (int)views.size() && views[av].drawContent) {
-                views[av].drawContent();
+            if (av >= 0 && av < (int)views.size()) {
+                auto& view = views[av];
+                // Update the active view's data (handles both demo and database modes)
+                if (view.updateFields && view.fields) {
+                    view.updateFields(*view.fields, view.graphBufs);
+                }
+                if (view.drawContent && view.fields) {
+                    view.drawContent(*view.fields, view.graphBufs);
+                }
             }
 
             ImGui::End();
@@ -181,25 +178,24 @@ int main(int argc, char** argv) {
         // Render
         ImGui::Render();
         int fbW, fbH;
-        SDL_GL_GetDrawableSize(window, &fbW, &fbH);
+        glfwGetFramebufferSize(window, &fbW, &fbH);
         glViewport(0, 0, fbW, fbH);
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        SDL_GL_SwapWindow(window);
+        glfwSwapBuffers(window);
     }
 
     // Cleanup
     g_dbReader.Close();
     panels.clear();
     ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
     ImPlot::DestroyContext();
     ImGui::DestroyContext();
 
-    SDL_GL_DeleteContext(glContext);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    glfwDestroyWindow(window);
+    glfwTerminate();
 
     return 0;
 }

@@ -2,6 +2,7 @@
 
 #include "view_common.h"
 #include "../field_defs.h"
+#include "../field_store.h"
 #include "../field_renderer.h"
 
 #include <span>
@@ -89,9 +90,11 @@ inline constexpr ViewContentDef<RadioFieldDef> kRadioContent = {
 inline const ViewInfo kRadioViewInfo = {
     "RADIO",
     kOrange,
-    [] { DrawViewContent(kRadioContent); },
+    [](const FieldStore& fs, std::span<const GraphBuffer> gbufs) { DrawViewContent(kRadioContent, fs, gbufs); },
     {},  // no SVG
     { {{{"ALL FREQ", kOrange}, {"SUBSPACE", kOrange}, {"EM BAND", kOrange}}, 3},
       {{{"HAIL", kBlue}, {"ENCRYPT", kRed}}, 2} },
-    2
+    2,
+    2,   // graphCount (2 graphs for RadioSignal and OrbitalTrack)
+    UpdateRadioFields,
 };

@@ -5,9 +5,9 @@
 
 #include <string>
 
-#include "../assets/ship_wireframe_ids.h"
-#include "../assets/goes_orbit_ids.h"
-#include "../assets/rf_circuit_ids.h"
+#include "assets/ship_wireframe_ids.h"
+#include "assets/goes_orbit_ids.h"
+#include "assets/rf_circuit_ids.h"
 
 // ============================================================================
 // View IDs — each view has its own header in views/view_*.h

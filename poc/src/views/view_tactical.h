@@ -2,6 +2,7 @@
 
 #include "view_common.h"
 #include "../field_defs.h"
+#include "../field_store.h"
 #include "../field_renderer.h"
 
 #include <span>
@@ -64,8 +65,10 @@ inline constexpr ViewContentDef<TacticalFieldDef> kTacticalContent = {
 inline const ViewInfo kTacticalViewInfo = {
     "TACTICAL",
     kPurple,
-    [] { DrawViewContent(kTacticalContent); },
+    [](const FieldStore& fs, std::span<const GraphBuffer> gbufs) { DrawViewContent(kTacticalContent, fs, gbufs); },
     {},  // no SVG
     {},
-    0
+    0,
+    1,   // graphCount (1 graph for Telemetry)
+    UpdateTacticalFields,
 };

@@ -1,0 +1,30 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+cc_library(
+    name = "stars_lib",
+    srcs = glob(["*.cpp"], exclude = ["main.cpp"]),
+    hdrs = glob(["*.h", "panels/*.h", "views/*.h"]),
+    deps = [
+        "//poc/assets:asset_ids",
+        "@imgui",
+        "@implot",
+        "@sqlite3",
+        "@nanosvg",
+    ],
+)
+
+cc_binary(
+    name = "stars",
+    srcs = ["main.cpp"],
+    data = [
+        "//poc/fonts:all_fonts",
+        "//poc/assets:all_assets",
+    ],
+    deps = [
+        ":stars_lib",
+        "@glfw",
+        "@imgui",
+        "@imgui//backends:platform-glfw",
+        "@imgui//backends:renderer-opengl3",
+    ],
+)

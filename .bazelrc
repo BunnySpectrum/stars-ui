@@ -1,0 +1,26 @@
+# Common Bazel configuration
+
+# Enable bzlmod
+common --enable_bzlmod
+
+# Use color output
+common --color=yes
+
+# Show test output
+test --test_output=errors
+
+# Python configuration
+build --incompatible_use_python_toolchains=true
+
+# Performance
+build --jobs=auto
+
+# C++ configuration
+build --cxxopt=-std=c++20
+build --cxxopt=-DGL_SILENCE_DEPRECATION
+
+# macOS frameworks for OpenGL
+build --linkopt=-framework --linkopt=OpenGL
+build --linkopt=-framework --linkopt=Cocoa
+build --linkopt=-framework --linkopt=IOKit
+build --linkopt=-framework --linkopt=CoreFoundation
