@@ -1,0 +1,35 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+cc_library(
+    name = "mk1_lib",
+    srcs = glob(
+        ["src/*.cpp"],
+        exclude = ["src/main.cpp"],
+    ),
+    hdrs = glob(["src/*.h"]),
+    deps = [
+        "@glfw",
+        "@imgui",
+        "@imgui//backends:platform-glfw",
+        "@imgui//backends:renderer-opengl3",
+        "@implot",
+        "@nanosvg",
+        "@tomlplusplus",
+    ],
+)
+
+cc_binary(
+    name = "mk1",
+    srcs = ["src/main.cpp"],
+    data = [
+        "//poc/fonts:all_fonts",
+        "//poc/assets:all_assets",
+    ] + glob(["layouts/**/*.toml"]),
+    deps = [
+        ":mk1_lib",
+        "@glfw",
+        "@imgui",
+        "@imgui//backends:platform-glfw",
+        "@imgui//backends:renderer-opengl3",
+    ],
+)

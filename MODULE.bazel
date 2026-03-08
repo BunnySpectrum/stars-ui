@@ -26,6 +26,14 @@ http_archive(
     build_file = "//third_party:nanosvg.BUILD",
 )
 
+# toml++ via http_archive (not in BCR)
+http_archive(
+    name = "tomlplusplus",
+    urls = ["https://github.com/marzer/tomlplusplus/archive/refs/tags/v3.4.0.tar.gz"],
+    strip_prefix = "tomlplusplus-3.4.0",
+    build_file = "//third_party:tomlplusplus.BUILD",
+)
+
 # Python rules
 bazel_dep(name = "rules_python", version = "1.7.0")
 

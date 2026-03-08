@@ -1,0 +1,13 @@
+[screen]
+title = "DEMO DISPLAY"
+
+[[sockets]]
+id = "demo"
+path = "/tmp/demo.sock"
+
+[[panels]]
+id = "demo-panel"
+title = "DEMO PANEL"
+socket = "demo"
+orientation = { horizontal = "left", vertical = "top" }
+sizing = "auto"
