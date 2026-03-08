@@ -4,7 +4,7 @@ cc_library(
     name = "mk1_lib",
     srcs = glob(
         ["src/*.cpp"],
-        exclude = ["src/main.cpp"],
+        exclude = ["src/main.cpp", "src/elbow_demo.cpp"],
     ),
     hdrs = glob(["src/*.h"]),
     deps = [
@@ -25,6 +25,21 @@ cc_binary(
         "//poc/fonts:all_fonts",
         "//poc/assets:all_assets",
     ] + glob(["layouts/**/*.toml"]),
+    deps = [
+        ":mk1_lib",
+        "@glfw",
+        "@imgui",
+        "@imgui//backends:platform-glfw",
+        "@imgui//backends:renderer-opengl3",
+    ],
+)
+
+cc_binary(
+    name = "lcars-corner-demo",
+    srcs = ["src/elbow_demo.cpp"],
+    data = [
+        "//poc/fonts:all_fonts",
+    ],
     deps = [
         ":mk1_lib",
         "@glfw",

@@ -81,12 +81,13 @@ ImVec4 DrawPanelChrome(
         dl->PathLineTo(ImVec2(ebX, ebY + titleH + elbowR));
         dl->PathFillConvex(kOrange);
     } else if (viewLeft && !titleTop) {
-        dl->PathLineTo(ImVec2(ebX, ebY + titleH + elbowR));
-        dl->PathLineTo(ImVec2(ebX, ebY));
+        // Bottom-left elbow: L-shape with arc cutout at inner corner
+        dl->PathLineTo(ImVec2(ebX, ebY + elbowR));
+        dl->PathLineTo(ImVec2(ebX + viewW, ebY + elbowR));
+        dl->PathArcTo(ImVec2(ebX + viewW, ebY),
+                      elbowR, (float)M_PI * 0.5f, 0.0f, 32);
         dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY));
-        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY + elbowR));
-        dl->PathArcTo(ImVec2(ebX + viewW + elbowR, ebY + elbowR),
-                      elbowR, 0.0f, (float)M_PI * 0.5f, 32);
+        dl->PathLineTo(ImVec2(ebX, ebY));
         dl->PathFillConvex(kOrange);
     } else if (!viewLeft && titleTop) {
         dl->PathLineTo(ImVec2(ebX, ebY - 1));
@@ -97,12 +98,13 @@ ImVec4 DrawPanelChrome(
                       elbowR, (float)M_PI, (float)M_PI * 0.5f, 32);
         dl->PathFillConvex(kOrange);
     } else {
-        dl->PathLineTo(ImVec2(ebX + elbowR, ebY));
-        dl->PathLineTo(ImVec2(ebX + elbowR + viewW, ebY));
-        dl->PathLineTo(ImVec2(ebX + elbowR + viewW, ebY + titleH + elbowR));
-        dl->PathLineTo(ImVec2(ebX + elbowR, ebY + elbowR));
-        dl->PathArcTo(ImVec2(ebX + elbowR, ebY + elbowR),
-                      elbowR, (float)M_PI * 0.5f, 0.0f, 32);
+        // Bottom-right elbow: L-shape with arc cutout at inner corner
+        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY + elbowR));
+        dl->PathLineTo(ImVec2(ebX + viewW, ebY + elbowR));
+        dl->PathArcTo(ImVec2(ebX + viewW, ebY),
+                      elbowR, (float)M_PI * 0.5f, (float)M_PI, 32);
+        dl->PathLineTo(ImVec2(ebX, ebY));
+        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY));
         dl->PathFillConvex(kOrange);
     }
 
