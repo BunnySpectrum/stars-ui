@@ -1,13 +1,34 @@
 [screen]
-title = "DEMO DISPLAY"
-
-[[sockets]]
-id = "demo"
-path = "/tmp/demo.sock"
+title = "LCARS FEATURE DEMO"
 
 [[panels]]
-id = "demo-panel"
-title = "DEMO PANEL"
-socket = "demo"
+id = "system-status"
+title = "SYSTEM STATUS"
+orientation = { horizontal = "left", vertical = "bottom" }
+sizing = "auto"
+
+[[panels.views]]
+id = "ovr"
+name = "OVR"
+
+[[panels.views]]
+id = "grf"
+name = "GRF"
+
+[[panels.views]]
+id = "dtl"
+name = "DTL"
+
+[[panels]]
+id = "operations"
+title = "OPERATIONS"
 orientation = { horizontal = "left", vertical = "top" }
 sizing = "auto"
+
+[[panels.views]]
+id = "sts"
+name = "STS"
+
+[[panels.views]]
+id = "log"
+name = "LOG"

@@ -41,10 +41,12 @@ void DrawGlobalBottomBar(float W, float H) {
 
 ImVec4 DrawPanelChrome(
     const char* title,
-    const char* viewName,
     float px, float py, float pw, float ph,
     HOrientation hOrient,
-    VOrientation vOrient
+    VOrientation vOrient,
+    const std::vector<ViewButtonDef>& views,
+    int& activeView,
+    const std::vector<OptionGroupDef>& optionGroups
 ) {
     ImDrawList* dl = ImGui::GetBackgroundDrawList();
 
@@ -53,70 +55,67 @@ ImVec4 DrawPanelChrome(
     const float optW   = 120.0f;
     const float elbowR = 40.0f;
     const float gap    = 6.0f;
+    const float btnGap = 4.0f;
 
     bool viewLeft  = (hOrient == HOrientation::Left);
     bool titleTop  = (vOrient == VOrientation::Top);
 
     float titleY = titleTop ? py : (py + ph - titleH);
 
+    // Clamp activeView
+    if (activeView < 0 || activeView >= (int)views.size()) activeView = 0;
+
+    // Active view name for elbow text
+    const char* viewName = views.empty() ? nullptr : views[activeView].name;
+
     // === Elbow ===
-    // Draw elbow as a single filled path with smooth arc
     float ebX = viewLeft ? px : (px + pw - viewW - elbowR);
     float ebY = titleTop ? py : (py + ph - titleH - elbowR);
 
-    // Build the elbow path (L-shape with rounded inner corner)
-    // Overlap by 1px with global bars to avoid gaps
     if (viewLeft && titleTop) {
-        // Top-left elbow: trace clockwise from top-left, extend top edge up 1px
-        dl->PathLineTo(ImVec2(ebX, ebY - 1));                                // Top-left corner (overlap with global bar)
-        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY - 1));              // Top-right corner (overlap with global bar)
-        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY + titleH));         // Right edge
-        dl->PathArcTo(ImVec2(ebX + viewW + elbowR, ebY + titleH + elbowR),  // Arc center
-                      elbowR, (float)M_PI * 1.5f, (float)M_PI, 32);          // 270° to 180° (32 segments)
-        dl->PathLineTo(ImVec2(ebX, ebY + titleH + elbowR));                 // Bottom-left corner
+        dl->PathLineTo(ImVec2(ebX, ebY - 1));
+        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY - 1));
+        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY + titleH));
+        dl->PathArcTo(ImVec2(ebX + viewW + elbowR, ebY + titleH + elbowR),
+                      elbowR, (float)M_PI * 1.5f, (float)M_PI, 32);
+        dl->PathLineTo(ImVec2(ebX, ebY + titleH + elbowR));
         dl->PathFillConvex(kOrange);
     } else if (viewLeft && !titleTop) {
-        // Bottom-left elbow: trace clockwise from bottom-left
         dl->PathLineTo(ImVec2(ebX, ebY + titleH + elbowR));
         dl->PathLineTo(ImVec2(ebX, ebY));
         dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY));
         dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY + elbowR));
         dl->PathArcTo(ImVec2(ebX + viewW + elbowR, ebY + elbowR),
-                      elbowR, 0.0f, (float)M_PI * 0.5f, 32);                 // 0° to 90° (32 segments)
+                      elbowR, 0.0f, (float)M_PI * 0.5f, 32);
         dl->PathFillConvex(kOrange);
     } else if (!viewLeft && titleTop) {
-        // Top-right elbow: trace clockwise from top-left, extend top edge up 1px
         dl->PathLineTo(ImVec2(ebX, ebY - 1));
         dl->PathLineTo(ImVec2(ebX + elbowR + viewW, ebY - 1));
         dl->PathLineTo(ImVec2(ebX + elbowR + viewW, ebY + titleH + elbowR));
         dl->PathLineTo(ImVec2(ebX + elbowR, ebY + titleH + elbowR));
         dl->PathArcTo(ImVec2(ebX + elbowR, ebY + titleH + elbowR),
-                      elbowR, (float)M_PI, (float)M_PI * 0.5f, 32);          // 180° to 90° (32 segments)
+                      elbowR, (float)M_PI, (float)M_PI * 0.5f, 32);
         dl->PathFillConvex(kOrange);
-    } else { // !viewLeft && !titleTop
-        // Bottom-right elbow: trace clockwise
+    } else {
         dl->PathLineTo(ImVec2(ebX + elbowR, ebY));
         dl->PathLineTo(ImVec2(ebX + elbowR + viewW, ebY));
         dl->PathLineTo(ImVec2(ebX + elbowR + viewW, ebY + titleH + elbowR));
         dl->PathLineTo(ImVec2(ebX + elbowR, ebY + elbowR));
         dl->PathArcTo(ImVec2(ebX + elbowR, ebY + elbowR),
-                      elbowR, (float)M_PI * 0.5f, 0.0f, 32);                 // 90° to 0° (32 segments)
+                      elbowR, (float)M_PI * 0.5f, 0.0f, 32);
         dl->PathFillConvex(kOrange);
     }
 
     // === Title bar ===
-    // Overlap slightly with elbow to avoid 1px gaps from anti-aliasing
     float tbX, tbW;
     if (viewLeft) {
-        tbX = ebX + viewW + elbowR - 1;  // Overlap 1px with elbow
+        tbX = ebX + viewW + elbowR - 1;
+        tbW = pw - viewW - elbowR + 1;
+    } else {
+        tbX = px;
         tbW = pw - viewW - elbowR + 1;
     }
-    else {
-        tbX = px;
-        tbW = pw - viewW - elbowR + 1;   // Overlap 1px with elbow
-    }
     dl->AddRectFilled(ImVec2(tbX, titleY), ImVec2(tbX + tbW, titleY + titleH), kOrange);
-    // Rounded cap on far end
     if (viewLeft)
         dl->AddRectFilled(ImVec2(tbX + tbW - 20, titleY), ImVec2(tbX + tbW, titleY + titleH), kOrange, 20.0f, ImDrawFlags_RoundCornersRight);
     else
@@ -132,6 +131,57 @@ ImVec4 DrawPanelChrome(
         ImVec2 vs = ImGui::CalcTextSize(viewName);
         float etX = viewLeft ? (px + (viewW - vs.x) * 0.5f) : (px + pw - viewW + (viewW - vs.x) * 0.5f);
         dl->AddText(ImVec2(etX, titleY + (titleH - vs.y) * 0.5f), IM_COL32(0, 0, 0, 255), viewName);
+    }
+
+    // === View buttons ===
+    float viewX = viewLeft ? px : (px + pw - viewW);
+    if ((int)views.size() > 1) {
+        float vcTop = titleTop ? (py + titleH + elbowR + gap) : (py + gap);
+        float vcBot = titleTop ? (py + ph - gap)              : (py + ph - titleH - elbowR - gap);
+        int n = (int)views.size();
+        float bh = (vcBot - vcTop - btnGap * (n - 1)) / (float)n;
+        if (bh < 20.0f) bh = 20.0f;
+
+        ImGuiIO& io = ImGui::GetIO();
+        for (int i = 0; i < n; i++) {
+            float by = vcTop + (float)i * (bh + btnGap);
+            dl->AddRectFilled(ImVec2(viewX, by), ImVec2(viewX + viewW, by + bh), views[i].color);
+            ImVec2 ls = ImGui::CalcTextSize(views[i].name);
+            dl->AddText(ImVec2(viewX + (viewW - ls.x) * 0.5f, by + (bh - ls.y) * 0.5f), IM_COL32(0, 0, 0, 255), views[i].name);
+            if (io.MouseClicked[0] && io.MousePos.x >= viewX && io.MousePos.x <= viewX + viewW &&
+                io.MousePos.y >= by && io.MousePos.y <= by + bh)
+                activeView = i;
+        }
+    }
+
+    // === Option buttons ===
+    float optX = viewLeft ? (px + pw - optW) : px;
+    if (!optionGroups.empty()) {
+        float ocTop = titleTop ? (py + titleH + gap) : (py + gap);
+        float ocBot = titleTop ? (py + ph - gap)     : (py + ph - titleH - gap);
+
+        int total = 0;
+        for (const auto& g : optionGroups) total += (int)g.buttons.size();
+        int nSep = (int)optionGroups.size() - 1;
+        float sepH = 2.0f;
+        float bh = (ocBot - ocTop - btnGap * (total - 1) - nSep * (sepH + gap)) / (float)total;
+        if (bh < 20.0f) bh = 20.0f;
+        float br = bh * 0.5f;
+
+        float cy = ocTop;
+        for (size_t g = 0; g < optionGroups.size(); g++) {
+            if (g > 0) {
+                cy += gap * 0.5f;
+                dl->AddRectFilled(ImVec2(optX + 10, cy), ImVec2(optX + optW - 10, cy + sepH), IM_COL32(80, 80, 80, 255));
+                cy += sepH + gap * 0.5f;
+            }
+            for (const auto& btn : optionGroups[g].buttons) {
+                dl->AddRectFilled(ImVec2(optX, cy), ImVec2(optX + optW, cy + bh), btn.color, br, ImDrawFlags_RoundCornersAll);
+                ImVec2 ls = ImGui::CalcTextSize(btn.label);
+                dl->AddText(ImVec2(optX + (optW - ls.x) * 0.5f, cy + (bh - ls.y) * 0.5f), IM_COL32(0, 0, 0, 255), btn.label);
+                cy += bh + btnGap;
+            }
+        }
     }
 
     // === Content rect ===

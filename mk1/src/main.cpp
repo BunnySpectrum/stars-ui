@@ -14,11 +14,15 @@
 
 #include "theme.h"
 #include "panel_chrome.h"
-#include "layout_loader.h"
+#include "demo_widgets.h"
 
 static void glfwErrorCallback(int error, const char* description) {
     std::fprintf(stderr, "GLFW error %d: %s\n", error, description);
 }
+
+// Panel state persisted across frames
+static int g_panel1ActiveView = 0;
+static int g_panel2ActiveView = 0;
 
 int main(int argc, char** argv) {
     glfwSetErrorCallback(glfwErrorCallback);
@@ -42,7 +46,7 @@ int main(int argc, char** argv) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
-    GLFWwindow* window = glfwCreateWindow(1280, 800, "MK1 - STARS Layout Engine", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1280, 800, "MK1 - STARS LCARS Demo", nullptr, nullptr);
     if (!window) {
         std::fprintf(stderr, "glfwCreateWindow failed\n");
         glfwTerminate();
@@ -64,35 +68,38 @@ int main(int argc, char** argv) {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glslVersion);
 
-    // Load fonts (after backend init so Build() is handled correctly)
+    // Load fonts
     io.Fonts->AddFontFromFileTTF("poc/fonts/Antonio-Regular.ttf", 20.0f);
     ImFont* aurebeshFont = io.Fonts->AddFontFromFileTTF("poc/fonts/AurebeshAF-Canon.ttf", 24.0f);
-
-    // Store Aurebesh font for use in chrome rendering
     SetAurebeshFont(aurebeshFont);
 
     ApplySTARSTheme();
 
-    std::printf("MK1: STARS Layout Engine - Phase 1\n");
-    std::printf("Press 'A' to toggle antialiasing\n");
+    std::printf("MK1: STARS LCARS Feature Demo\n");
 
-    // Global antialiasing flag
-    bool enableAntialiasing = true;
+    // ---------------------------------------------------------------------------
+    // Panel 1: SYSTEM STATUS - view definitions
+    // ---------------------------------------------------------------------------
+    std::vector<ViewButtonDef> panel1Views = {
+        {"OVR", kPurple},
+        {"GRF", kBlue},
+        {"DTL", kTan},
+    };
+    std::vector<OptionGroupDef> panel1Opts = {
+        {{{ "UNITS", kPurple }, { "SCALE", kBlue }}},
+        {{{ "RESET", kRed }}},
+    };
 
-    // Load and parse TOML layout
-    const char* layoutPath = "mk1/layouts/demo.toml";
-    std::printf("Loading layout from: %s\n", layoutPath);
-    LayoutLoadResult loadResult = LoadLayoutFromFile(layoutPath);
-
-    if (!loadResult.success) {
-        std::fprintf(stderr, "Failed to load layout: %s\n", loadResult.error_message.c_str());
-        // Continue with hardcoded panel anyway
-    } else {
-        std::printf("Layout loaded successfully!\n");
-        PrintScreenModel(loadResult.model);
-    }
-
-    std::printf("\nRendering hardcoded panel with chrome\n");
+    // ---------------------------------------------------------------------------
+    // Panel 2: OPERATIONS - view definitions
+    // ---------------------------------------------------------------------------
+    std::vector<ViewButtonDef> panel2Views = {
+        {"STS", kPurple},
+        {"LOG", kBlue},
+    };
+    std::vector<OptionGroupDef> panel2Opts = {
+        {{{ "AUTO", kPurple }, { "MANUAL", kTan }}},
+    };
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
@@ -101,26 +108,10 @@ int main(int argc, char** argv) {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // Toggle antialiasing with 'A' key
-        if (ImGui::IsKeyPressed(ImGuiKey_A)) {
-            enableAntialiasing = !enableAntialiasing;
-            std::printf("Antialiasing: %s\n", enableAntialiasing ? "ON" : "OFF");
-        }
-
         int winW, winH;
         glfwGetWindowSize(window, &winW, &winH);
         float W = (float)winW;
         float H = (float)winH;
-
-        // Set global antialiasing flag for draw list
-        ImDrawList* drawList = ImGui::GetBackgroundDrawList();
-        if (!enableAntialiasing) {
-            drawList->Flags &= ~ImDrawListFlags_AntiAliasedFill;
-            drawList->Flags &= ~ImDrawListFlags_AntiAliasedLines;
-        } else {
-            drawList->Flags |= ImDrawListFlags_AntiAliasedFill;
-            drawList->Flags |= ImDrawListFlags_AntiAliasedLines;
-        }
 
         // Global chrome
         DrawGlobalTopBar(W);
@@ -134,46 +125,110 @@ int main(int argc, char** argv) {
         float panelTop = topBarH;
         float panelAreaH = H - topBarH - bottomBarH;
 
-        // Draw a single hardcoded panel
-        float px = 0.0f;
-        float py = panelTop;
-        float pw = W;
-        float ph = panelAreaH;
+        // Two panels: 60/40 split
+        float panel1H = panelAreaH * 0.6f - panelGap * 0.5f;
+        float panel2H = panelAreaH * 0.4f - panelGap * 0.5f;
 
-        ImVec4 contentRect = DrawPanelChrome(
-            "DEMO PANEL",      // title
-            "OVR",             // view name
-            px, py, pw, ph,
-            HOrientation::Left,
-            VOrientation::Top
+        float panel1Y = panelTop;
+        float panel2Y = panelTop + panel1H + panelGap;
+
+        // =====================================================================
+        // Panel 1: SYSTEM STATUS (Bottom orientation = title at bottom)
+        // =====================================================================
+        ImVec4 cr1 = DrawPanelChrome(
+            "SYSTEM STATUS",
+            0.0f, panel1Y, W, panel1H,
+            HOrientation::Left, VOrientation::Bottom,
+            panel1Views, g_panel1ActiveView, panel1Opts
         );
 
-        // Create ImGui window at the content rect
-        float cx = contentRect.x;
-        float cy = contentRect.y;
-        float cw = contentRect.z;
-        float ch = contentRect.w;
+        {
+            ImGui::SetNextWindowPos(ImVec2(cr1.x, cr1.y));
+            ImGui::SetNextWindowSize(ImVec2(cr1.z, cr1.w));
+            ImGui::Begin("##Panel1Content", nullptr,
+                ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
+                ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
+                ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoBringToFrontOnFocus);
 
-        ImGui::SetNextWindowPos(ImVec2(cx, cy));
-        ImGui::SetNextWindowSize(ImVec2(cw, ch));
-        ImGui::Begin("##DemoPanel", nullptr,
-            ImGuiWindowFlags_NoTitleBar |
-            ImGuiWindowFlags_NoResize |
-            ImGuiWindowFlags_NoMove |
-            ImGuiWindowFlags_NoCollapse |
-            ImGuiWindowFlags_NoBackground |
-            ImGuiWindowFlags_NoBringToFrontOnFocus
+            if (g_panel1ActiveView == 0) {
+                // OVR: Overview - section headers, label/values, progress bars
+                DrawSectionHeader("PROPULSION");
+                DrawLabelValue("WARP FACTOR", "6.2");
+                DrawLabelValue("IMPULSE",     "FULL STOP");
+                DrawLabelValue("HEADING",     "127 MARK 4");
+
+                DrawSectionHeader("POWER DISTRIBUTION");
+                DrawProgressBar("WARP CORE",    0.92f, 0.80f, 0.95f);
+                DrawProgressBar("SHIELDS",      0.45f, 0.70f, 0.90f);
+                DrawProgressBar("LIFE SUPPORT", 1.00f, 0.80f, 0.95f);
+                DrawProgressBar("WEAPONS",      0.00f, 0.70f, 0.90f);
+                DrawProgressBar("SENSORS",      0.87f, 0.80f, 0.95f);
+
+                DrawSectionHeader("ENVIRONMENTAL");
+                DrawLabelValue("TEMPERATURE", "22.1 C");
+                DrawLabelValue("PRESSURE",    "101.3 kPa");
+                DrawLabelValue("OXYGEN",      "20.9%");
+
+            } else if (g_panel1ActiveView == 1) {
+                // GRF: Graph view - animated ImPlot chart
+                DrawSectionHeader("WARP FIELD ANALYSIS");
+                DrawDemoChart();
+
+            } else if (g_panel1ActiveView == 2) {
+                // DTL: Detail view - table + color palette
+                DrawSectionHeader("SUBSYSTEM STATUS");
+                DrawDemoTable();
+
+                DrawSectionHeader("LCARS COLOR PALETTE");
+                DrawColorPalette();
+            }
+
+            ImGui::End();
+        }
+
+        // =====================================================================
+        // Panel 2: OPERATIONS (Top orientation = title at top)
+        // =====================================================================
+        ImVec4 cr2 = DrawPanelChrome(
+            "OPERATIONS",
+            0.0f, panel2Y, W, panel2H,
+            HOrientation::Left, VOrientation::Top,
+            panel2Views, g_panel2ActiveView, panel2Opts
         );
 
-        // Placeholder content
-        ImGui::Text("Phase 1: STARS chrome rendering working!");
-        ImGui::Separator();
-        ImGui::Text("Next steps:");
-        ImGui::BulletText("Load and parse TOML layout files");
-        ImGui::BulletText("Implement socket connection and data store");
-        ImGui::BulletText("Add basic widgets (stat, progress_bar, table)");
+        {
+            ImGui::SetNextWindowPos(ImVec2(cr2.x, cr2.y));
+            ImGui::SetNextWindowSize(ImVec2(cr2.z, cr2.w));
+            ImGui::Begin("##Panel2Content", nullptr,
+                ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
+                ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
+                ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoBringToFrontOnFocus);
 
-        ImGui::End();
+            if (g_panel2ActiveView == 0) {
+                // STS: Status - threshold coloring showcase
+                DrawSectionHeader("ALERT STATUS");
+                DrawLabelValueThreshold("HULL INTEGRITY", "98.2%",  0.982f, 0.50f, 0.25f);
+                DrawLabelValueThreshold("SHIELD POWER",   "45.0%",  0.450f, 0.50f, 0.25f);
+                DrawLabelValueThreshold("ANTIMATTER",     "12.1%",  0.121f, 0.50f, 0.25f);
+
+                DrawSectionHeader("CREW STATUS");
+                DrawLabelValue("COMPLEMENT",   "1,012 / 1,014");
+                DrawLabelValue("CASUALTIES",   "0");
+                DrawLabelValue("AWAY TEAMS",   "2 DEPLOYED");
+
+                DrawSectionHeader("TACTICAL");
+                DrawLabelValueThreshold("PHASER BANKS",    "OFFLINE", 0.0f, 0.01f, 0.001f);
+                DrawLabelValueThreshold("TORPEDO TUBES",   "4 / 4",   1.0f, 0.50f, 0.25f);
+                DrawLabelValueThreshold("TRACTOR BEAM",    "STANDBY", 0.5f, 0.70f, 0.90f);
+
+            } else if (g_panel2ActiveView == 1) {
+                // LOG: Scrolling operations log
+                DrawSectionHeader("OPERATIONS LOG");
+                DrawDemoLog();
+            }
+
+            ImGui::End();
+        }
 
         // Render
         ImGui::Render();
