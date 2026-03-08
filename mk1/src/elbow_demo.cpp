@@ -108,17 +108,16 @@ void DrawElbowBottomRight(ImDrawList *dl, float x, float y)
 {
     float ebX = x;
     float ebY = y;
-    const float kAngleStart = (float)M_PI * 0.5f;
+    const float kAngleStart = (float)M_PI * 0.0f;
     const float kAngleEnd = kAngleStart + kSweep;
 
-    // Mirror top-right vertically: same dimensions, arc at top instead of bottom
-    dl->PathLineTo(ImVec2(ebX, ebY));
-    dl->PathLineTo(ImVec2(ebX + kElbowR + kViewW, ebY));
-    dl->PathLineTo(ImVec2(ebX + kElbowR + kViewW, ebY + kTitleH + kElbowR));
-    dl->PathLineTo(ImVec2(ebX + kElbowR, ebY + kElbowR));
-    dl->PathArcTo(ImVec2(ebX + kElbowR, ebY + kElbowR),
+    dl->PathLineTo(ImVec2(ebX + kElbowR, ebY));
+    dl->PathArcTo(ImVec2(ebX, ebY),
                   kElbowR, kAngleStart, kAngleEnd, 32);
-    dl->PathFillConvex(kOrange);
+    dl->PathLineTo(ImVec2(ebX, ebY + kTitleH + kElbowR));
+    dl->PathLineTo(ImVec2(ebX + kElbowR + kViewW, ebY + kTitleH + kElbowR));
+    dl->PathLineTo(ImVec2(ebX + kElbowR + kViewW, ebY));
+    dl->PathFillConcave(kOrange);
 }
 
 // ============================================================================
@@ -169,7 +168,7 @@ void DrawElbowBottomLeftOverdraw(ImDrawList *dl, float x, float y)
 
     // Cut out inner corner with black circle
     float arcCX = ebX + kViewW + kElbowR;
-    float arcCY = ebY + kElbowR;
+    float arcCY = ebY;
     dl->AddCircleFilled(ImVec2(arcCX, arcCY), kElbowR, kColorBlack, 32);
 }
 
@@ -184,8 +183,8 @@ void DrawElbowBottomRightOverdraw(ImDrawList *dl, float x, float y)
                       kColorOverdraw);
 
     // Cut out inner corner with black circle
-    float arcCX = ebX + kElbowR;
-    float arcCY = ebY + kElbowR;
+    float arcCX = ebX;
+    float arcCY = ebY;
     dl->AddCircleFilled(ImVec2(arcCX, arcCY), kElbowR, kColorBlack, 32);
 }
 
@@ -282,7 +281,7 @@ int main(int argc, char **argv)
         dl->AddText(ImVec2(10, cellH + 10), IM_COL32(255, 153, 51, 255), "BOTTOM-LEFT");
         dl->AddText(ImVec2(cellW + 10, cellH + 10), IM_COL32(255, 153, 51, 255), "BOTTOM-RIGHT");
 
-        const float vOffset = 90.0f; // Vertical offset to stack overdraw below path
+        const float vOffset = 120.0f; // Vertical offset to stack overdraw below path
 
         // Top-left elbow - both versions
         DrawElbowTopLeft(dl, centerX - 80, centerY - 80);
