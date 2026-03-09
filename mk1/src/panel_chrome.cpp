@@ -1,5 +1,6 @@
 #include "panel_chrome.h"
 #include "theme.h"
+#include "lcars_widgets.h"
 #include <cmath>
 
 #ifndef M_PI
@@ -69,44 +70,30 @@ ImVec4 DrawPanelChrome(
     const char* viewName = views.empty() ? nullptr : views[activeView].name;
 
     // === Elbow ===
+    // Use overdraw method with clipping to prevent black circle from affecting neighbors
     float ebX = viewLeft ? px : (px + pw - viewW - elbowR);
     float ebY = titleTop ? py : (py + ph - titleH - elbowR);
 
-    if (viewLeft && titleTop) {
-        dl->PathLineTo(ImVec2(ebX, ebY - 1));
-        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY - 1));
-        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY + titleH));
-        dl->PathArcTo(ImVec2(ebX + viewW + elbowR, ebY + titleH + elbowR),
-                      elbowR, (float)M_PI * 1.5f, (float)M_PI, 32);
-        dl->PathLineTo(ImVec2(ebX, ebY + titleH + elbowR));
-        dl->PathFillConvex(kOrange);
-    } else if (viewLeft && !titleTop) {
-        // Bottom-left elbow: L-shape with arc cutout at inner corner
-        dl->PathLineTo(ImVec2(ebX, ebY + elbowR));
-        dl->PathLineTo(ImVec2(ebX + viewW, ebY + elbowR));
-        dl->PathArcTo(ImVec2(ebX + viewW, ebY),
-                      elbowR, (float)M_PI * 0.5f, 0.0f, 32);
-        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY));
-        dl->PathLineTo(ImVec2(ebX, ebY));
-        dl->PathFillConvex(kOrange);
-    } else if (!viewLeft && titleTop) {
-        dl->PathLineTo(ImVec2(ebX, ebY - 1));
-        dl->PathLineTo(ImVec2(ebX + elbowR + viewW, ebY - 1));
-        dl->PathLineTo(ImVec2(ebX + elbowR + viewW, ebY + titleH + elbowR));
-        dl->PathLineTo(ImVec2(ebX + elbowR, ebY + titleH + elbowR));
-        dl->PathArcTo(ImVec2(ebX + elbowR, ebY + titleH + elbowR),
-                      elbowR, (float)M_PI, (float)M_PI * 0.5f, 32);
-        dl->PathFillConvex(kOrange);
+    // Determine elbow corner orientation
+    ElbowCorner corner;
+    if (viewLeft && titleTop)       corner = ElbowCorner::TopLeft;
+    else if (viewLeft && !titleTop) corner = ElbowCorner::BottomLeft;
+    else if (!viewLeft && titleTop) corner = ElbowCorner::TopRight;
+    else                            corner = ElbowCorner::BottomRight;
+
+    // Clip to elbow bounds to prevent black cutout circle from affecting other elements
+    ImVec2 clipMin, clipMax;
+    if (viewLeft) {
+        clipMin = ImVec2(ebX, titleTop ? ebY - 1 : ebY);
+        clipMax = ImVec2(ebX + viewW + elbowR, (titleTop ? ebY : ebY) + titleH + elbowR);
     } else {
-        // Bottom-right elbow: L-shape with arc cutout at inner corner
-        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY + elbowR));
-        dl->PathLineTo(ImVec2(ebX + viewW, ebY + elbowR));
-        dl->PathArcTo(ImVec2(ebX + viewW, ebY),
-                      elbowR, (float)M_PI * 0.5f, (float)M_PI, 32);
-        dl->PathLineTo(ImVec2(ebX, ebY));
-        dl->PathLineTo(ImVec2(ebX + viewW + elbowR, ebY));
-        dl->PathFillConvex(kOrange);
+        clipMin = ImVec2(ebX, titleTop ? ebY - 1 : ebY);
+        clipMax = ImVec2(ebX + viewW + elbowR, (titleTop ? ebY : ebY) + titleH + elbowR);
     }
+
+    dl->PushClipRect(clipMin, clipMax, true);
+    DrawElbowOverdraw(dl, ebX, ebY, corner, kOrange, false);
+    dl->PopClipRect();
 
     // === Title bar ===
     float tbX, tbW;

@@ -13,6 +13,7 @@
 #endif
 
 #include "theme.h"
+#include "lcars_widgets.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -27,7 +28,6 @@ static const float kSweep = 1 * (float)M_PI * 0.5f;
 // Colors for comparison
 static const ImU32 kColorPath = kOrange;     // Orange for path method
 static const ImU32 kColorOverdraw = kPurple; // Purple for overdraw method
-static const ImU32 kColorBlack = IM_COL32(0, 0, 0, 255);
 
 static void glfwErrorCallback(int error, const char *description)
 {
@@ -121,72 +121,8 @@ void DrawElbowBottomRight(ImDrawList *dl, float x, float y)
 }
 
 // ============================================================================
-// OVERDRAW METHOD: Rectangle + circle cutout
+// OVERDRAW METHOD: Now using DrawElbowOverdraw from lcars_widgets module
 // ============================================================================
-
-void DrawElbowTopLeftOverdraw(ImDrawList *dl, float x, float y)
-{
-    float ebX = x;
-    float ebY = y;
-
-    // Draw filled rectangle (entire elbow area)
-    dl->AddRectFilled(ImVec2(ebX, ebY - 1),
-                      ImVec2(ebX + kViewW + kElbowR, ebY + kTitleH + kElbowR),
-                      kColorOverdraw);
-
-    // Cut out inner corner with black circle
-    float arcCX = ebX + kViewW + kElbowR;
-    float arcCY = ebY + kTitleH + kElbowR;
-    dl->AddCircleFilled(ImVec2(arcCX, arcCY), kElbowR, kColorBlack, 32);
-}
-
-void DrawElbowTopRightOverdraw(ImDrawList *dl, float x, float y)
-{
-    float ebX = x;
-    float ebY = y;
-
-    // Draw filled rectangle (entire elbow area)
-    dl->AddRectFilled(ImVec2(ebX - kViewW - kElbowR, ebY - 1),
-                      ImVec2(ebX, ebY + kTitleH + kElbowR),
-                      kColorOverdraw);
-
-    // Cut out inner corner with black circle
-    float arcCX = ebX - kViewW - kElbowR;
-    float arcCY = ebY + kTitleH + kElbowR;
-    dl->AddCircleFilled(ImVec2(arcCX, arcCY), kElbowR, kColorBlack, 32);
-}
-
-void DrawElbowBottomLeftOverdraw(ImDrawList *dl, float x, float y)
-{
-    float ebX = x;
-    float ebY = y;
-
-    // Draw filled rectangle (entire elbow area)
-    dl->AddRectFilled(ImVec2(ebX, ebY),
-                      ImVec2(ebX + kViewW + kElbowR, ebY + kTitleH + kElbowR),
-                      kColorOverdraw);
-
-    // Cut out inner corner with black circle
-    float arcCX = ebX + kViewW + kElbowR;
-    float arcCY = ebY;
-    dl->AddCircleFilled(ImVec2(arcCX, arcCY), kElbowR, kColorBlack, 32);
-}
-
-void DrawElbowBottomRightOverdraw(ImDrawList *dl, float x, float y)
-{
-    float ebX = x;
-    float ebY = y;
-
-    // Draw filled rectangle (entire elbow area)
-    dl->AddRectFilled(ImVec2(ebX, ebY),
-                      ImVec2(ebX + kElbowR + kViewW, ebY + kTitleH + kElbowR),
-                      kColorOverdraw);
-
-    // Cut out inner corner with black circle
-    float arcCX = ebX;
-    float arcCY = ebY;
-    dl->AddCircleFilled(ImVec2(arcCX, arcCY), kElbowR, kColorBlack, 32);
-}
 
 int main(int argc, char **argv)
 {
@@ -281,23 +217,51 @@ int main(int argc, char **argv)
         dl->AddText(ImVec2(10, cellH + 10), IM_COL32(255, 153, 51, 255), "BOTTOM-LEFT");
         dl->AddText(ImVec2(cellW + 10, cellH + 10), IM_COL32(255, 153, 51, 255), "BOTTOM-RIGHT");
 
-        const float vOffset = 120.0f; // Vertical offset to stack overdraw below path
+        const float vOffset = 90.0f;            // Vertical offset to stack overdraw below path
+        const float elbowW = kViewW + kElbowR;  // 160px
+        const float elbowH = kTitleH + kElbowR; // 70px
 
         // Top-left elbow - both versions
         DrawElbowTopLeft(dl, centerX - 80, centerY - 80);
-        DrawElbowTopLeftOverdraw(dl, centerX - 80, centerY - 80 + vOffset);
+        dl->PushClipRect(ImVec2(centerX - 80, centerY - 80 + vOffset),
+                         ImVec2(centerX - 80 + elbowW, centerY - 80 + vOffset + elbowH), true);
+        DrawElbowOverdraw(dl, centerX - 80, centerY - 80 + vOffset, ElbowCorner::TopLeft, kColorOverdraw, true);
+        dl->PopClipRect();
 
         // Top-right elbow - both versions
         DrawElbowTopRight(dl, cellW + centerX + 80, centerY - 80);
-        DrawElbowTopRightOverdraw(dl, cellW + centerX + 80, centerY - 80 + vOffset);
+        dl->PushClipRect(ImVec2(cellW + centerX + 80 - elbowW, centerY - 80 + vOffset),
+                         ImVec2(cellW + centerX + 80, centerY - 80 + vOffset + elbowH), true);
+        DrawElbowOverdraw(dl, cellW + centerX + 80, centerY - 80 + vOffset, ElbowCorner::TopRight, kColorOverdraw, true);
+        dl->PopClipRect();
 
         // Bottom-left elbow - both versions
         DrawElbowBottomLeft(dl, centerX - 80, cellH + centerY - 40);
-        DrawElbowBottomLeftOverdraw(dl, centerX - 80, cellH + centerY - 40 + vOffset);
+        dl->PushClipRect(ImVec2(centerX - 80, cellH + centerY - 40 + vOffset),
+                         ImVec2(centerX - 80 + elbowW, cellH + centerY - 40 + vOffset + elbowH), true);
+        DrawElbowOverdraw(dl, centerX - 80, cellH + centerY - 40 + vOffset, ElbowCorner::BottomLeft, kColorOverdraw, true);
+
+        // Add rounded outer corner at lower-left (demo of rounding outer corners with overdraw)
+        // Draw a quarter-circle in purple to round the corner outward
+        float cornerX = centerX - 80;
+        float cornerY = cellH + centerY - 40 + vOffset + kTitleH + kElbowR;
+
+        // Use PathArcTo to draw only a quarter-circle (180° to 270° for lower-left)
+        dl->PathArcTo(ImVec2(cornerX, cornerY), kElbowR, (float)M_PI, (float)M_PI * 1.5f, 32);
+        dl->PathLineTo(ImVec2(cornerX, cornerY)); // Connect to center
+        dl->PathFillConvex(kColorOverdraw);
+
+        // Mark center with green dot
+        dl->AddCircleFilled(ImVec2(cornerX, cornerY), 3.0f, IM_COL32(0, 255, 0, 255));
+
+        dl->PopClipRect();
 
         // Bottom-right elbow - both versions
         DrawElbowBottomRight(dl, cellW + centerX - 80, cellH + centerY - 40);
-        DrawElbowBottomRightOverdraw(dl, cellW + centerX - 80, cellH + centerY - 40 + vOffset);
+        dl->PushClipRect(ImVec2(cellW + centerX - 80, cellH + centerY - 40 + vOffset),
+                         ImVec2(cellW + centerX - 80 + elbowW, cellH + centerY - 40 + vOffset + elbowH), true);
+        DrawElbowOverdraw(dl, cellW + centerX - 80, cellH + centerY - 40 + vOffset, ElbowCorner::BottomRight, kColorOverdraw, true);
+        dl->PopClipRect();
 
         // Render
         ImGui::Render();
